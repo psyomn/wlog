@@ -1,4 +1,4 @@
-registry 'db_registry.rb'
+require 'db_registry.rb'
 # Author :: Simon Symeonidis 
 #  Active Record Domain object for a log entry
 class LogEntry
@@ -32,6 +32,11 @@ class LogEntry
     DbRegistry.instance.execute(@@delete_sql,id)
   end
 
+  # TODO this shouldn't be here
+  def self.create_table
+    DbRegistry.instance.execute(@@create_sql)
+  end
+
   def insert
     DbRegistry.instance.execute(@@insert_sql,@description,@date.to_i)
   end
@@ -40,6 +45,8 @@ class LogEntry
     self.delete(self.id)
   end
 
+  # Print things nicely formmated no more than 80 cars (well, unless you stick
+  # the time in the end which is not counted for).
   def to_s
     str = "[#{id}] "
     cl = 0

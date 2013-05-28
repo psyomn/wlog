@@ -12,7 +12,7 @@ module StaticConfigurations
   APPLICATION_DIRECTORY   = "#{CONFIGURATION_DIRECTORY}/#{APPLICATION_NAME}/"
 
   # Absolute path to the data directory
-  PATH_TO_DATA            = "#{APPLICATION_DIRECTORY}/data/"
+  DATA_DIRECTORY          = "#{APPLICATION_DIRECTORY}/data/"
 
   # Default database name (when unspecified)
   DEFAULT_DATABASE        = "default"
