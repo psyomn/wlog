@@ -33,6 +33,21 @@ And you should be in a command line interface. In the interface you can type in
 
 To see a list of actions that you can do. 
 
+Usually you'll just need to write:
+
+    new
+
+And enter the work description that you wish. You can add tags like this too
+in order to tag units of work:
+
+    new
+
+    Enter work description:
+      I did something very productive today. #bugfix #completed #feature
+
+The tags can be pretty much anything you want, and for now are not very 
+important. In the future however they might be used for something more useful.
+
 ## Contributing
 
 1. Fork it
