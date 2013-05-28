@@ -89,7 +89,7 @@ class LogEntry
   @@create_sql = "CREATE TABLE #{@@table_name} (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, date DATETIME);"
   @@insert_sql = "INSERT INTO #{@@table_name} (description,date) values (?,?);"
   @@delete_sql = "DELETE FROM #{@@table_name} WHERE id = ? ;"
-  @@select_all = "SELECT * FROM #{@@table_name} ORDER BY date ASC"
+  @@select_all = "SELECT * FROM #{@@table_name} WHERE date >=#{Time.now.to_i - 604800 - 24 * 60 * 60} ORDER BY date ASC"
   @@select     = "SELECT * FROM #{@@table_name} WHERE id = ? ;"
 
 end
