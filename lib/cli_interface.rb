@@ -76,8 +76,11 @@ private
 
   def make_csv
     str = String.new
-    LogEntry.find_all.each do |entry|
-      str.concat("#{entry.id},\"#{entry.description}\",#{entry.date.strftime("%A")},#{entry.date}\n")
+    LogEntry.find_all.group_by{|el| el.date.strftime("%Y-%m-%d")}.each_pair do |key,value|
+      str.concat(key).concat("\n")
+      value.each do |entry|
+      str.concat(",\"#{entry.description}\",#{entry.date.strftime("%A")}\n")
+      end
     end
     str
   end
