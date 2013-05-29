@@ -86,7 +86,6 @@ class LogEntry
 
   ## SQL ## 
   @@table_name = "log_entries"
-  @@create_sql = "CREATE TABLE #{@@table_name} (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, date DATETIME);"
   @@insert_sql = "INSERT INTO #{@@table_name} (description,date) values (?,?);"
   @@delete_sql = "DELETE FROM #{@@table_name} WHERE id = ? ;"
   @@select_all = "SELECT * FROM #{@@table_name} ORDER BY date ASC"

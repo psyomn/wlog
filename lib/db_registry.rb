@@ -11,9 +11,15 @@ class DbRegistry
 
   def initialize
     make_dirs
+    make_tables = !database_exists? 
+
     @db_handle = SQLite3::Database.new(
-    "#{StaticConfigurations::DATA_DIRECTORY}"\
-    "#{ARGV[0] || StaticConfigurations::DEFAULT_DATABASE}")
+      "#{StaticConfigurations::DATA_DIRECTORY}"\
+      "#{ARGV[0] || StaticConfigurations::DEFAULT_DATABASE}")
+    
+    if make_tables 
+      execute(@@log_entry_sql)
+    end
   end
 
   def execute(*sql)
@@ -30,9 +36,16 @@ private
     unless File.exists? StaticConfigurations::DATA_DIRECTORY
       FileUtils.mkdir_p StaticConfigurations::DATA_DIRECTORY
     end
-    # Does the database not exist?
-    unless File.exists? "#{StaticConfigurations::DATA_DIRECTORY}#{ARGV[0]\
-                        || StaticConfigurations::DEFAULT_DATABASE}"
-    end
+    
   end
+
+  def database_exists?
+    File.exists?\
+      "#{StaticConfigurations::DATA_DIRECTORY}#{ARGV[0]\
+      || StaticConfigurations::DEFAULT_DATABASE}"
+  end
+
+  @@log_entry_sql =\
+    "CREATE TABLE log_entries (id INTEGER PRIMARY KEY AUTOINCREMENT,"\
+    "description TEXT, date DATETIME);"
 end

@@ -27,6 +27,16 @@ On command line write
 
     wlog
 
+When you specify nothing, the default database is used. If you want to store 
+tasks in different databases (lets say you have project1, project2), then execute
+the following line: 
+
+    wlog project2
+
+The databases are located here: 
+
+    $HOME/.config/wlog/data/
+
 And you should be in a command line interface. In the interface you can type in
 
     help
