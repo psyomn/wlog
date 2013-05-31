@@ -36,7 +36,6 @@ private
     unless File.exists? StaticConfigurations::DATA_DIRECTORY
       FileUtils.mkdir_p StaticConfigurations::DATA_DIRECTORY
     end
-    
   end
 
   def database_exists?

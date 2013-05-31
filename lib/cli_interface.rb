@@ -30,6 +30,9 @@ class CliInterface
         print "Remove task with id: "
         delete_entry_command
 
+      when "search"
+        search_term
+
       when "help"
         print_help
       end
@@ -59,8 +62,11 @@ private
   end
 
   def show_entries_command
-    date_collections = LogEntry.find_all.group_by{|le| le.date.strftime("%Y-%m-%d")}
+    print_entries(LogEntry.find_all)
+  end
 
+  def print_entries(entries_arr)
+    date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
     date_collections.each_key do |k|
     print "\x1b[32;1m#{k}\x1b[0m - "
     puts  "\x1b[33;1m#{date_collections[k].first.date.strftime("%A")}\x1b[0m "
@@ -68,6 +74,12 @@ private
         puts "  #{le}"
       end
     end
+  end
+
+  def search_term
+    print "Term to search: "
+    term = $stdin.gets.chomp!
+    print_entries(LogEntry.search_descriptions(term))
   end
 
   def delete_entry_command
