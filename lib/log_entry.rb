@@ -58,7 +58,7 @@ class LogEntry
         if word.match(/#/)
           word = "\x1b[34;1m#{word}\x1b[0m"
         end
-        desc.concat("       ").concat(word).concat(" ")
+        desc.concat(" " * (id.to_s.split('').count + 5)).concat(word).concat(" ")
       else
         if word.match(/#/)
           word = "\x1b[34;1m#{word}\x1b[0m"

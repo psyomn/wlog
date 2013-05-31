@@ -11,24 +11,24 @@ class CliInterface
 
       case cmd
       when "new"
-	puts "Enter work description:"
-	print "  "
+        puts "Enter work description:"
+        print "  "
         new_entry_command
-	puts "ok"
+        puts "ok"
 
       when "show"
         puts "Showing latest log entries" 
-	show_entries_command
+        show_entries_command
 
       when "outcsv"
         puts "Exporting to CSV."
-	fh = File.open("out.csv", "w")
-	fh.write(make_csv)
-	fh.close
+        fh = File.open("out.csv", "w")
+        fh.write(make_csv)
+        fh.close
 
       when "delete"
         print "Remove task with id: "
-	delete_entry_command
+        delete_entry_command
 
       when "help"
         print_help
