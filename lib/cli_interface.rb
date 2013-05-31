@@ -48,7 +48,7 @@ private
     "outcsv", "Export everything to CSV",
     "help",   "print this dialog",
     "end",    "Exit the progam",
-    "search", "Search for a string in the log description text"
+    "search", "Search for a string in the log description text",
     "delete", "Remove the task with a given id"].each_with_index do |el,ix| 
       print "  " if 1 == ix % 2
       puts el
