@@ -34,6 +34,9 @@ class CliInterface
       when "search"
         search_term
 
+      when "concat" 
+        concat_description
+
       when "help"
         print_help
       end
@@ -47,6 +50,7 @@ private
     ["new",   "Create a new log entry", 
     "outcsv", "Export everything to CSV",
     "help",   "print this dialog",
+    "concat", "Add a string at the end of a previous entry",
     "end",    "Exit the progam",
     "search", "Search for a string in the log description text",
     "delete", "Remove the task with a given id"].each_with_index do |el,ix| 
@@ -98,6 +102,17 @@ private
       end
     end
     str
+  end
+
+  # Concatenate an aggregate description to a previous item
+  def concat_description
+    print "ID of task to concatenate to: "
+    id = $stdin.gets.chomp!.to_i
+    log_entry = LogEntry.find(id)
+    print "Information to concatenate: "
+    str = $stdin.gets.chomp!
+    log_entry.description.concat(str)
+    log_entry.update
   end
 
 end

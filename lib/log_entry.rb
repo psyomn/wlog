@@ -37,6 +37,11 @@ class LogEntry
     DbRegistry.instance.execute(@@create_sql)
   end
 
+  # update the entry
+  def update
+    DbRegistry.instance.execute(@@update_sql,@description,@id)
+  end
+
   # Search by string to find a matching description with 'LIKE'.
   def self.search_descriptions(term)
     all = Array.new
@@ -102,6 +107,7 @@ class LogEntry
   @@insert_sql = "INSERT INTO #{@@table_name} (description,date) values (?,?);"
   @@delete_sql = "DELETE FROM #{@@table_name} WHERE id = ? ;"
   @@select_all = "SELECT * FROM #{@@table_name} ORDER BY date ASC;"
+  @@update_sql = "UPDATE #{@@table_name} SET description=? WHERE id=?;"
   #@@select_all = "SELECT * FROM #{@@table_name} WHERE date >=#{Time.now.to_i - 604800 - 24 * 60 * 60} ORDER BY date ASC"
   @@select     = "SELECT * FROM #{@@table_name} WHERE id = ? ;"
   @@select_description_like = "SELECT * FROM #{@@table_name} WHERE description LIKE ?;"
