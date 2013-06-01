@@ -8,7 +8,7 @@ class LogEntry
   end
 
   def self.find(id)
-    row = DbRegistry.instance.execute(@@select,id)
+    row = DbRegistry.instance.execute(@@select,id).first
     le = LogEntry.new
     le.id = row[0]
     le.description = row[1]
