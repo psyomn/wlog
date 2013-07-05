@@ -37,9 +37,23 @@ class CliInterface
       when "concat" 
         concat_description
 
+      when "replace"
+        replace_pattern
+
       when "help"
         print_help
       end
+    end
+  end
+
+  # TODO the commands should be factored out
+  def self.list_databases_command
+    puts "Available Worklog databases: "
+    Dir["#{StaticConfigurations::DATA_DIRECTORY}*"].each do |n|
+      print "[%8d bytes]" % File.size(n)
+      print "  "
+      print n
+      puts
     end
   end
 
@@ -96,9 +110,9 @@ private
   def make_csv
     str = String.new
     LogEntry.find_all.group_by{|el| el.date.strftime("%Y-%m-%d")}.each_pair do |key,value|
-      str.concat(key).concat("\n")
+      str.concat("#{value.first.date.strftime("%A")} {key}\n")
       value.each do |entry|
-      str.concat(",\"#{entry.description}\",#{entry.date.strftime("%A")}\n")
+      str.concat(",\"#{entry.description}\"")
       end
     end
     str
@@ -107,7 +121,7 @@ private
   # Concatenate an aggregate description to a previous item
   def concat_description
     print "ID of task to concatenate to: "
-    id = $stdin.gets.chomp!.to_i
+    id = $stdin.gets.to_i
     log_entry = LogEntry.find(id)
     print "Information to concatenate: "
     str = $stdin.gets.chomp!
@@ -115,4 +129,18 @@ private
     log_entry.update
   end
 
+  # Replace a pattern from a description of a log entry
+  def replace_pattern
+    print "ID of task to perform replace: "
+    id       = $stdin.gets.to_i
+    print "replace : "
+    pattern1 = $stdin.gets
+    print "with    : "
+    pattern2 = $stdin.gets
+
+    log_entry = LogEntry.find(id)
+    log_entry.description.gsub!(pattern1,pattern2)
+    log_entry.update
+  end
 end
+

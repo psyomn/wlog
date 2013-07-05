@@ -3,5 +3,13 @@
 require 'cli_interface.rb'
 
 puts "Worktime logger"
-CliInterface.new.run
 
+if ARGV.size > 0
+  case ARGV[0]
+    when "list"
+      CliInterface.list_databases_command 
+
+  end
+else
+  CliInterface.new.run
+end

@@ -9,10 +9,10 @@ module StaticConfigurations
   CONFIGURATION_DIRECTORY = "#{ENV['HOME']}/.config/"
 
   # Absolute path to the application directory
-  APPLICATION_DIRECTORY   = "#{CONFIGURATION_DIRECTORY}/#{APPLICATION_NAME}/"
+  APPLICATION_DIRECTORY   = "#{CONFIGURATION_DIRECTORY}#{APPLICATION_NAME}/"
 
   # Absolute path to the data directory
-  DATA_DIRECTORY          = "#{APPLICATION_DIRECTORY}/data/"
+  DATA_DIRECTORY          = "#{APPLICATION_DIRECTORY}data/"
 
   # Default database name (when unspecified)
   DEFAULT_DATABASE        = "default"
