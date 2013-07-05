@@ -1,4 +1,4 @@
-require 'log_entry.rb'
+require 'wlog/log_entry.rb'
 
 # Author :: Simon Symeonidis
 class CliInterface
@@ -8,7 +8,9 @@ class CliInterface
     cmd = "default"
     until cmd == "end" do 
       print "[wlog::] "
-      cmd = $stdin.gets.chomp!
+      cmd = $stdin.gets
+      cmd ||= "end"
+      cmd.chomp!
 
       case cmd
       when "new"
@@ -134,9 +136,9 @@ private
     print "ID of task to perform replace: "
     id       = $stdin.gets.to_i
     print "replace : "
-    pattern1 = $stdin.gets
+    pattern1 = $stdin.gets.chomp!
     print "with    : "
-    pattern2 = $stdin.gets
+    pattern2 = $stdin.gets.chomp!
 
     log_entry = LogEntry.find(id)
     log_entry.description.gsub!(pattern1,pattern2)

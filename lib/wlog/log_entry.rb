@@ -1,4 +1,4 @@
-require 'db_registry.rb'
+require 'wlog/db_registry.rb'
 # Author :: Simon Symeonidis 
 #  Active Record Domain object for a log entry
 class LogEntry

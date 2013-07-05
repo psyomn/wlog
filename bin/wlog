@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'cli_interface.rb'
+require 'wlog/cli_interface.rb'
 
 puts "Worktime logger"
 
