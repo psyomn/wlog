@@ -2,6 +2,8 @@
 
 require 'wlog/cli_interface.rb'
 
+include Wlog
+
 puts "Worktime logger"
 
 if ARGV.size > 0
