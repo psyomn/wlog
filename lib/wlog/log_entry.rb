@@ -1,4 +1,5 @@
 require 'wlog/db_registry.rb'
+module Wlog
 # Author :: Simon Symeonidis 
 #  Active Record Domain object for a log entry
 class LogEntry
@@ -59,6 +60,7 @@ class LogEntry
     DbRegistry.instance.execute(@@insert_sql,@description,@date.to_i)
   end
 
+  # Delete the loaded log entry currently in memory, by passing its id
   def delete
     self.delete(self.id)
   end
@@ -67,27 +69,9 @@ class LogEntry
   # the time in the end which is not counted for).
   def to_s
     str = "[#{id}] "
-    cl = 0
-    desc = "" 
-    @description.split.each do |word|
-      if cl + word.length + 1 > 80
-        cl = 0
-        desc.concat("\n")
-        if word.match(/#/)
-          word = "\x1b[34;1m#{word}\x1b[0m"
-        end
-        desc.concat(" " * (id.to_s.split('').count + 5)).concat(word).concat(" ")
-      else
-        if word.match(/#/)
-          word = "\x1b[34;1m#{word}\x1b[0m"
-        end
-        desc.concat(word).concat(" ")
-      end
-      cl += word.length + 1
-    end
-
-    desc.chomp!
-
+    Helpers.break_string(@description)
+    # Identation
+    #.concat(" " * (id.to_s.split('').count + 5))
     str += desc
     str += "[#{@date.strftime("%H:%M:%S")}]"
     str
@@ -113,3 +97,4 @@ class LogEntry
   @@select_description_like = "SELECT * FROM #{@@table_name} WHERE description LIKE ?;"
 
 end
+end # module Wlog

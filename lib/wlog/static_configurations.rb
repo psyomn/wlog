@@ -1,3 +1,4 @@
+module Wlog
 # Author   :: Simon Symeonidis 
 # Licenses :: GPL v3.0 
 # Static path data.
@@ -17,4 +18,4 @@ module StaticConfigurations
   # Default database name (when unspecified)
   DEFAULT_DATABASE        = "default"
 end
-
+end # module Wlog

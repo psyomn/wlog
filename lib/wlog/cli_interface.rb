@@ -1,5 +1,6 @@
 require 'wlog/log_entry.rb'
 
+module Wlog
 # Author :: Simon Symeonidis
 class CliInterface
 
@@ -145,4 +146,4 @@ private
     log_entry.update
   end
 end
-
+end # module Wlog

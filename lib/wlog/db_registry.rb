@@ -4,6 +4,7 @@ require 'fileutils'
 
 require 'wlog/static_configurations.rb'
 
+module Wlog
 # Author :: Simon Symeonidis
 #  The db registry, using sqlite3
 class DbRegistry
@@ -48,3 +49,4 @@ private
     "CREATE TABLE log_entries (id INTEGER PRIMARY KEY AUTOINCREMENT,"\
     "description TEXT, date DATETIME);"
 end
+end # module Wlog
