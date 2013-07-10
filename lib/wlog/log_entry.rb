@@ -1,4 +1,6 @@
 require 'wlog/db_registry.rb'
+require 'wlog/helpers.rb'
+
 module Wlog
 # Author :: Simon Symeonidis 
 #  Active Record Domain object for a log entry
@@ -68,10 +70,9 @@ class LogEntry
   # Print things nicely formmated no more than 80 cars (well, unless you stick
   # the time in the end which is not counted for).
   def to_s
-    str = "[#{id}] "
-    Helpers.break_string(@description)
-    # Identation
-    #.concat(" " * (id.to_s.split('').count + 5))
+    str  = "[#{id}] "
+    desc = Wlog::Helpers.break_string(@description,80)
+    desc = desc.each_line.map{|e| (" " * (id.to_s.split('').count + 5)).concat(e)}.join
     str += desc
     str += "[#{@date.strftime("%H:%M:%S")}]"
     str
