@@ -12,8 +12,8 @@ class DbRegistry
   include StaticConfigurations
 
   def initialize
-    make_dirs
-    make_tables = !database_exists? 
+    DbRegistry.make_dirs
+    make_tables = !DbRegistry.database_exists? 
 
     @db_handle = SQLite3::Database.new(
       "#{DATA_DIRECTORY}"\
@@ -33,14 +33,14 @@ class DbRegistry
 
 private
   # NOTE this concern could be encapsulated in another class
-  def make_dirs
+  def self.make_dirs
     # Does the data dir path not exist?
     unless File.exists? DATA_DIRECTORY
       FileUtils.mkdir_p DATA_DIRECTORY
     end
   end
 
-  def database_exists?
+  def self.database_exists?
     File.exists? "#{DATA_DIRECTORY}#{ARGV[0] || DEFAULT_DATABASE}"
   end
 

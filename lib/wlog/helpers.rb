@@ -12,12 +12,13 @@ class Helpers
     desc = "" 
     cl = 0
     string.split.each do |word|
-      if cl + word.length + 1 > numchars
+      wlength = word.length
+      if cl + wlength + 1 > numchars
         cl = 0
         desc.concat($/)
       end
       desc.concat(word).concat(" ")
-      cl += word.length + 1
+      cl += wlength + 1
     end
 
     desc.chomp!
