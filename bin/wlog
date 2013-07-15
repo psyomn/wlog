@@ -8,9 +8,10 @@ puts "Worktime logger"
 
 if ARGV.size > 0
   case ARGV[0]
-    when "--list"
-      CliInterface.list_databases_command 
-
+  when "--list"
+    CliInterface.list_databases_command 
+  else 
+    CliInterface.new.run
   end
 else
   CliInterface.new.run
