@@ -58,6 +58,38 @@ in order to tag units of work:
 The tags can be pretty much anything you want, and for now are not very 
 important. In the future however they might be used for something more useful.
 
+### More Commands
+
+These are the commands that you can also use in order to exploit the full
+potential of this application.
+
+You can list the available databases by running the following command:
+
+  wlog --list
+
+Now, there are a few other commands that were not listed. These commands
+are `show`, `search`, `replace`, `delete`, and `concat`.
+
+`show`
+  
+    lists the latest work log entries.
+
+`search`
+
+    searches the database for a pattern that you specify.
+
+`replace`
+
+    searches and replaces a pattern that you specify.
+
+`delete`
+
+    removes an entry from the database.
+
+`concat`
+
+    appends a string to the specified log entry.
+
 ## Contributing
 
 1. Fork it
