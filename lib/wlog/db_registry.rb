@@ -9,14 +9,15 @@ module Wlog
 #  The db registry, using sqlite3
 class DbRegistry
   include Singleton
+  include StaticConfigurations
 
   def initialize
     make_dirs
     make_tables = !database_exists? 
 
     @db_handle = SQLite3::Database.new(
-      "#{StaticConfigurations::DATA_DIRECTORY}"\
-      "#{ARGV[0] || StaticConfigurations::DEFAULT_DATABASE}")
+      "#{DATA_DIRECTORY}"\
+      "#{ARGV[0] || DEFAULT_DATABASE}")
     
     if make_tables 
       execute(@@log_entry_sql)
@@ -34,15 +35,13 @@ private
   # NOTE this concern could be encapsulated in another class
   def make_dirs
     # Does the data dir path not exist?
-    unless File.exists? StaticConfigurations::DATA_DIRECTORY
-      FileUtils.mkdir_p StaticConfigurations::DATA_DIRECTORY
+    unless File.exists? DATA_DIRECTORY
+      FileUtils.mkdir_p DATA_DIRECTORY
     end
   end
 
   def database_exists?
-    File.exists?\
-      "#{StaticConfigurations::DATA_DIRECTORY}#{ARGV[0]\
-      || StaticConfigurations::DEFAULT_DATABASE}"
+    File.exists? "#{DATA_DIRECTORY}#{ARGV[0] || DEFAULT_DATABASE}"
   end
 
   @@log_entry_sql =\

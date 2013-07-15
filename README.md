@@ -5,7 +5,15 @@ for things I work on and need to submit a list of stuff done on a particular
 day.
 
 Disclaimer: Some of the things in this software assume an ANSI terminal. So you
-might get weird characters if you're not on an ANSI terminal. 
+might get weird characters if you're not on an ANSI terminal. In the future I'll
+be investigating a more portable approach. 
+
+## Source Location
+
+You can find the sources on github: 
+
+[http://github.com/psyomn/wlog](http://github.com/psyomn/wlog)
+
 
 ## Installation
 

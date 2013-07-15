@@ -1,7 +1,10 @@
 require 'wlog/log_entry.rb'
+require 'wlog/helpers'
 
 module Wlog
-# Author :: Simon Symeonidis
+# @author Simon Symeonidis
+# Command line interface to the application. The architectural commands are
+# included here, and should be factored out in the future.
 class CliInterface
 
   # Run the interface
@@ -113,10 +116,12 @@ private
   def make_csv
     str = String.new
     LogEntry.find_all.group_by{|el| el.date.strftime("%Y-%m-%d")}.each_pair do |key,value|
-      str.concat("#{value.first.date.strftime("%A")} {key}\n")
+      str.concat("#{value.first.date.strftime("%A")} #{key}\n")
       value.each do |entry|
-      str.concat(",\"#{entry.description}\"")
+        str.concat(",\"#{Helpers.break_string(entry.description,80)}\"")
+	str.concat($/)
       end
+      str.concat($/)
     end
     str
   end
