@@ -95,7 +95,7 @@ private
     date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
     date_collections.each_key do |k|
     print "\x1b[32;1m#{k}\x1b[0m - "
-    print "\x1b[33;1m#{date_collections[k].first.date.strftime("%A")}\x1b[0m "
+    print "\x1b[33;1m%9s\x1b[0m " % [date_collections[k].first.date.strftime("%A")]
     puts "[\x1b[35;1m#{date_collections[k].count}\x1b[0m]"
       date_collections[k].each do |le|
         puts "  #{le}"
