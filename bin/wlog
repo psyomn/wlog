@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 
+require 'wlog/version.rb'
 require 'wlog/cli_interface.rb'
 
 include Wlog
 
-puts "Worktime logger"
+puts "Worktime logger v#{Wlog::VERSION}"
 
 if ARGV.size > 0
   case ARGV[0]
