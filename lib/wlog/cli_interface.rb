@@ -1,3 +1,4 @@
+require 'turntables'
 require 'wlog/log_entry.rb'
 require 'wlog/helpers'
 
@@ -149,6 +150,14 @@ private
     log_entry = LogEntry.find(id)
     log_entry.description.gsub!(pattern1,pattern2)
     log_entry.update
+  end
+
+  # Call turntables to take care of the database
+  def init_db
+    current_dir = "#{File.expand_path File.dirname(__FILE__)}/sql"
+    turntable   = Turntables::Turntable.new
+    turntable.register(current_dir)
+    turntable.make!
   end
 end
 end # module Wlog
