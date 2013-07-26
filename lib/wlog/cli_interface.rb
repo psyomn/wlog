@@ -1,12 +1,20 @@
 require 'turntables'
 require 'wlog/log_entry.rb'
 require 'wlog/helpers'
+require 'wlog/static_configurations'
 
 module Wlog
 # @author Simon Symeonidis
 # Command line interface to the application. The architectural commands are
 # included here, and should be factored out in the future.
 class CliInterface
+  include StaticConfigurations
+
+  # This is the main entry point of the application. Therefore when we init,
+  # we want to trigger the table creation stuff.
+  def initialize
+    init_db
+  end
 
   # Run the interface
   def run
@@ -120,7 +128,7 @@ private
       str.concat("#{value.first.date.strftime("%A")} #{key}\n")
       value.each do |entry|
         str.concat(",\"#{Helpers.break_string(entry.description,80)}\"")
-	str.concat($/)
+        str.concat($/)
       end
       str.concat($/)
     end
@@ -154,10 +162,11 @@ private
 
   # Call turntables to take care of the database
   def init_db
+    p "init"
     current_dir = "#{File.expand_path File.dirname(__FILE__)}/sql"
     turntable   = Turntables::Turntable.new
     turntable.register(current_dir)
-    turntable.make!
+    turntable.make_at!("#{DATA_DIRECTORY}/#{ARGV[0] || DEFAULT_DATABASE}")
   end
 end
 end # module Wlog
