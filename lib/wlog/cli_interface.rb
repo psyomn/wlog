@@ -56,8 +56,8 @@ class CliInterface
   # TODO the commands should be factored out
   def self.list_databases_command
     puts "Available Worklog databases: "
-    Dir["#{StaticConfigurations::DATA_DIRECTORY}*"].each do |n|
-      print "[%8d bytes]" % File.size(n)
+    Dir["#{StaticConfigurations::DATA_DIRECTORY}*"].each do |dir|
+      print "[%8d bytes]" % File.size(dir)
       print "  "
       print n
       puts
@@ -94,11 +94,11 @@ private
 
   def print_entries(entries_arr)
     date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
-    date_collections.each_key do |k|
-    print "\x1b[32;1m#{k}\x1b[0m - "
-    print "\x1b[33;1m%9s\x1b[0m " % [date_collections[k].first.date.strftime("%A")]
-    puts "[\x1b[35;1m#{date_collections[k].count}\x1b[0m]"
-      date_collections[k].each do |le|
+    date_collections.each_key do |date_c|
+    print "\x1b[32;1m#{date_c}\x1b[0m - "
+    print "\x1b[33;1m%9s\x1b[0m " % [date_collections[date_c].first.date.strftime("%A")]
+    puts "[\x1b[35;1m#{date_collections[date_c].count}\x1b[0m]"
+      date_collections[date_c].each do |le|
         puts "  #{le}"
       end
     end
@@ -143,12 +143,12 @@ private
     print "ID of task to perform replace: "
     id       = $stdin.gets.to_i
     print "replace : "
-    pattern1 = $stdin.gets.chomp!
+    old_pattern = $stdin.gets.chomp!
     print "with    : "
-    pattern2 = $stdin.gets.chomp!
+    new_pattern = $stdin.gets.chomp!
 
     log_entry = LogEntry.find(id)
-    log_entry.description.gsub!(pattern1,pattern2)
+    log_entry.description.gsub!(old_pattern, new_pattern)
     log_entry.update
   end
 
