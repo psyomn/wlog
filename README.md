@@ -78,25 +78,20 @@ You can list the available databases by running the following command:
 Now, there are a few other commands that were not listed. These commands
 are `show`, `search`, `replace`, `delete`, and `concat`.
 
-`show`
-  
-    lists the latest work log entries.
+`show` lists the latest work log entries.
 
-`search`
+`search` searches the database for a pattern that you specify.
 
-    searches the database for a pattern that you specify.
+`replace` searches and replaces a pattern that you specify.
 
-`replace`
+`delete` removes an entry from the database.
 
-    searches and replaces a pattern that you specify.
+`concat` appends a string to the specified log entry.
 
-`delete`
+### Using Turntables with a Gem
 
-    removes an entry from the database.
-
-`concat`
-
-    appends a string to the specified log entry.
+You can refer to something else I've worked on that uses turntables to manage
+its database. That specific project is [wlog](http://www.github.com/psyomn/wlog.git).
 
 ## Contributing
 
