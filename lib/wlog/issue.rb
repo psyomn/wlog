@@ -16,6 +16,15 @@ class Issue
     @log_entries.push le
   end
 
+  def to_s
+    "Issue ##{@id}#{$/}"\
+    "  - Reported : #{@reported_date}#{$/}"\
+    "  - Due      : #{@due_date}#{$/}"\
+    "  - Entries  : #{@log_entries.count}"\
+    "#{$/}"\
+    "  - #{@description}"
+  end
+
   attr_accessor :description
   attr_accessor :due_date
   attr_accessor :reported_date
