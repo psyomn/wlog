@@ -88,11 +88,6 @@ are `show`, `search`, `replace`, `delete`, and `concat`.
 
 `concat` appends a string to the specified log entry.
 
-### Using Turntables with a Gem
-
-You can refer to something else I've worked on that uses turntables to manage
-its database. That specific project is [wlog](http://www.github.com/psyomn/wlog.git).
-
 ## Contributing
 
 1. Fork it
