@@ -13,7 +13,7 @@ CREATE TABLE log_entries (
   description   TEXT, 
   date          DATETIME, 
   issue_id      INTEGER,
-  attachment_id INTEGER
+  attachment_id INTEGER,
   FOREIGN KEY(issue_id) REFERENCES issues(id) ON DELETE CASCADE,
   FOREIGN KEY(attachment_id) REFERENCES attachments(id) ON DELETE CASCADE
 );
