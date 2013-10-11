@@ -1,10 +1,8 @@
 module Wlog
-# @author Simon Symeonidis
-# @date Wed Jul 10 17:37:24 EDT 2013
 # This contains a few helper methods that may be used by any part in the 
 # application.
+# @author Simon Symeonidis
 class Helpers
-
   # Break the string to a different line 
   # @param string is the string that we want processed.
   # @param numchars is the amount of characters max per line.
@@ -22,8 +20,22 @@ class Helpers
     end
 
     desc.chomp!
-    desc
+  desc end
+
+  # Check to see if the database exists in the DataDirectory
+  # @return true if exists, otherwise false
+  def self.database_exits?
+    File.exists? "#{DataDirectory}#{ARGV[0] || DefaultDb}"
   end
+
+  # Check to see if DataDirectory exists
+  # Create the data directory if it does not exist.
+  def self.make_dirs!
+    # Does the data dir path not exist?
+    unless File.exists? DataDirectory
+      FileUtils.mkdir_p DataDirectory
+    end
+  nil end
 
 end
 end # module Wlog

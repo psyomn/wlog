@@ -1,7 +1,10 @@
 module Wlog
-# Author   :: Simon Symeonidis 
-# Licenses :: GPL v3.0 
 # Static path data.
+#
+# Please follow the convention that if vars are dirs, then they end with '/'
+#
+# @author  Simon Symeonidis 
+# @license GPL v3.0 
 module StaticConfigurations
   # The application name
   AppName = "wlog"
@@ -19,3 +22,4 @@ module StaticConfigurations
   DefaultDb = "default"
 end
 end # module Wlog
+
