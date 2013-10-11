@@ -1,8 +1,11 @@
 require 'turntables'
-require 'wlog/log_entry.rb'
+require 'wlog/log_entry'
 require 'wlog/helpers'
 require 'wlog/static_configurations'
+
 require 'wlog/commands/innit_db'
+require 'wlog/commands/replace_pattern'
+require 'wlog/commands/new_entry'
 
 module Wlog
 # @author Simon Symeonidis
@@ -27,37 +30,27 @@ class CliInterface
       cmd.chomp!
 
       case cmd
-      when "new"
+      when /new/
         puts "Enter work description:"
         print "  "
         new_entry_command
         puts "ok"
 
-      when "show"
+      when /show/
         puts "Showing latest log entries" 
         show_entries_command
 
-      when "outcsv"
+      when /outcsv/
         puts "Exporting to CSV."
         fh = File.open("out.csv", "w")
         fh.write(make_csv)
         fh.close
 
-      when "delete"
-        print "Remove task with id: "
-        delete_entry_command
-
-      when "search"
-        search_term
-
-      when "concat" 
-        concat_description
-
-      when "replace"
-        replace_pattern
-
-      when "help"
-        print_help
+      when /delete/  then delete_entry_command
+      when /search/  then search_term
+      when /concat/  then concat_description
+      when /replace/ then replace_pattern
+      when /help/    then print_help
       end
     end
   end
@@ -92,9 +85,7 @@ private
   # new entry command
   def new_entry_command
     description = $stdin.gets.chomp!
-    log_entry = LogEntry.new
-    log_entry.description = description
-    log_entry.insert
+    NewEntry.new(description).execute
   end
 
   def show_entries_command
@@ -120,6 +111,7 @@ private
   end
 
   def delete_entry_command
+    print "Remove task with id: "
     LogEntry.delete($stdin.gets.to_i)
   end
 
@@ -140,11 +132,9 @@ private
   def concat_description
     print "ID of task to concatenate to: "
     id = $stdin.gets.to_i
-    log_entry = LogEntry.find(id)
     print "Information to concatenate: "
     str = $stdin.gets.chomp!
-    log_entry.description.concat(str)
-    log_entry.update
+    ConcatDescription.new(id, str).execute
   end
 
   # Replace a pattern from a description of a log entry
@@ -155,10 +145,7 @@ private
     old_pattern = $stdin.gets.chomp!
     print "with    : "
     new_pattern = $stdin.gets.chomp!
-
-    log_entry = LogEntry.find(id)
-    log_entry.description.gsub!(old_pattern, new_pattern)
-    log_entry.update
+    ReplacePattern.new(id, old_pattern, new_pattern).execute
   end
 
   # Call turntables to take care of the database

@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["lethaljellybean@gmail.com"]
   spec.description   = %q{Track tasks and time on the command line.}
   spec.summary       = "A light ruby script to help track tasks and time"\
-                       "#{$/}#{$/}"\
+                       "#{$/$/}"\
                        "r:#{`git log -n1 | head -1 | awk '{print $2}'`}"
   spec.homepage      = "http://github.com/psyomn/wlog"
   spec.license       = "GPL v3.0"
