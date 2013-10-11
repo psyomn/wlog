@@ -1,17 +1,19 @@
 #!/usr/bin/env ruby
 
-require 'wlog/version.rb'
-require 'wlog/cli_interface.rb'
+require 'wlog/version'
+require 'wlog/static_configurations'
+require 'wlog/cli_interface'
 
 include Wlog
-
-puts "Worktime logger v#{Wlog::VERSION}"
 
 if ARGV.size > 0
   case ARGV[0]
   when "--list"
     CliInterface.list_databases_command 
+  when '--where'
+    puts StaticConfigurations::DataDirectory
   else 
+    puts "Worktime logger v#{Wlog::VERSION}"
     CliInterface.new.run
   end
 else

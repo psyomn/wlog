@@ -16,8 +16,8 @@ class DbRegistry
     make_tables = !DbRegistry.database_exists? 
 
     @db_handle = SQLite3::Database.new(
-      "#{DATA_DIRECTORY}"\
-      "#{ARGV[0] || DEFAULT_DATABASE}")
+      "#{DataDirectory}"\
+      "#{ARGV[0] || DefaultDb}")
     
     if make_tables 
       execute(@@log_entry_sql)
@@ -35,13 +35,13 @@ private
   # NOTE this concern could be encapsulated in another class
   def self.make_dirs
     # Does the data dir path not exist?
-    unless File.exists? DATA_DIRECTORY
-      FileUtils.mkdir_p DATA_DIRECTORY
+    unless File.exists? DataDirectory
+      FileUtils.mkdir_p DataDirectory
     end
   end
 
   def self.database_exists?
-    File.exists? "#{DATA_DIRECTORY}#{ARGV[0] || DEFAULT_DATABASE}"
+    File.exists? "#{DataDirectory}#{ARGV[0] || DefaultDb}"
   end
 
   @@log_entry_sql =\
@@ -49,3 +49,4 @@ private
     "description TEXT, date DATETIME);"
 end
 end # module Wlog
+

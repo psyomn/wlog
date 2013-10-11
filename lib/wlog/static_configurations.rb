@@ -4,18 +4,18 @@ module Wlog
 # Static path data.
 module StaticConfigurations
   # The application name
-  APPLICATION_NAME        = "wlog"
+  AppName = "wlog"
   
   # Absolute path to the configuration directory
-  CONFIGURATION_DIRECTORY = "#{ENV['HOME']}/.config/"
+  ConfigDirectory = "#{ENV['HOME']}/.config/"
 
   # Absolute path to the application directory
-  APPLICATION_DIRECTORY   = "#{CONFIGURATION_DIRECTORY}#{APPLICATION_NAME}/"
+  AppDirectory = "#{ConfigDirectory}#{AppName}/"
 
   # Absolute path to the data directory
-  DATA_DIRECTORY          = "#{APPLICATION_DIRECTORY}data/"
+  DataDirectory = "#{AppDirectory}data/"
 
   # Default database name (when unspecified)
-  DEFAULT_DATABASE        = "default"
+  DefaultDb = "default"
 end
 end # module Wlog

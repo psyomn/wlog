@@ -2,6 +2,7 @@ require 'turntables'
 require 'wlog/log_entry.rb'
 require 'wlog/helpers'
 require 'wlog/static_configurations'
+require 'wlog/commands/innit_db'
 
 module Wlog
 # @author Simon Symeonidis
@@ -161,12 +162,7 @@ private
   end
 
   # Call turntables to take care of the database
-  def init_db
-    p "init"
-    current_dir = "#{File.expand_path File.dirname(__FILE__)}/sql"
-    turntable   = Turntables::Turntable.new
-    turntable.register(current_dir)
-    turntable.make_at!("#{DATA_DIRECTORY}/#{ARGV[0] || DEFAULT_DATABASE}")
-  end
+  def init_db; InnitDb.new.execute end
 end
 end # module Wlog
+
