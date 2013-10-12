@@ -28,6 +28,7 @@ class CliInterface
       cmd.chomp!
 
       case cmd
+      when /focus/   then focus
       when /new/     then new_entry_command
       when /show/    then show_entries_command
       when /outcsv/  then outcsv
@@ -49,6 +50,9 @@ class CliInterface
   end
 
 private 
+
+  def focus
+  end
 
   def outcsv
     puts "Exporting to CSV."

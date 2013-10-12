@@ -16,11 +16,8 @@ class LogEntry
   def self.find(id)
     row = DbRegistry.instance.execute(Select,id).first
     le = LogEntry.new
-    le.id = row[0]
-    le.description = row[1]
-    le.date = Time.at(row[2])
-    le
-  end
+    le.quick_assign(row[0], row[1], Time.at(row[2]))
+  le end
 
   def self.find_all
     all = Array.new
@@ -68,12 +65,16 @@ class LogEntry
     self.delete(self.id)
   end
 
+  def quick_assign(id,desc,date); @id, 
+    @description, @date = id, desc, date 
+  end
+
   # Print things nicely formmated no more than 80 cars (well, unless you stick
   # the time in the end which is not counted for).
   def to_s
     str    = "[#{id}] "
     tmp    = @description + " [#{@date.strftime("%H:%M:%S")}]"
-    desc   = Wlog::Helpers.break_string(tmp,80)
+    desc   = Helpers.break_string(tmp,80)
     indent = " " * (id.to_s.split('').count + 5)
     desc.gsub!(/#{$/}/, "#{$/}#{indent}")
     str.concat(desc)
@@ -90,9 +91,6 @@ class LogEntry
  
 private
 
-  def quick_assign(id,desc,date)
-    @id, @description, @date = id, desc, date
-  end
 end
 end # module Wlog
 
