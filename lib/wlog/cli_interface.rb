@@ -16,9 +16,7 @@ class CliInterface
 
   # This is the main entry point of the application. Therefore when we init,
   # we want to trigger the table creation stuff.
-  def initialize
-    init_db
-  end
+  def initialize; InnitDb.new.execute end
 
   # Run the interface
   def run
@@ -30,11 +28,9 @@ class CliInterface
       cmd.chomp!
 
       case cmd
-      when /new/  then new_entry_command
-      when /show/ then show_entries_command
-
-      when /outcsv/
-
+      when /new/     then new_entry_command
+      when /show/    then show_entries_command
+      when /outcsv/  then outcsv
       when /delete/  then delete_entry_command
       when /search/  then search_term
       when /concat/  then concat_description
@@ -48,9 +44,7 @@ class CliInterface
     puts "Available Worklog databases: "
     Dir["#{StaticConfigurations::DataDirectory}*"].each do |dir|
       print "[%8d bytes]" % File.size(dir)
-      print "  "
-      print n
-      puts
+      puts "  #{n}"
     end
   end
 
@@ -139,9 +133,6 @@ private
     new_pattern = $stdin.gets.chomp!
     ReplacePattern.new(id, old_pattern, new_pattern).execute
   end
-
-  # Call turntables to take care of the database
-  def init_db; InnitDb.new.execute end
 end
 end # module Wlog
 
