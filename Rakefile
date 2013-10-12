@@ -1,5 +1,8 @@
 require "bundler/gem_tasks"
+require "rspec/core/rake_task"
 require "./lib/wlog/static_configurations"
+
+RSpec::Core::RakeTask.new(:spec)
 
 namespace :system do
   # Remove data directory. This will remove all your data
@@ -11,3 +14,7 @@ namespace :system do
   end
 end
 
+
+namespace :test do 
+  task :all => :spec
+end 
