@@ -1,7 +1,7 @@
 require 'wlog/db_registry'
-require 'wlog/helpers'
-require 'wlog/attachment'
-require 'wlog/sql_modules/log_entry_sql'
+require 'wlog/domain/helpers'
+require 'wlog/domain/attachment'
+require 'wlog/domain/sql_modules/log_entry_sql'
 
 module Wlog
 # Author :: Simon Symeonidis 

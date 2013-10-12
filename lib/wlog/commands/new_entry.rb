@@ -1,5 +1,5 @@
 require 'wlog/commands/commandable'
-require 'wlog/log_entry'
+require 'wlog/domain/log_entry'
 
 module Wlog
 class NewEntry < Commandable

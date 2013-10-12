@@ -1,4 +1,4 @@
-require 'wlog/key_value'
+require 'wlog/domain/key_value'
 
 module Wlog
 # System preferences helper, that stores last accessed stuff and other fluff.

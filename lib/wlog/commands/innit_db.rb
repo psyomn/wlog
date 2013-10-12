@@ -1,8 +1,9 @@
+require 'turntables/turntable'
+
 require 'wlog/db_registry'
 require 'wlog/commands/commandable'
-require 'wlog/static_configurations'
-require 'wlog/helpers'
-require 'turntables/turntable'
+require 'wlog/domain/static_configurations'
+require 'wlog/domain/helpers'
 
 module Wlog
 # Command to create the initial database

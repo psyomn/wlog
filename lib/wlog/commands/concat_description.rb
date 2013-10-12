@@ -1,5 +1,5 @@
 require 'wlog/commands/commandable'
-require 'wlog/log_entry'
+require 'wlog/domain/log_entry'
 
 module Wlog
 # Concatenate a string to an existing log entry

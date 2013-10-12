@@ -1,5 +1,5 @@
 require 'wlog/commands/commandable'
-require 'wlog/log_entry'
+require 'wlog/domain/log_entry'
 
 module Wlog
 # Command that replaces a string pattern found in an entry, with another string

@@ -1,4 +1,4 @@
-require 'wlog/log_entry'
+require 'wlog/domain/log_entry'
 
 module Wlog
 # @author Simon Symeonidis 

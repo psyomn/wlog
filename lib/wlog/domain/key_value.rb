@@ -1,5 +1,5 @@
 require 'wlog/db_registry'
-require 'wlog/sql_modules/key_value_sql'
+require 'wlog/domain/sql_modules/key_value_sql'
 module Wlog
 # An active record that stores keys with values. Keys and values are strings.
 # convert as you need them.

@@ -1,4 +1,6 @@
 require 'wlog/commands/commandable'
+require 'wlog/domain/log_entry'
+require 'wlog/domain/helpers'
 
 module Wlog
 # Create a Csv report with this command

@@ -1,4 +1,4 @@
-require 'wlog/static_configurations'
+require 'wlog/domain/static_configurations'
 
 module Wlog
 # This contains a few helper methods that may be used by any part in the 
