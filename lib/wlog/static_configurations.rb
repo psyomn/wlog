@@ -4,7 +4,7 @@ module Wlog
 # Please follow the convention that if vars are dirs, then they end with '/'
 #
 # @author  Simon Symeonidis 
-# @license GPL v3.0 
+# @licenses GPL v3.0 
 module StaticConfigurations
   # The application name
   AppName = "wlog"

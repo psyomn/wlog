@@ -5,8 +5,8 @@ require 'wlog/helpers'
 require 'turntables/turntable'
 
 module Wlog
-
 # Command to create the initial database
+# @author Simon Symeonidis
 class InnitDb < Commandable
   include StaticConfigurations
   def execute

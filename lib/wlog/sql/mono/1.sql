@@ -20,9 +20,9 @@ CREATE TABLE log_entries (
 
 -- We can add attachments to stuff.
 CREATE TABLE attachments (
-  id                INTEGER PRIMARY KEY AUTOINCREMENT,
-  original_filename TEXT, 
-  given_name        TEXT
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  filename   TEXT, 
+  given_name TEXT
 );
 
 

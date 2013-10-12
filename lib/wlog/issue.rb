@@ -28,6 +28,9 @@ class Issue
   attr_accessor :description
   attr_accessor :due_date
   attr_accessor :reported_date
+  
+  # [Array<LogEntry>] an array containing the log entries that are specific
+  # to this issue
   attr_accessor :log_entries
   attr_accessor :id
 
