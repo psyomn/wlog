@@ -25,14 +25,15 @@ class LogEntry
     all = Array.new
     DbRegistry.instance.execute(SelectAll).each do |row|
       le = LogEntry.new
-      le.id = row[0]
-      le.description = row[1]
-      le.date = Time.at(row[2])
+      le.quick_assign(row[0], row[1], Time.at(row[2]))
       all.push le
     end
-    all
-  end
+  all end
 
+  # Delete a log entry with a given id. 
+  # @example Simple usage
+  #   # Since this is a class method:
+  #   LogEntry.delete(12)
   def self.delete(id)
     DbRegistry.instance.execute(DeleteSql,id)
   end
@@ -52,13 +53,10 @@ class LogEntry
     all = Array.new
     DbRegistry.instance.execute(SelectDescriptionLike,"%#{term}%").each do |row|
       le = LogEntry.new
-      le.id = row[0]
-      le.description = row[1]
-      le.date = Time.at(row[2])
+      le.quick_assign(row[0], row[1], Time.at(row[2]))
       all.push le
     end
-    all
-  end
+  all end
 
   def insert
     DbRegistry.instance.execute(InsertSql,@description,@date.to_i)
@@ -78,8 +76,7 @@ class LogEntry
     indent = " " * (id.to_s.split('').count + 5)
     desc.gsub!(/#{$/}/, "#{$/}#{indent}")
     str.concat(desc)
-    str
-  end
+  str end
 
   # The identity field for the log entry DO
   attr_accessor :id
@@ -90,6 +87,11 @@ class LogEntry
   # Date the entry was created
   attr_accessor :date
  
+private
+
+  def quick_assign(id,desc,date)
+    @id, @description, @date = id, desc, date
+  end
 end
 end # module Wlog
 

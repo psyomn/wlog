@@ -30,21 +30,10 @@ class CliInterface
       cmd.chomp!
 
       case cmd
-      when /new/
-        puts "Enter work description:"
-        print "  "
-        new_entry_command
-        puts "ok"
-
-      when /show/
-        puts "Showing latest log entries" 
-        show_entries_command
+      when /new/  then new_entry_command
+      when /show/ then show_entries_command
 
       when /outcsv/
-        puts "Exporting to CSV."
-        fh = File.open("out.csv", "w")
-        fh.write(make_csv)
-        fh.close
 
       when /delete/  then delete_entry_command
       when /search/  then search_term
@@ -55,10 +44,9 @@ class CliInterface
     end
   end
 
-  # TODO the commands should be factored out
   def self.list_databases_command
     puts "Available Worklog databases: "
-    Dir["#{StaticConfigurations::DATA_DIRECTORY}*"].each do |dir|
+    Dir["#{StaticConfigurations::DataDirectory}*"].each do |dir|
       print "[%8d bytes]" % File.size(dir)
       print "  "
       print n
@@ -67,6 +55,13 @@ class CliInterface
   end
 
 private 
+
+  def outcsv
+    puts "Exporting to CSV."
+    fh = File.open("out.csv", "w")
+    fh.write(make_csv)
+    fh.close
+  end
 
   # Print the help of the cli app
   def print_help
@@ -84,11 +79,15 @@ private
 
   # new entry command
   def new_entry_command
+    puts "Enter work description:"
+    print "  "
     description = $stdin.gets.chomp!
     NewEntry.new(description).execute
+    puts "ok"
   end
 
   def show_entries_command
+    puts "Showing latest log entries" 
     print_entries(LogEntry.find_all)
   end
 
@@ -116,16 +115,9 @@ private
   end
 
   def make_csv
-    str = String.new
-    LogEntry.find_all.group_by{|el| el.date.strftime("%Y-%m-%d")}.each_pair do |key,value|
-      str.concat("#{value.first.date.strftime("%A")} #{key}\n")
-      value.each do |entry|
-        str.concat(",\"#{Helpers.break_string(entry.description,80)}\"")
-        str.concat($/)
-      end
-      str.concat($/)
-    end
-    str
+    cmd = MakeCsv.new
+    cmd.execute
+    cmd.ret
   end
 
   # Concatenate an aggregate description to a previous item
