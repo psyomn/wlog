@@ -1,8 +1,9 @@
 require 'turntables'
-require 'wlog/log_entry'
-require 'wlog/helpers'
-require 'wlog/static_configurations'
-require 'wlog/ui/create_issue'
+require 'wlog/domain/issue'
+require 'wlog/domain/static_configurations'
+require 'wlog/domain/sys_config'
+require 'wlog/commands/innit_db'
+require 'wlog/ui/commands/create_issue'
 
 module Wlog
 # @author Simon Symeonidis
@@ -49,6 +50,10 @@ private
   def new_issue; CreateIssue.new.execute end
 
   def focus
+    puts "Focus on issue: "
+    issue_id = $stdin.gets
+    issue_id = issue_id.to_i unless issue_id.nil?
+    SysConfig.last_focus = issue_id if issue_id
   end
 
   def outcsv
@@ -70,9 +75,11 @@ private
     end
   end
 
-
+  # Print out all the issues
   def show_issues
-    puts "Issues will be shown here"
+    Issue.find_all.each do |issue|
+      puts "#{issue.id} - #{issue.description}"
+    end
   end
 
   def print_entries(entries_arr)

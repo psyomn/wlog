@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'wlog/version'
-require 'wlog/static_configurations'
-require 'wlog/cli_interface'
+require 'wlog/domain/static_configurations'
+require 'wlog/ui/cli_interface'
 
 include Wlog
 

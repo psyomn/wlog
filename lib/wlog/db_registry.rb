@@ -2,8 +2,7 @@ require 'singleton'
 require 'sqlite3'
 require 'fileutils'
 
-require 'wlog/static_configurations.rb'
-require 'wlog/helpers.rb'
+require 'wlog/domain/static_configurations.rb'
 
 module Wlog
 # @author Simon Symeonidis

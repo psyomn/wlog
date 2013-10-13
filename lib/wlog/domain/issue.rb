@@ -1,5 +1,5 @@
 require 'wlog/db_registry'
-require 'wlog/domain/sql_modules'
+require 'wlog/domain/sql_modules/issue_sql'
 require 'wlog/domain/log_entry'
 
 module Wlog
@@ -24,7 +24,8 @@ class Issue
   def self.find_all
     arr = Array.new
     DbRegistry.instance.execute(SelectAllSql).each do |row|
-      issue = Issue.new.quick_assign! row
+      issue = Issue.new
+      issue.quick_assign! row
       arr.push issue
     end
   arr end
@@ -33,7 +34,8 @@ class Issue
 
   def insert
     DbRegistry.instance
-      .execute(InsertSql, @description, @reported_date, @due_date)
+      .execute(InsertSql, @description, 
+        @reported_date.to_i, @due_date.to_i, @status)
   end
 
   def delete; DbRegistry.instance.execute(DeleteSql, @id) end
