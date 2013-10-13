@@ -70,7 +70,7 @@ private
   def new_entry
     print "Enter new issue:#{$/}  "
     description = $stdin.gets.chomp!
-    NewEntry.new(description).execute
+    NewEntry.new(description, @issue.id).execute
   end
 
   def delete_entry
@@ -104,8 +104,9 @@ private
     print_entries(LogEntry.search_descriptions(term))
   end
 
+  # TODO might need refactoring
   def show_entries
-    entries_arr = LogEntry.find_all
+    entries_arr = LogEntry.find_all_by_issue_id @issue.id
     date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
     date_collections.each_key do |date_c|
     print "\x1b[32;1m#{date_c}\x1b[0m - "

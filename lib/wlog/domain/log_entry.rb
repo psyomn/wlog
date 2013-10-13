@@ -20,13 +20,12 @@ class LogEntry
   le end
 
   def self.find_all
-    all = Array.new
-    DbRegistry.instance.execute(SelectAll).each do |row|
-      le = LogEntry.new
-      le.quick_assign!(row[0], row[1], Time.at(row[2]))
-      all.push le
-    end
-  all end
+    self.generic_find_all(SelectAll)
+  end
+
+  def self.find_all_by_issue_id(id)
+    self.generic_find_all(SelectAllByIssue)
+  end
 
   # Delete a log entry with a given id. 
   # @example Simple usage
@@ -60,8 +59,8 @@ class LogEntry
     self.delete(self.id)
   end
 
-  def quick_assign!(id,desc,date)
-    @id, @description, @date = id, desc, date 
+  def quick_assign!(id,desc,date,issue_id)
+    @id, @description, @date, @issue_id = id, desc, date, issue_id
   end
 
   # Print things nicely formmated no more than 80 cars (well, unless you stick
@@ -83,9 +82,19 @@ class LogEntry
 
   # Date the entry was created
   attr_accessor :date
+
+  # The issue id (parent of this log entry)
+  attr_accessor :issue_id
  
 private
-
+  def self.generic_find_all(sql)
+    all = Array.new
+    DbRegistry.instance.execute(sql).each do |row|
+      le = LogEntry.new
+      le.quick_assign!(row[0], row[1], Time.at(row[2]), row[3])
+      all.push le
+    end
+  all end
 end
 end # module Wlog
 

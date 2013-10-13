@@ -84,18 +84,6 @@ private
     end
   end
 
-  def print_entries(entries_arr)
-    date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
-    date_collections.each_key do |date_c|
-    print "\x1b[32;1m#{date_c}\x1b[0m - "
-    print "\x1b[33;1m%9s\x1b[0m " % [date_collections[date_c].first.date.strftime("%A")]
-    puts "[\x1b[35;1m#{date_collections[date_c].count}\x1b[0m]"
-      date_collections[date_c].each do |le|
-        puts "  #{le}"
-      end
-    end
-  end
-
   def make_csv
     cmd = MakeCsv.new
     cmd.execute

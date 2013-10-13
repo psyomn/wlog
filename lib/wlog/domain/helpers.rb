@@ -10,8 +10,7 @@ class Helpers
   # @param string is the string that we want processed.
   # @param numchars is the amount of characters max per line.
   def self.break_string(string,numchars)
-    desc = "" 
-    cl = 0
+    desc , cl = "", 0
     string.split.each do |word|
       wlength = word.length
       if cl + wlength + 1 > numchars
@@ -21,7 +20,6 @@ class Helpers
       desc.concat(word).concat(" ")
       cl += wlength + 1
     end
-
     desc.chomp!
   desc end
 
@@ -39,6 +37,6 @@ class Helpers
       FileUtils.mkdir_p DataDirectory
     end
   nil end
-
 end
 end # module Wlog
+

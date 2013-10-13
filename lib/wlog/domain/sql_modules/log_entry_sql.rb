@@ -7,7 +7,7 @@ module LogEntrySql
 
   # Standard insert
   InsertSql = \
-    "INSERT INTO #{TableName} (description,date) values (?,?);"
+    "INSERT INTO #{TableName} (description,date,issue_id) values (?,?,?);"
   # Standard delete
   DeleteSql = "DELETE FROM #{TableName} WHERE id = ? ;"
 
@@ -25,6 +25,9 @@ module LogEntrySql
   # Select by id
   Select = "SELECT * FROM #{TableName} WHERE id = ? ;"
   
+  # Select by id
+  SelectAllByIssue = "SELECT * FROM #{TableName} WHERE issue_id = ? ;"
+
   # Select by a regex like /.../i
   SelectDescriptionLike = \
     "SELECT * FROM #{TableName} WHERE description LIKE ?;"
