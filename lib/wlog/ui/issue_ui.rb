@@ -8,28 +8,31 @@ module Wlog
 # The interface when focusing on an issue
 # @author Simon
 class IssueUi
-  def initialize
+  def initialize(issue)
+    @issue = issue
   end
 
   # Start up the interface
   def run
     cmd = "default"
     until cmd == "end" do
-      print "[issue #__] "
-      cmd = $stdin.gets || "end"
+      print "[issue ##{@issue.id}] "
+      cmd = $stdin.gets || ""
       cmd.chomp!
 
       case cmd
       when /new/     then new_entry
       when /show/    then show_entries
+      when /desc/    then describe_issue
       when /delete/  then delete_entry
       when /search/  then search_term
       when /concat/  then concat_description
       when /replace/ then replace_pattern
       when /search/  then search_term
-      when /forget/  then forget
+      when /forget/  then cmd = "end"
       when /finish/  then finish
       when /help/    then print_help
+      else puts "Type 'help' for help"
       end
     end
   end
@@ -39,6 +42,10 @@ class IssueUi
 
 private 
 
+  # Print the description of the issue
+  def describe_issue; puts @issue end
+
+  # This needs updating
   def print_help
     ["new",   "Create a new log entry", 
     "outcsv", "Export everything to CSV",
@@ -95,6 +102,19 @@ private
     print "Term to search: "
     term = $stdin.gets.chomp!
     print_entries(LogEntry.search_descriptions(term))
+  end
+
+  def show_entries
+    entries_arr = LogEntry.find_all
+    date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
+    date_collections.each_key do |date_c|
+    print "\x1b[32;1m#{date_c}\x1b[0m - "
+    print "\x1b[33;1m%9s\x1b[0m " % [date_collections[date_c].first.date.strftime("%A")]
+    puts "[\x1b[35;1m#{date_collections[date_c].count}\x1b[0m]"
+      date_collections[date_c].each do |le|
+        puts "  #{le}"
+      end
+    end
   end
 end
 end # end module

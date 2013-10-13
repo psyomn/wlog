@@ -4,6 +4,7 @@ require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
 require 'wlog/commands/innit_db'
 require 'wlog/ui/commands/create_issue'
+require 'wlog/ui/issue_ui'
 
 module Wlog
 # @author Simon Symeonidis
@@ -51,9 +52,10 @@ private
 
   def focus
     puts "Focus on issue: "
-    issue_id = $stdin.gets
-    issue_id = issue_id.to_i unless issue_id.nil?
-    SysConfig.last_focus = issue_id if issue_id
+    issue_id = $stdin.gets.to_i
+    issue = Issue.find(issue_id)
+    SysConfig.last_focus = issue.id if issue
+    IssueUi.new(issue).run
   end
 
   def outcsv
