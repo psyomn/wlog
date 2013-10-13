@@ -71,6 +71,8 @@ private
   def new_entry
     print "Enter new issue:#{$/}  "
     description = $stdin.gets.chomp!
+    @issue.mark_working!
+    @issue.update
     NewEntry.new(description, @issue.id).execute
   end
 
