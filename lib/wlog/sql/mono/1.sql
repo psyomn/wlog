@@ -10,8 +10,11 @@
 
 -- An issue has many log entries
 CREATE TABLE issues (
-  id   INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  description   TEXT, 
+  reported_date INTEGER, 
+  due_date      INTEGER, 
+  status        INTEGER
 );
 
 -- Where to store the log entries.

@@ -16,14 +16,14 @@ class LogEntry
   def self.find(id)
     row = DbRegistry.instance.execute(Select,id).first
     le = LogEntry.new
-    le.quick_assign(row[0], row[1], Time.at(row[2]))
+    le.quick_assign!(row[0], row[1], Time.at(row[2]))
   le end
 
   def self.find_all
     all = Array.new
     DbRegistry.instance.execute(SelectAll).each do |row|
       le = LogEntry.new
-      le.quick_assign(row[0], row[1], Time.at(row[2]))
+      le.quick_assign!(row[0], row[1], Time.at(row[2]))
       all.push le
     end
   all end
@@ -36,11 +36,6 @@ class LogEntry
     DbRegistry.instance.execute(DeleteSql,id)
   end
 
-  # TODO this shouldn't be here
-  def self.create_table
-    DbRegistry.instance.execute(CreateSql)
-  end
-
   # update the entry
   def update
     DbRegistry.instance.execute(UpdateSql,@description,@id)
@@ -51,7 +46,7 @@ class LogEntry
     all = Array.new
     DbRegistry.instance.execute(SelectDescriptionLike,"%#{term}%").each do |row|
       le = LogEntry.new
-      le.quick_assign(row[0], row[1], Time.at(row[2]))
+      le.quick_assign!(row[0], row[1], Time.at(row[2]))
       all.push le
     end
   all end
@@ -65,8 +60,8 @@ class LogEntry
     self.delete(self.id)
   end
 
-  def quick_assign(id,desc,date); @id, 
-    @description, @date = id, desc, date 
+  def quick_assign!(id,desc,date)
+    @id, @description, @date = id, desc, date 
   end
 
   # Print things nicely formmated no more than 80 cars (well, unless you stick
