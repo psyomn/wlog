@@ -9,6 +9,7 @@ class NewEntry < Commandable
   def execute
     log_entry = LogEntry.new
     log_entry.description = @desc
+    log_entry.issue_id = @iid
     log_entry.insert
   end
 end

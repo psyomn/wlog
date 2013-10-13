@@ -38,7 +38,7 @@ class IssueUi
   end
 
   # Focusing on the current issue
-  attr_accessor :current_issue
+  attr_accessor :issue
 
 private 
 
