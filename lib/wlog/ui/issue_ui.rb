@@ -30,7 +30,7 @@ class IssueUi
       when /replace/ then replace_pattern
       when /search/  then search_term
       when /forget/  then cmd = "end"
-      when /finish/  then finish
+      when /finish/  then finish.nil? ? nil : cmd = "end"
       when /help/    then print_help
       else puts "Type 'help' for help"
       end
@@ -60,12 +60,13 @@ private
 
   # Exit the issue, mark as finished
   def finish
-  end
+    print "Are you done with this task? [yes/no] : "
+    if ret = !!$stdin.gets.match(/^yes/i)
+      @issue.mark_finished!
+      @issue.update
+    end
+  ret end
  
-  # Exit the issue, do not mark (still under progress)
-  def forget
-  end
-
   # new entry command
   def new_entry
     print "Enter new issue:#{$/}  "

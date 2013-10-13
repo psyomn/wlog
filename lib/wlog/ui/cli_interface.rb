@@ -21,7 +21,7 @@ class CliInterface
   def run
     cmd = "default"
     until cmd == "end" do 
-      print "[wlog::] "
+      print "[wlog] "
       cmd = $stdin.gets || "end"
       cmd.chomp!
 
@@ -39,9 +39,8 @@ class CliInterface
   # TODO this might need to be factored out elsewhere
   def self.list_databases
     puts "Available Worklog databases: "
-    Dir["#{StaticConfigurations::DataDirectory}*"].each do |dir|
-      print "[%8d bytes]" % File.size(dir)
-      puts "  #{n}"
+    Dir["#{StaticConfigurations::DataDirectory}*"].each do |db|
+      puts "[%8d bytes] %s" % [File.size(db), db]
     end
   end
 
@@ -80,7 +79,7 @@ private
   # Print out all the issues
   def show_issues
     Issue.find_all.each do |issue|
-      puts "#{issue.id} - #{issue.description}"
+      puts "#{issue.id} [#{issue.status_s}] - #{issue.description}"
     end
   end
 

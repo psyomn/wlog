@@ -51,7 +51,7 @@ class LogEntry
   all end
 
   def insert
-    DbRegistry.instance.execute(InsertSql,@description,@date.to_i,@issue_id)
+    DbRegistry.instance.execute(InsertSql, @description, @date.to_i, @issue_id)
   end
 
   # Delete the loaded log entry currently in memory, by passing its id
@@ -87,7 +87,6 @@ class LogEntry
   attr_accessor :issue_id
  
 private
-
   def self.generic_find_all(sql, *params)
     all = Array.new
     DbRegistry.instance.execute(sql, *params).each do |row|

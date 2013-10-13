@@ -42,7 +42,8 @@ class Issue
 
   def update
     DbRegistry.instance
-      .execute(UpdateSql, @description, @reported_date, @due_date, @id)
+      .execute(UpdateSql, @description, @reported_date.to_i, 
+               @due_date.to_i, @status, @id)
   end
 
   # Add a log entry object to the issue
@@ -60,6 +61,7 @@ class Issue
     "  - Reported : #{@reported_date}#{$/}"\
     "  - Due      : #{@due_date}#{$/}"\
     "  - Entries  : #{@log_entries.count}#{$/}"\
+    "  - Status   : "\
     "#{$/}"\
     "  - #{@description}"
   end
@@ -67,6 +69,7 @@ class Issue
   def mark_started!; @status = 0 end
   def mark_working!; @status = 1 end
   def mark_finished!; @status = 2 end
+  def status_s; Statuses[@status] end
 
   # [String] Description of the issue at hand
   attr_accessor :description
@@ -87,6 +90,10 @@ class Issue
   # [Fixnum] Status of the current issue (0 is for not started, 1 working on, 
   # 2 for finished)
   attr_accessor :status
+
+private
+
+  Statuses = {0 => "new", 1 => "started work", 2 => "finished"}
 
 end # class  Issue
 end # module Wlog

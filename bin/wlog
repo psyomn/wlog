@@ -9,7 +9,7 @@ include Wlog
 if ARGV.size > 0
   case ARGV[0]
   when "--list"
-    CliInterface.list_databases_command 
+    CliInterface.list_databases
   when '--where'
     puts StaticConfigurations::DataDirectory
   else 
