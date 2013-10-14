@@ -76,10 +76,16 @@ private
     end
   end
 
-  # Print out all the issues
+  # TODO might need refactoring
   def show_issues
-    Issue.find_all.each do |issue|
-      puts "#{issue.id} [#{issue.status_s}] - #{issue.description}"
+    entries_arr = Issue.find_all
+    issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
+    issue_collections.each_key do |stat|
+      print "\x1b[32;1m#{stat}\x1b[0m"
+      puts " [\x1b[35;1m#{issue_collections[stat].count}\x1b[0m]"
+      issue_collections[stat].each do |iss|
+        puts "  [#{iss.id}] #{iss.description}"
+      end
     end
   end
 
