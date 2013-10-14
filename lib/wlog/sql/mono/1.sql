@@ -23,7 +23,6 @@ CREATE TABLE log_entries (
   description   TEXT, 
   date          DATETIME, 
   issue_id      INTEGER,
-  attachment_id INTEGER,
   FOREIGN KEY(issue_id) REFERENCES issues(id) ON DELETE CASCADE,
   FOREIGN KEY(attachment_id) REFERENCES attachments(id) ON DELETE CASCADE
 );
@@ -32,7 +31,8 @@ CREATE TABLE log_entries (
 CREATE TABLE attachments (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   filename   TEXT, 
-  given_name TEXT
+  given_name TEXT,
+  data       BLOB
 );
 
 -- Create the key value table
