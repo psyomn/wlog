@@ -10,9 +10,9 @@ YARD::Rake::YardocTask.new do |t|
   t.options = ['--title', 'Wlog: the friendly worktime logger!', '-o', 'doc/']
 end
 
-namespace :system do
+namespace :db do
   # Remove data directory. This will remove all your data
-  task :rmdata do 
+  task :rm do 
     include Wlog::StaticConfigurations
     puts "Removing data directories from #{DataDirectory}"
     print "You sure you want to remove it? [y/n] "
@@ -20,7 +20,7 @@ namespace :system do
   end
 
   desc "Run the sqlite3 console with the default database"
-  task :dbconsole do 
+  task :c do 
     include Wlog::StaticConfigurations
     sh "sqlite3 #{DataDirectory}#{DefaultDb}"
   end
