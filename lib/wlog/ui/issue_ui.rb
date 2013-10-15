@@ -46,9 +46,6 @@ private
   # Print the description of the issue
   def describe_issue; puts @issue end
 
-  def attach
-  end
-
   # This needs updating
   def print_help
     ["new",   "Create a new log entry", 

@@ -2,6 +2,7 @@ require 'turntables'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
+require 'wlog/domain/attachment'
 require 'wlog/commands/innit_db'
 require 'wlog/ui/commands/create_issue'
 require 'wlog/ui/issue_ui'
@@ -26,6 +27,8 @@ class CliInterface
       cmd.chomp!
 
       case cmd
+      when /showattach/ then show_attach
+      when /outattach/  then output_attach
       when /attach/ then attach
       when /focus/  then focus
       when /new/    then new_issue
@@ -50,7 +53,53 @@ private
   # Create a new issue
   def new_issue; CreateIssue.new.execute end
 
+  # Wriet out the data contained in the database of the attachment
+  def output_attach
+    print "Which attachment to output? : "
+    att_id = $stdin.gets.to_i
+    print "Output where (abs) : "
+    loc = $stdin.gets
+    loc.chomp!
+    att = Attachment.find(Issue.name, att_id)
+    
+    fh = File.open(loc, 'w')
+    fh.write(att.data)
+    fh.close
+  end
+
+  def show_attach
+    print "Which issue : "
+    issue_id = $stdin.gets.to_i
+    atts = Attachment.find_all_by_discriminator(Issue.name, issue_id)
+    atts.each do |att| 
+      printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
+    end
+  end
+
   def attach
+    print "Attach to which issue? : "
+    issue_id = $stdin.gets.to_i
+    print "Absolute file location : "
+    loc = $stdin.gets
+    loc.chomp!
+    print "Alias name for file (optional) :"
+    name_alias = $stdin.gets
+    name_alias.chomp!
+    
+    unless loc.nil?
+      fh = File.open(loc, "r")
+      data = fh.read
+      fh.close
+
+      att = Attachment.new(Issue.name, issue_id)
+      att.data       = data
+      att.filename   = loc.split('/').last
+      att.given_name = name_alias
+      att.insert
+      puts "Attached file."
+    else
+      puts "You need to provide a proper path."
+    end
   end
 
   def focus

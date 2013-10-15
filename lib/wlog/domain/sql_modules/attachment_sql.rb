@@ -7,15 +7,15 @@ module AttachmentSql
 
   # Insert the file data into the database (NOTE wondering if small/big endian
   # will be affecting this...)
-  InsertSql = "INSERT INTO #{Tablename} (filename, given_name, data) "\
+  InsertSql = "INSERT INTO #{TableName} (filename, given_name, data) "\
     "values (?, ?, ?); "
 
   # Delete by id
-  DeleteSql = "DELETE FROM #{Tablename} WHERE discriminator = ? AND "\
+  DeleteSql = "DELETE FROM #{TableName} WHERE discriminator = ? AND "\
     "discriminator_id = ?;" 
 
   # Select an attachment given an id
-  SelectSql = "SELECT * FROM #{Tablename} WHERE discriminator = ? AND "\
-    "discriminator_id = ?;"
+  SelectSql = "SELECT * FROM #{TableName} WHERE id = ? "
 end
 end
+

@@ -22,9 +22,7 @@ CREATE TABLE log_entries (
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
   description   TEXT, 
   date          DATETIME, 
-  issue_id      INTEGER,
-  FOREIGN KEY(issue_id) REFERENCES issues(id) ON DELETE CASCADE,
-  FOREIGN KEY(attachment_id) REFERENCES attachments(id) ON DELETE CASCADE
+  issue_id      INTEGER
 );
 
 -- We can add attachments to stuff.
