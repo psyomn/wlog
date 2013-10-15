@@ -57,12 +57,12 @@ private
   def output_attach
     print "Which attachment to output? : "
     att_id = $stdin.gets.to_i
-    print "Output where (abs) : "
+    print "Output where (abs dir) : "
     loc = $stdin.gets
     loc.chomp!
     att = Attachment.find(Issue.name, att_id)
     
-    fh = File.open(loc, 'w')
+    fh = File.open("#{loc}/#{att.filename}", 'w')
     fh.write(att.data)
     fh.close
   end

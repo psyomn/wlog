@@ -16,7 +16,7 @@ class DbRegistry
   end
 
   # execute a sql with varargs parameters
-  # @params sql, first the sql string, then the parameters if the statement is
+  # @param *sql, first the sql string, then the parameters if the statement is
   #   to be prepared. 
   # @example Simple Usage
   #   DbRegistry.execute("SELECT * FROM table WHERE id = ?", 1)

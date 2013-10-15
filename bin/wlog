@@ -12,10 +12,10 @@ if ARGV.size > 0
     CliInterface.list_databases
   when '--where'
     puts StaticConfigurations::DataDirectory
-  else 
-    puts "Worktime logger v#{Wlog::VERSION}"
-    CliInterface.new.run
+  when /--/
+    puts "Unknown command."
   end
 else
   CliInterface.new.run
 end
+
