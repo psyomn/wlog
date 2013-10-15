@@ -14,6 +14,8 @@ if ARGV.size > 0
     puts StaticConfigurations::DataDirectory
   when /--/
     puts "Unknown command."
+  else
+    CliInterface.new.run
   end
 else
   CliInterface.new.run
