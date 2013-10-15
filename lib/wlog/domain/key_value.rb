@@ -3,6 +3,11 @@ require 'wlog/domain/sql_modules/key_value_sql'
 module Wlog
 # An active record that stores keys with values. Keys and values are strings.
 # convert as you need them.
+#
+# Note the behaviour on this; it's exactly like a ruby hash, so if you store
+# a string 'jon' as a key with value '12', and then you store 'jon' with value
+# '42', when looking up 'jon' you will retrieve only the latter (42).
+#
 # @author Simon Symeonidis
 class KeyValue
   include KeyValueSql

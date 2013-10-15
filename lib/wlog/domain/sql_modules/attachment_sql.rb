@@ -11,10 +11,8 @@ module AttachmentSql
     "values (?, ?, ?); "
 
   # Delete by id
-  DeleteSql = "DELETE FROM #{Tablename} WHERE id = ?;" 
-
-  # Select all the attachments
-  SelectAllSql = "SELECT * FROM #{Tablename};"
+  DeleteSql = "DELETE FROM #{Tablename} WHERE discriminator = ? AND "\
+    "discriminator_id = ?;" 
 
   # Select an attachment given an id
   SelectSql = "SELECT * FROM #{Tablename} WHERE discriminator = ? AND "\

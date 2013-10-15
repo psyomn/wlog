@@ -1,4 +1,4 @@
-require 'wlog/key_value'
+require 'wlog/domain/key_value'
 
 include Wlog
 
