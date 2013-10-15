@@ -114,6 +114,34 @@ And now we can show all the logged work with `show`:
     [5] Some trivial work there too [15:35:32] 
     [issue #1] 
 
+To exit the scope of an issue, you can use the `forget` command:
+
+    [issue #1] forget
+    [wlog] 
+
+You can also attach files to issues
+
+    [wlog] attach
+    Attach to which issue? : 1
+    Absolute file location : /tmp/derp.txt
+    Alias name for file (optional) :
+    Attached file.
+
+And then you can output them to a location: 
+
+    [wlog] show
+    finished [1]
+    [2] This is yet another issue
+    started work [1]
+    [1] This is my issue
+    [wlog] showattach
+    Which issue : 1
+    [1] - derp.txt (alias: )
+    [2] - derp.txt (alias: )
+    [wlog] outattach
+    Which attachment to output? : 1
+    Output where (abs dir) : /tmp/
+
 You can run these commands in this 'sub-shell': 
 are `show`, `search`, `replace`, `delete`, and `concat`.
 
