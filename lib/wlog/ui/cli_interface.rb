@@ -26,6 +26,7 @@ class CliInterface
       cmd.chomp!
 
       case cmd
+      when /attach/ then attach
       when /focus/  then focus
       when /new/    then new_issue
       when /show/   then show_issues
@@ -48,6 +49,9 @@ private
  
   # Create a new issue
   def new_issue; CreateIssue.new.execute end
+
+  def attach
+  end
 
   def focus
     puts "Focus on issue: "

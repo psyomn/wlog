@@ -21,6 +21,7 @@ class IssueUi
       cmd.chomp!
 
       case cmd
+      when /attach/  then attach
       when /new/     then new_entry
       when /show/    then show_entries
       when /desc/    then describe_issue
@@ -44,6 +45,9 @@ private
 
   # Print the description of the issue
   def describe_issue; puts @issue end
+
+  def attach
+  end
 
   # This needs updating
   def print_help
