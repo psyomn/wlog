@@ -12,44 +12,48 @@ module Wlog
 class KeyValue
   include KeyValueSql
 
+  def initialize(db_handle)
+    @db = db_handle
+  end
+
   # Insert a key in the storage. If exists, replace the value with new one
   # @return nil
-  def self.put!(key, value)
-    if self.get(key).nil?
-      self.create!(key, value)
+  def put!(key, value)
+    if get(key).nil?
+      create!(key, value)
     else 
-      self.update(key, value)
+      update(key, value)
     end
-  nil end
+  end
 
   # Get a certain value by key
   # @return the value given the key. nil if not found
-  def self.get(key)
-    ret = DbRegistry.instance.execute(Select, key)
-    ret = ret.empty? ? nil : ret.first
+  def get(key)
+    ret = @db.execute(Select, key)
+    ret = ret.empty? ? nil : ret.first[1]
   end
 
   # destroy by key
-  def self.destroy!(key)
-    DbRegistry.instance.execute(DeleteSql, key)
+  def destroy!(key)
+    @db.execute(DeleteSql, key)
   nil end
+
+  # The db handle
+  attr_accessor :db
 
 private
 
   # We want to provide a simple interface to the kv store, so the user should
   # not really care about updates
-  def self.update(key,value)
-    DbRegistry.instance.execute(UpdateSql, value, key)
+  def update(key,value)
+    @db.execute(UpdateSql, value, key)
   end
 
   # Create a pair... ;)
-  def self.create!(key, value)
-    DbRegistry.instance.execute(InsertSql, key, value)
+  def create!(key, value)
+    @db.execute(InsertSql, key, value)
   end
 
-  class << self
-    private :new, :allocate
-  end
 end 
 end # module Wlog
 
