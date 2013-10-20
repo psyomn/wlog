@@ -1,18 +1,16 @@
-require 'singleton'
 require 'sqlite3'
 require 'fileutils'
 
 require 'wlog/domain/static_configurations.rb'
 
 module Wlog
+# The db registry, using sqlite3
 # @author Simon Symeonidis
-#  The db registry, using sqlite3
 class DbRegistry
-  include Singleton
   include StaticConfigurations
 
-  def initialize
-    @handle = SQLite3::Database.new("#{DataDirectory}#{ARGV[0] || DefaultDb}")
+  def initialize(dbname)
+    @handle = SQLite3::Database.new(dbname || "#{DataDirectory}#{ARGV[0] || DefaultDb}")
   end
 
   # execute a sql with varargs parameters

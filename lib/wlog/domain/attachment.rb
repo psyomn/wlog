@@ -11,45 +11,45 @@ class Attachment
 
   # Can only initialize with a caller name and id, since relations to
   # attachments are polymorphic.
-  def initialize(caller_name, caller_id)
-    @caller_name, @caller_id = caller_name, caller_id
+  def initialize(dbhandle, caller_name, caller_id)
+    @caller_name, @caller_id, @db = caller_name, caller_id, dbhandle
   end
 
   # Find an attachment given an id
   # @param id is the attachment id to find
-  def self.find_all_by_discriminator(name, id)
+  def find_all_by_discriminator(name, id)
     arr = Array.new
-    rows = DbRegistry.instance.execute(
+    rows = @db.execute(
       PolymorphicAttachmentsSql::SelectSql, name, id)
 
     rows.each do |row| 
-      arr.push self.find(name, row[2])
+      arr.push find(name, row[2])
     end
   arr end
 
   # Delete an attachment
   # @param id the attachment with the id to delete
-  def self.delete_by_discriminator(name, id)
-    DbRegistry.instance.execute(DeleteSql, id)
+  def delete_by_discriminator(name, id)
+    @db.execute(DeleteSql, id)
   end
 
   # Find an attachment by an identifier and polymorphic name
   # @param id is the identifier of the attachment to find
   # @param name is the name of the polymorphic thing
-  def self.find(name, id)
-    row = DbRegistry.instance.execute(AttachmentSql::SelectSql, id).first
-    att = Attachment.new(name, id)
+  def find(name, id)
+    row = @db.execute(AttachmentSql::SelectSql, id).first
+    att = Attachment.new(@db, name, id)
     att.quick_assign!(row)
   att end
 
   # Insert an attachment. This also creates the relation in the polymorphic
   # table.
   def insert
-    DbRegistry.instance.execute(
+    @db.execute(
       AttachmentSql::InsertSql, @filename, @given_name, @data)
-    ret = DbRegistry.instance.last_row_from(AttachmentSql::TableName)
+    ret = @db.last_row_from(AttachmentSql::TableName)
     @id = ret.first[0].to_i
-    DbRegistry.instance.execute(
+    @db.execute(
       PolymorphicAttachmentsSql::InsertSql, @caller_name, @caller_id, @id)
   end
 
@@ -75,6 +75,9 @@ class Attachment
   
   # The caller id of the calling object
   attr_accessor :caller_id
+
+  # The database handle for the active record
+  attr_accessor :db
 end
 end # module Wlog
 

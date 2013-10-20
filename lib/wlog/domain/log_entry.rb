@@ -9,41 +9,42 @@ module Wlog
 class LogEntry
   include LogEntrySql
 
-  def initialize
+  def initialize(db_handle)
     @date = Time.new
+    @db = db_handle
   end
 
   def self.find(id)
-    row = DbRegistry.instance.execute(Select,id).first
+    row = @db.execute(Select,id).first
     le = LogEntry.new
     le.quick_assign!(row[0], row[1], Time.at(row[2]))
   le end
 
-  def self.find_all
-    self.generic_find_all(SelectAll)
+  def find_all
+    generic_find_all(SelectAll)
   end
 
-  def self.find_all_by_issue_id(id)
-    self.generic_find_all(SelectAllByIssue, id)
+  def find_all_by_issue_id(id)
+    generic_find_all(SelectAllByIssue, id)
   end
 
   # Delete a log entry with a given id. 
   # @example Simple usage
   #   # Since this is a class method:
   #   LogEntry.delete(12)
-  def self.delete(id)
-    DbRegistry.instance.execute(DeleteSql,id)
+  def delete_by_id(id)
+    @db.execute(DeleteSql,id)
   end
 
   # update the entry
   def update
-    DbRegistry.instance.execute(UpdateSql,@description,@id)
+    @db.execute(UpdateSql,@description,@id)
   end
 
   # Search by string to find a matching description with 'LIKE'.
-  def self.search_descriptions(term)
+  def search_descriptions(term)
     all = Array.new
-    DbRegistry.instance.execute(SelectDescriptionLike,"%#{term}%").each do |row|
+    @db.execute(SelectDescriptionLike,"%#{term}%").each do |row|
       le = LogEntry.new
       le.quick_assign!(row[0], row[1], Time.at(row[2]))
       all.push le
@@ -51,12 +52,12 @@ class LogEntry
   all end
 
   def insert
-    DbRegistry.instance.execute(InsertSql, @description, @date.to_i, @issue_id)
+    @db.execute(InsertSql, @description, @date.to_i, @issue_id)
   end
 
   # Delete the loaded log entry currently in memory, by passing its id
   def delete
-    self.delete(self.id)
+    delete_by_id(@id)
   end
 
   def quick_assign!(id,desc,date,issue_id)
@@ -86,10 +87,13 @@ class LogEntry
   # The issue id (parent of this log entry)
   attr_accessor :issue_id
  
+  # The db handle 
+  attr_accessor :db
+
 private
-  def self.generic_find_all(sql, *params)
+  def generic_find_all(sql, *params)
     all = Array.new
-    DbRegistry.instance.execute(sql, *params).each do |row|
+    @db.execute(sql, *params).each do |row|
       le = LogEntry.new
       le.quick_assign!(row[0], row[1], Time.at(row[2]), row[3])
       all.push le

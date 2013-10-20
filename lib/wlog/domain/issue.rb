@@ -9,41 +9,45 @@ module Wlog
 class Issue
   include IssueSql
 
-  def initialize
+  def initialize(db_handle)
     @reported_date = Time.now
     @log_entries   = Array.new
     @status        = 0
+    @db = db_handle
   end
 
-  def self.find(id)
-    issue = Issue.new
-    ret = DbRegistry.instance.execute(SelectSql, id).first
-    issue.quick_assign! ret
+  def self.find(db, id)
+    issue = Issue.new(db)
+    ret = db.execute(SelectSql, id).first
+    if ret.nil? || ret.empty?
+      issue = nil
+    else 
+      issue.quick_assign! ret
+    end
   issue end
 
-  def self.find_all
+  def find_all
     arr = Array.new
-    DbRegistry.instance.execute(SelectAllSql).each do |row|
+    @db.execute(SelectAllSql).each do |row|
       issue = Issue.new
       issue.quick_assign! row
       arr.push issue
     end
   arr end
 
-  def self.delete(id); DbRegistry.instance.execute(DeleteSql, id) end
+  def self.delete_by_id(db, id); db.execute(DeleteSql, id) end
 
   def insert
-    DbRegistry.instance
-      .execute(InsertSql, @description, 
-        @reported_date.to_i, @due_date.to_i, @status)
+    @db.execute(InsertSql, @description, 
+      @reported_date.to_i, @due_date.to_i, @status)
+    @id = @db.last_row_from(TableName).first[0]
   end
 
-  def delete; DbRegistry.instance.execute(DeleteSql, @id) end
+  def delete; @db.execute(DeleteSql, @id) end
 
   def update
-    DbRegistry.instance
-      .execute(UpdateSql, @description, @reported_date.to_i, 
-               @due_date.to_i, @status, @id)
+    @db.execute(UpdateSql, @description, @reported_date.to_i, 
+                @due_date.to_i, @status, @id)
   end
 
   # Add a log entry object to the issue
@@ -90,6 +94,9 @@ class Issue
   # [Fixnum] Status of the current issue (0 is for not started, 1 working on, 
   # 2 for finished)
   attr_accessor :status
+
+  # The database handle for this AR
+  attr_accessor :db
 
 private
 
