@@ -36,21 +36,26 @@ class Attachment
   # Find an attachment by an identifier and polymorphic name
   # @param id is the identifier of the attachment to find
   # @param name is the name of the polymorphic thing
-  def find(name, id)
-    row = @db.execute(AttachmentSql::SelectSql, id).first
-    att = Attachment.new(@db, name, id)
-    att.quick_assign!(row)
+  def self.find(db, name, id)
+    row = db.execute(AttachmentSql::SelectSql, id).first
+    att = nil
+    if row && !row.empty?
+      att = Attachment.new(db, name, id)
+      att.quick_assign!(row)
+    end
   att end
 
   # Insert an attachment. This also creates the relation in the polymorphic
   # table.
   def insert
-    @db.execute(
-      AttachmentSql::InsertSql, @filename, @given_name, @data)
-    ret = @db.last_row_from(AttachmentSql::TableName)
-    @id = ret.first[0].to_i
-    @db.execute(
-      PolymorphicAttachmentsSql::InsertSql, @caller_name, @caller_id, @id)
+    unless @id
+      @db.execute(
+        AttachmentSql::InsertSql, @filename, @given_name, @data)
+      ret = @db.last_row_from(AttachmentSql::TableName)
+      @id = ret.first[0].to_i
+      @db.execute(
+        PolymorphicAttachmentsSql::InsertSql, @caller_name, @caller_id, @id)
+    end
   end
 
   # Assign a row of data to self
