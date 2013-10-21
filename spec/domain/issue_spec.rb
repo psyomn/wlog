@@ -107,5 +107,7 @@ describe Issue do
     expect(uissue.description).to eq(after)
   end
 
+  it "should accept attachments" do
+  end
 end 
 
