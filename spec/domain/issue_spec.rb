@@ -1,4 +1,4 @@
-require './make_db'
+require_relative '../make_db'
 require 'wlog/db_registry'
 require 'wlog/domain/issue'
 
@@ -61,6 +61,50 @@ describe Issue do
   it "should return nil on issue that is not found" do
     issue = Issue.find(@db, 123123123)
     expect(issue).to eq(nil)
+  end
+
+  it "should find all the inserted values" do
+    issue1 = Issue.new(@db)
+    issue2 = Issue.new(@db) 
+    issue3 = Issue.new(@db)
+
+    issue1.description = "find me 1"
+    issue2.description = "find me 2" 
+    issue3.description = "find me 3"
+    
+    issue1.insert
+    issue2.insert
+    issue3.insert
+
+    arr = Issue.find_all(@db)
+    descs = arr.collect{|issue| issue.description}
+    existing = descs & ["find me 1", "find me 2", "find me 3"]
+    expect(existing.size).to eq(3)
+  end
+
+  it "should not insert an existing value twice" do
+    issue = Issue.new(@db)
+    issue.description = "Add me once"
+    previous = Issue.find_all(@db).count
+    issue.insert
+    issue.insert
+    issue.insert
+    issue.insert
+    newcount = Issue.find_all(@db).count
+    expect(newcount).to eq(previous + 1)
+  end
+
+  it "should update with valid information" do
+    issue = Issue.new(@db)
+    previous = "Update me"
+    after    = "UPDATED"
+    issue.description = previous
+    issue.insert
+    issue.description = after
+    issue.update
+
+    uissue = Issue.find(@db, issue.id)
+    expect(uissue.description).to eq(after)
   end
 
 end 
