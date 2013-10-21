@@ -26,10 +26,10 @@ class Issue
     end
   issue end
 
-  def find_all
+  def self.find_all(db)
     arr = Array.new
-    @db.execute(SelectAllSql).each do |row|
-      issue = Issue.new
+    db.execute(SelectAllSql).each do |row|
+      issue = Issue.new(db)
       issue.quick_assign! row
       arr.push issue
     end
@@ -37,10 +37,13 @@ class Issue
 
   def self.delete_by_id(db, id); db.execute(DeleteSql, id) end
 
+  # inserts the entry into the database if it has not been stored before.
   def insert
-    @db.execute(InsertSql, @description, 
-      @reported_date.to_i, @due_date.to_i, @status)
-    @id = @db.last_row_from(TableName).first[0]
+    unless @id
+      @db.execute(InsertSql, @description, 
+        @reported_date.to_i, @due_date.to_i, @status)
+      @id = @db.last_row_from(TableName).first[0]
+    end
   end
 
   def delete; @db.execute(DeleteSql, @id) end
