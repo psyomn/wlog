@@ -14,26 +14,29 @@ class LogEntry
     @db = db_handle
   end
 
-  def self.find(id)
-    row = @db.execute(Select,id).first
-    le = LogEntry.new
-    le.quick_assign!(row[0], row[1], Time.at(row[2]))
+  def self.find(db, id)
+    row = db.execute(Select,id).first
+    le = nil
+    if row && !row.empty?
+    le = LogEntry.new(db)
+    le.quick_assign!(row[0], row[1], Time.at(row[2]), row[3])
+    end
   le end
 
-  def find_all
-    generic_find_all(SelectAll)
+  def self.find_all(db)
+    self.generic_find_all(db, SelectAll)
   end
 
   def find_all_by_issue_id(id)
-    generic_find_all(SelectAllByIssue, id)
+    self.generic_find_all(@db, SelectAllByIssue, id)
   end
 
   # Delete a log entry with a given id. 
   # @example Simple usage
   #   # Since this is a class method:
   #   LogEntry.delete(12)
-  def delete_by_id(id)
-    @db.execute(DeleteSql,id)
+  def self.delete_by_id(db, id)
+    db.execute(DeleteSql,id)
   end
 
   # update the entry
@@ -42,9 +45,9 @@ class LogEntry
   end
 
   # Search by string to find a matching description with 'LIKE'.
-  def search_descriptions(term)
+  def self.search_descriptions(db, term)
     all = Array.new
-    @db.execute(SelectDescriptionLike,"%#{term}%").each do |row|
+    db.execute(SelectDescriptionLike,"%#{term}%").each do |row|
       le = LogEntry.new
       le.quick_assign!(row[0], row[1], Time.at(row[2]))
       all.push le
@@ -52,12 +55,19 @@ class LogEntry
   all end
 
   def insert
-    @db.execute(InsertSql, @description, @date.to_i, @issue_id)
+    raise 'Need issue_id' unless @issue_id
+    unless @id
+      @db.execute(InsertSql, @description, @date.to_i, @issue_id)
+      @id = @db.last_row_from(TableName).first[0].to_i
+    end
   end
 
   # Delete the loaded log entry currently in memory, by passing its id
   def delete
-    delete_by_id(@id)
+    if @id
+      LogEntry.delete_by_id(@db, @id)
+      @id = nil
+    end
   end
 
   def quick_assign!(id,desc,date,issue_id)
@@ -91,10 +101,10 @@ class LogEntry
   attr_accessor :db
 
 private
-  def generic_find_all(sql, *params)
+  def self.generic_find_all(db, sql, *params)
     all = Array.new
-    @db.execute(sql, *params).each do |row|
-      le = LogEntry.new
+    db.execute(sql, *params).each do |row|
+      le = LogEntry.new(db)
       le.quick_assign!(row[0], row[1], Time.at(row[2]), row[3])
       all.push le
     end
