@@ -16,7 +16,10 @@ class CliInterface
 
   # This is the main entry point of the application. Therefore when we init,
   # we want to trigger the table creation stuff.
-  def initialize; InnitDb.new.execute end
+  def initialize
+    InnitDb.new.execute 
+    @db = DbRegistry.new(nil)
+  end
 
   # Run the interface
   def run
@@ -60,7 +63,7 @@ private
     print "Output where (abs dir) : "
     loc = $stdin.gets
     loc.chomp!
-    att = Attachment.find(Issue.name, att_id)
+    att = Attachment.find(@db, Issue.name, att_id)
     
     fh = File.open("#{loc}/#{att.filename}", 'w')
     fh.write(att.data)
@@ -70,7 +73,7 @@ private
   def show_attach
     print "Which issue : "
     issue_id = $stdin.gets.to_i
-    atts = Attachment.find_all_by_discriminator(Issue.name, issue_id)
+    atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
     atts.each do |att| 
       printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
     end
@@ -91,7 +94,7 @@ private
       data = fh.read
       fh.close
 
-      att = Attachment.new(Issue.name, issue_id)
+      att = Attachment.new(@db, Issue.name, issue_id)
       att.data       = data
       att.filename   = loc.split('/').last
       att.given_name = name_alias
@@ -105,9 +108,10 @@ private
   def focus
     puts "Focus on issue: "
     issue_id = $stdin.gets.to_i
-    issue = Issue.find(issue_id)
-    SysConfig.last_focus = issue.id if issue
-    IssueUi.new(issue).run
+    issue = Issue.find(@db, issue_id)
+    # FIXME
+    # SysConfig.last_focus = issue.id if issue
+    IssueUi.new(@db, issue).run
   end
 
   def outcsv
@@ -117,6 +121,7 @@ private
     fh.close
   end
 
+  # FIXME (update the command stuff)
   # Print the help of the cli app
   def print_help
     ["new",   "Create a new log entry", 
@@ -131,7 +136,7 @@ private
 
   # TODO might need refactoring
   def show_issues
-    entries_arr = Issue.find_all
+    entries_arr = Issue.find_all(@db)
     issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
     issue_collections.each_key do |stat|
       print "\x1b[32;1m#{stat}\x1b[0m"
@@ -143,7 +148,7 @@ private
   end
 
   def make_csv
-    cmd = MakeCsv.new
+    cmd = MakeCsv.new(@db)
     cmd.execute
     cmd.ret
   end

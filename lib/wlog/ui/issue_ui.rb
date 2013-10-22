@@ -8,8 +8,9 @@ module Wlog
 # The interface when focusing on an issue
 # @author Simon
 class IssueUi
-  def initialize(issue)
+  def initialize(db, issue)
     @issue = issue
+    @db = db
   end
 
   # Start up the interface
@@ -74,7 +75,7 @@ private
     description = $stdin.gets.chomp!
     @issue.mark_working!
     @issue.update
-    NewEntry.new(description, @issue.id).execute
+    NewEntry.new(@db, description, @issue.id).execute
   end
 
   def delete_entry
@@ -88,7 +89,7 @@ private
     id = $stdin.gets.to_i
     print "Information to concatenate: "
     str = $stdin.gets.chomp!
-    ConcatDescription.new(id, str).execute
+    ConcatDescription.new(@db, id, str).execute
   end
 
   # Replace a pattern from a description of a log entry
@@ -99,18 +100,18 @@ private
     old_pattern = $stdin.gets.chomp!
     print "with    : "
     new_pattern = $stdin.gets.chomp!
-    ReplacePattern.new(id, old_pattern, new_pattern).execute
+    ReplacePattern.new(@db, id, old_pattern, new_pattern).execute
   end
 
   def search_term
     print "Term to search: "
     term = $stdin.gets.chomp!
-    print_entries(LogEntry.search_descriptions(term))
+    print_entries(LogEntry.search_descriptions(@db, term))
   end
 
   # TODO might need refactoring
   def show_entries
-    entries_arr = LogEntry.find_all_by_issue_id @issue.id
+    entries_arr = LogEntry.find_all_by_issue_id(@db, @issue.id)
     date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
     date_collections.each_key do |date_c|
     print "\x1b[32;1m#{date_c}\x1b[0m - "

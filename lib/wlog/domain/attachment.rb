@@ -17,9 +17,9 @@ class Attachment
 
   # Find an attachment given an id
   # @param id is the attachment id to find
-  def find_all_by_discriminator(name, id)
+  def self.find_all_by_discriminator(db, name, id)
     arr = Array.new
-    rows = @db.execute(
+    rows = db.execute(
       PolymorphicAttachmentsSql::SelectSql, name, id)
 
     rows.each do |row| 

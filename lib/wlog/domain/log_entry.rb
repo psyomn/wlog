@@ -27,8 +27,8 @@ class LogEntry
     self.generic_find_all(db, SelectAll)
   end
 
-  def find_all_by_issue_id(id)
-    self.generic_find_all(@db, SelectAllByIssue, id)
+  def self.find_all_by_issue_id(db, id)
+    self.generic_find_all(db, SelectAllByIssue, id)
   end
 
   # Delete a log entry with a given id. 
