@@ -23,7 +23,7 @@ class Attachment
       PolymorphicAttachmentsSql::SelectSql, name, id)
 
     rows.each do |row| 
-      arr.push find(name, row[2])
+      arr.push self.find(db, name, row[2])
     end
   arr end
 
