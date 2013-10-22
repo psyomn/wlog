@@ -5,17 +5,15 @@ module Wlog
 # Command that replaces a string pattern found in an entry, with another string
 # @author Simon Symeonidis
 class ReplacePattern < Commandable
-  def initialize(id, oldpat, newpat)
-    @id, @oldpat, @newpat = id, oldpat, newpat
+  def initialize(db, id, oldpat, newpat)
+    @db, @id, @oldpat, @newpat = db, id, oldpat, newpat
   end
 
   def execute
-    log_entry = LogEntry.find(id)
-    log_entry.description.gsub!(old_pattern, new_pattern)
+    log_entry = LogEntry.find(@db, @id)
+    log_entry.description.gsub!(@oldpat, @newpat)
     log_entry.update
   end
-
-  attr_reader :id, :oldpat, :newpat
 end
 end
 
