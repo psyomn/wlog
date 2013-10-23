@@ -141,10 +141,11 @@ private
     entries_arr = Issue.find_all(@db)
     issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
     issue_collections.each_key do |stat|
-      print "\x1b[32;1m#{stat}\x1b[0m"
-      puts " [\x1b[35;1m#{issue_collections[stat].count}\x1b[0m]"
+      print WlogString.new("#{stat}").green
+      puts WlogString.new(" #{issue_collections[stat].count}").magenta
       issue_collections[stat].each do |iss|
-        puts "  [#{iss.id}] #{iss.description}"
+        print WlogString.new("  [#{iss.id}] ").red
+        puts "#{iss.description}"
       end
     end
   end

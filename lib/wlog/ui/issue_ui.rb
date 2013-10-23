@@ -1,3 +1,4 @@
+require 'wlog/tech/wlog_string'
 require 'wlog/commands/replace_pattern'
 require 'wlog/commands/new_entry'
 require 'wlog/commands/make_csv'
@@ -114,9 +115,9 @@ private
     entries_arr = LogEntry.find_all_by_issue_id(@db, @issue.id)
     date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
     date_collections.each_key do |date_c|
-    print "\x1b[32;1m#{date_c}\x1b[0m - "
-    print "\x1b[33;1m%9s\x1b[0m " % [date_collections[date_c].first.date.strftime("%A")]
-    puts "[\x1b[35;1m#{date_collections[date_c].count}\x1b[0m]"
+    print WlogString.new("#{date_c} - ").green
+    print WlogString.new(date_collections[date_c].first.date.strftime("%A")).yellow
+    puts " [#{WlogString.new(date_collections[date_c].count.to_s).magenta}]"
       date_collections[date_c].each do |le|
         puts "  #{le}"
       end
