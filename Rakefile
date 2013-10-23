@@ -27,7 +27,6 @@ namespace :db do
   end
 end
 
-if !require 'reek'
 namespace :reek do
   desc "Run reek at lib/"
   task :all do
@@ -38,11 +37,9 @@ namespace :reek do
   task :lparam do
     sh "reek 2>&1 lib/ | grep -i param"
   end
-end
-else
-  puts "You need reek to run the tests"
-end
 
+  task :default => 'all'
+end
 
 namespace :test do 
   task :all => :spec
