@@ -12,6 +12,7 @@ end
 
 namespace :db do
   # Remove data directory. This will remove all your data
+  desc "Remove All the databases"
   task :rm do 
     include Wlog::StaticConfigurations
     puts "Removing data directories from #{DataDirectory}"
@@ -25,6 +26,23 @@ namespace :db do
     sh "sqlite3 #{DataDirectory}#{DefaultDb}"
   end
 end
+
+if !require 'reek'
+namespace :reek do
+  desc "Run reek at lib/"
+  task :all do
+    sh "reek lib/"
+  end
+
+  desc "Grep long parameter list" 
+  task :lparam do
+    sh "reek 2>&1 lib/ | grep -i param"
+  end
+end
+else
+  puts "You need reek to run the tests"
+end
+
 
 namespace :test do 
   task :all => :spec
