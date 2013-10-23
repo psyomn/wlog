@@ -10,11 +10,12 @@ class WlogString < String
   def green; colorize(Green) end
   def blue; colorize(Blue) end
   def white; colorize(White) end
-  def Black; colorize(Black) end
+  def black; colorize(Black) end
+  def cyan; colorize(Cyan) end
 
 private
   def colorize(col)
-    "\x1b[#{col};1m#{self}[0m"
+    "\x1b[#{col};1m#{self}\x1b[0m"
   end
 end
 end

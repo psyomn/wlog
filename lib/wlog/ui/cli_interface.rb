@@ -1,4 +1,5 @@
 require 'turntables'
+require 'wlog/tech/wlog_string'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
@@ -24,8 +25,9 @@ class CliInterface
   # Run the interface
   def run
     cmd = "default"
+    label = WlogString.new('wlog').white
     until cmd == "end" do 
-      print "[wlog] "
+      print "[#{label}] "
       cmd = $stdin.gets || "end"
       cmd.chomp!
 
@@ -54,7 +56,7 @@ class CliInterface
 private 
  
   # Create a new issue
-  def new_issue; CreateIssue.new.execute end
+  def new_issue; CreateIssue.new(@db).execute end
 
   # Wriet out the data contained in the database of the attachment
   def output_attach
