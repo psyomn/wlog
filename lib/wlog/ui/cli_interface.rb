@@ -4,9 +4,11 @@ require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/attachment'
+require 'wlog/domain/helpers'
 require 'wlog/commands/innit_db'
 require 'wlog/ui/commands/create_issue'
 require 'wlog/ui/issue_ui'
+require 'wlog/ui/setup_wizard'
 
 module Wlog
 # @author Simon Symeonidis
@@ -20,6 +22,9 @@ class CliInterface
   def initialize
     InnitDb.new.execute 
     @db = DbRegistry.new(nil)
+    
+    # Initial setup if first time running
+    SetupWizard.new(@db).run if Helpers.first_setup?
   end
 
   # Run the interface

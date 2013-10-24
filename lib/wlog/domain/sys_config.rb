@@ -20,6 +20,18 @@ class SysConfig
     @key_value.put!('last_focus', "#{issue}")
   end
 
+  def ansi?
+    @key_value.get('ansi') == 'yep'
+  end
+
+  def not_ansi!
+    @key_value.put!('ansi','nope')
+  end
+
+  def ansi!
+    @key_value.put!('ansi', 'yep')
+  end
+
   attr_accessor :db
 
 private

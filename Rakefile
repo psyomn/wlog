@@ -10,6 +10,16 @@ YARD::Rake::YardocTask.new do |t|
   t.options = ['--title', 'Wlog: the friendly worktime logger!', '-o', 'doc/']
 end
 
+# Anything that has to do with the stuff of this gem in .config/wlog
+namespace :data do
+  desc "Remove all configuration data of wlog"
+  task :rm do 
+    include Wlog::StaticConfigurations
+    print "You sure you want to remove #{AppDirectory}? [y/n] :"
+    FileUtils.rm_rf AppDirectory if $stdin.gets.match(/^y/i)
+  end
+end
+
 namespace :db do
   # Remove data directory. This will remove all your data
   desc "Remove All the databases"

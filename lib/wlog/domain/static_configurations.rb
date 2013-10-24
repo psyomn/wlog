@@ -19,6 +19,9 @@ module StaticConfigurations
 
   # Default database name (when unspecified)
   DefaultDb = "default"
+
+  # This is used to see if it is the first setup or not
+  TaintFile = "#{AppDirectory}tainted"
 end
 end # module Wlog
 

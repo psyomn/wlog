@@ -1,4 +1,5 @@
 require 'wlog/domain/sys_config'
+require 'wlog/commands/taint_setup'
 module Wlog
 # This is the ui that is displayed whenever we detect that it is the first
 # time that the application runs.
@@ -19,6 +20,7 @@ class SetupWizard
     end
     @sys.ansi! if input == 'yes'
     @sys.not_ansi! if input == 'no'
+    TaintSetup.new.execute
   end
 end
 end

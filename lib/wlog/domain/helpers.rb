@@ -37,6 +37,10 @@ class Helpers
       FileUtils.mkdir_p DataDirectory
     end
   nil end
+
+  # Check if the application directory exists. If it does not, it's a first
+  # time system run.
+  def self.first_setup?; !File.exists? TaintFile end
 end
 end # module Wlog
 
