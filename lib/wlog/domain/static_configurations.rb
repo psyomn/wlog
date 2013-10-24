@@ -22,6 +22,9 @@ module StaticConfigurations
 
   # This is used to see if it is the first setup or not
   TaintFile = "#{AppDirectory}tainted"
+
+  # The configuration file
+  ConfigFile = "#{AppDirectory}config"
 end
 end # module Wlog
 

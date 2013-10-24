@@ -7,7 +7,6 @@ module Wlog
 class SetupWizard
   def initialize(db)
     @db = db
-    @sys = SysConfig.new(db)
   end
 
   # Call this to prompt the user for things
@@ -18,8 +17,7 @@ class SetupWizard
       input = $stdin.gets
       input.chomp!
     end
-    @sys.ansi! if input == 'yes'
-    @sys.not_ansi! if input == 'no'
+    SysConfig.store_config('ansi', input)
     TaintSetup.new.execute
   end
 end

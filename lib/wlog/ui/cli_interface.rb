@@ -24,7 +24,7 @@ class CliInterface
     @db = DbRegistry.new(nil)
     
     # Initial setup if first time running
-    SetupWizard.new(@db).run if Helpers.first_setup?
+    # SetupWizard.new(@db).run if Helpers.first_setup?
   end
 
   # Run the interface

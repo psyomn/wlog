@@ -1,4 +1,5 @@
 require 'wlog/domain/key_value'
+require 'wlog/domain/static_configurations'
 
 module Wlog
 # System preferences helper, that stores last accessed stuff and other fluff.
@@ -20,21 +21,52 @@ class SysConfig
     @key_value.put!('last_focus', "#{issue}")
   end
 
-  def ansi?
-    @key_value.get('ansi') == 'yep'
+  def self.ansi?
+    self.read_attributes['ansi'] == 'yep'
   end
 
-  def not_ansi!
-    @key_value.put!('ansi','nope')
+  def self.not_ansi!
+    self.store_config('ansi', 'nope')
   end
 
-  def ansi!
-    @key_value.put!('ansi', 'yep')
+  def self.ansi!
+    self.store_config('ansi', 'yep')
+  end
+
+  # Store a term into the configuration file
+  def self.store_config(term,value)
+    values = self.read_attributes
+    values[term] = value
+    self.write_attributes(values)
+  end
+
+  # Get a term from the configuration file. Return nil if not found
+  def self.get_config(term)
+    self.read_attributes[term]
   end
 
   attr_accessor :db
 
 private
+
+  def self.write_attributes(terms)
+    include StaticConfigurations
+    str = terms.inject(""){|str,e| str += "#{e[0]}:#{e[1]}\n"}
+    fh = File.open(ConfigFile, 'w')
+    fh.write(str)
+    fh.close
+  end
+
+  def self.read_attributes
+    include StaticConfigurations
+    FileUtils.touch ConfigFile
+    lines = File.open(ConfigFile, 'r').read.split(/n/)
+    terms = lines.map{|e| e.split(':')}
+    values = Hash.new(nil)
+    terms.each do |term_tuple| # [term, value]
+      values[term_tuple[0]] = term_tuple[1]
+    end
+  values end
 
   attr :key_value
 
