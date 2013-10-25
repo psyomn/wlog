@@ -1,12 +1,13 @@
 require 'wlog/domain/sys_config'
 require 'wlog/commands/taint_setup'
+
 module Wlog
 # This is the ui that is displayed whenever we detect that it is the first
-# time that the application runs.
+# time that the application runs. Use this
+# __ONLY__ for system wide configuration
 # @author Simon Symeonidis
 class SetupWizard
-  def initialize(db)
-    @db = db
+  def initialize
   end
 
   # Call this to prompt the user for things

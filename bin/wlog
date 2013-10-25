@@ -3,18 +3,21 @@
 require 'wlog/version'
 require 'wlog/domain/static_configurations'
 require 'wlog/ui/cli_interface'
+require 'wlog/ui/bootstrap'
 
 include Wlog
 
 if ARGV.size > 0
   case ARGV[0]
   when "--list"
+    # TODO FIXME
     CliInterface.list_databases
   when '--where'
     puts StaticConfigurations::DataDirectory
   when /--/
     puts "Unknown command."
   else
+    Bootstrap.configure!
     CliInterface.new.run
   end
 else
