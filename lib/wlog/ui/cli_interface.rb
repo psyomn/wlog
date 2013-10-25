@@ -1,5 +1,4 @@
 require 'turntables'
-require 'wlog/tech/wlog_string'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
@@ -19,12 +18,13 @@ class CliInterface
   # we want to trigger the table creation stuff.
   def initialize
     @db = DbRegistry.new(nil)
+    @strmaker = SysConfig.string_decorator
   end
 
   # Run the interface
   def run
     cmd = "default"
-    label = WlogString.new('wlog').white
+    label = @strmaker.white('wlog')
     until cmd == "end" do 
       print "[#{label}] "
       cmd = $stdin.gets || "end"
@@ -140,10 +140,10 @@ private
     entries_arr = Issue.find_all(@db)
     issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
     issue_collections.each_key do |stat|
-      print WlogString.new("#{stat}").green
-      puts WlogString.new(" #{issue_collections[stat].count}").magenta
+      print @strmaker.green("#{stat}")
+      puts @strmaker.magenta(" #{issue_collections[stat].count}")
       issue_collections[stat].each do |iss|
-        print WlogString.new("  [#{iss.id}] ").red
+        print @strmaker.red("  [#{iss.id}] ")
         puts "#{iss.description}"
       end
     end

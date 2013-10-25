@@ -1,9 +1,9 @@
-require 'wlog/tech/wlog_string'
 require 'wlog/commands/replace_pattern'
 require 'wlog/commands/new_entry'
 require 'wlog/commands/make_csv'
 require 'wlog/commands/innit_db'
 require 'wlog/commands/concat_description'
+require 'wlog/domain/sys_config'
 
 module Wlog
 # The interface when focusing on an issue
@@ -12,6 +12,7 @@ class IssueUi
   def initialize(db, issue)
     @issue = issue
     @db = db
+    @strmaker = SysConfig.string_decorator
   end
 
   # Start up the interface
@@ -115,9 +116,9 @@ private
     entries_arr = LogEntry.find_all_by_issue_id(@db, @issue.id)
     date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
     date_collections.each_key do |date_c|
-    print WlogString.new("#{date_c} - ").green
-    print WlogString.new(date_collections[date_c].first.date.strftime("%A")).yellow
-    puts " [#{WlogString.new(date_collections[date_c].count.to_s).magenta}]"
+    print @strmaker.green("#{date_c} - ")
+    print @strmaker.yellow(date_collections[date_c].first.date.strftime("%A"))
+    puts " [#{@strmaker.magenta(date_collections[date_c].count.to_s)}]"
       date_collections[date_c].each do |le|
         puts "  #{le}"
       end
