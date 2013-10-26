@@ -6,6 +6,8 @@ require 'wlog/domain/sys_config'
 require 'wlog/domain/attachment'
 require 'wlog/domain/helpers'
 require 'wlog/ui/commands/create_issue'
+require 'wlog/commands/archive_issues'
+require 'wlog/commands/archive_finished_issues'
 require 'wlog/ui/issue_ui'
 
 module Wlog
@@ -31,6 +33,7 @@ class CliInterface
       cmd.chomp!
 
       case cmd
+      when /archive/ then archive cmd
       when /showattach/ then show_attach
       when /outattach/  then output_attach
       when /attach/ then attach
@@ -74,6 +77,25 @@ private
     atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
     atts.each do |att| 
       printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
+    end
+  end
+
+  # Archive means set status to 3 (arhive status) to the listed issues
+  def archive(cmd)
+    args = cmd.split[1..-1]
+
+    if args.length > 0 
+      if args[1] == 'finished'
+        ArchiveFinishedIssues.new(@db).execute
+      else # gave ids
+        ids = args.map{|sids| sids.to_i}
+        issues = ids.map{|id| Issue.find(@db, id)} - [nil]
+        ArchiveIssues.new(issues).execute
+      end
+    else
+      puts "usage: "
+      puts "  archive finished"
+      puts "  archive <id>+"
     end
   end
 

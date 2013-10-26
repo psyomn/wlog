@@ -27,13 +27,12 @@ class Issue
   issue end
 
   def self.find_all(db)
-    arr = Array.new
-    db.execute(SelectAllSql).each do |row|
-      issue = Issue.new(db)
-      issue.quick_assign! row
-      arr.push issue
-    end
-  arr end
+    self.generic_find_all(db, SelectAllSql)
+  end
+
+  def self.find_all_finished(db)
+    self.generic_find_all(db, SelectFinishedSql)
+  end
 
   def self.delete_by_id(db, id); db.execute(DeleteSql, id) end
 
@@ -73,9 +72,19 @@ class Issue
     "  - #{@description}"
   end
 
+  # Mark issue as started
   def mark_started!; @status = 0 end
+  
+  # Mark the issue as working
   def mark_working!; @status = 1 end
+  
+  # Mark the issue as finished
   def mark_finished!; @status = 2 end
+
+  # Archive the issue
+  def archive!; @status = 3 end
+
+  # Get the status as a string
   def status_s; Statuses[@status] end
 
   # [String] Description of the issue at hand
@@ -103,7 +112,20 @@ class Issue
 
 private
 
-  Statuses = {0 => "new", 1 => "started work", 2 => "finished"}
+  Statuses = {
+    0 => "new", 1 => "started work", 
+    2 => "finished", 3 => "archived"}
+
+private_class_method
+
+  def self.generic_find_all(db, sql)
+    arr = Array.new
+    db.execute(sql).each do |row|
+      issue = Issue.new(db)
+      issue.quick_assign! row
+      arr.push issue
+    end
+  arr end
 
 end # class  Issue
 end # module Wlog

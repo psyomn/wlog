@@ -107,6 +107,20 @@ describe Issue do
     expect(uissue.description).to eq(after)
   end
 
+  it "should find all finished issues" do
+    4.times do 
+      iss = Issue.new(@db)
+      iss.description = "hello"
+      iss.mark_finished!
+      iss.insert
+    end
+    issues = Issue.find_all_finished(@db)
+
+    issues.each do |iss|
+      expect(iss.status).to eq(2)
+    end
+  end
+
   it "should accept attachments" do
   end
 end 
