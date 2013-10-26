@@ -1,3 +1,4 @@
+require 'readline'
 require 'wlog/ui/commands/ui_command'
 require 'wlog/domain/issue'
 
@@ -9,10 +10,10 @@ class CreateIssue < UiCommand
     @db = db
   end
 
+  # Execute create issue transaction
   def execute
     @ret = Issue.new(@db)
-    print "Small issue description :"
-    desc = $stdin.gets || "None."
+    desc = Readline.readline("Small issue description :") || "None."
     @ret.description = desc.chomp
     @ret.insert
   end

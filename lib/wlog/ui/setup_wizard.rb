@@ -1,3 +1,4 @@
+require 'readline'
 require 'wlog/domain/sys_config'
 require 'wlog/commands/taint_setup'
 
@@ -14,8 +15,8 @@ class SetupWizard
   def run
     input = ""
     until ['yes', 'no'].include? input
-      puts "Do you use a terminal that supports ANSI colors? [yes/no] :"
-      input = $stdin.gets
+      question = "Do you use a terminal that supports ANSI colors? [yes/no] :"
+      input = Readline.readline(question)
       input.chomp!
     end
     SysConfig.store_config('ansi', input)

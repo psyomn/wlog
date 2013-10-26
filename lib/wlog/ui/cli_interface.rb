@@ -1,3 +1,4 @@
+require 'readline'
 require 'turntables'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
@@ -26,8 +27,7 @@ class CliInterface
     cmd = "default"
     label = @strmaker.white('wlog')
     until cmd == "end" do 
-      print "[#{label}] "
-      cmd = $stdin.gets || "end"
+      cmd = Readline.readline("[#{label}] ") || "end"
       cmd.chomp!
 
       case cmd
@@ -59,10 +59,8 @@ private
 
   # Wriet out the data contained in the database of the attachment
   def output_attach
-    print "Which attachment to output? : "
-    att_id = $stdin.gets.to_i
-    print "Output where (abs dir) : "
-    loc = $stdin.gets
+    att_id = Readline.readline('Which attachment to output? : ').to_i
+    loc = Readline.readline('Output where (abs dir) ? : ')
     loc.chomp!
     att = Attachment.find(@db, Issue.name, att_id)
     
@@ -72,8 +70,7 @@ private
   end
 
   def show_attach
-    print "Which issue : "
-    issue_id = $stdin.gets.to_i
+    issue_id = Readline.readline('Which issue id? : ').to_i
     atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
     atts.each do |att| 
       printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
@@ -81,13 +78,10 @@ private
   end
 
   def attach
-    print "Attach to which issue? : "
-    issue_id = $stdin.gets.to_i
-    print "Absolute file location : "
-    loc = $stdin.gets
+    issue_id = Readline.readline('Attach to issue id: ').to_i
+    loc = Readline.readline('Absolute file location: ')
     loc.chomp!
-    print "Alias name for file (optional) :"
-    name_alias = $stdin.gets
+    name_alias = Readline.readline('Alias name for file (optional): ')
     name_alias.chomp!
     
     unless loc.nil?
@@ -107,8 +101,7 @@ private
   end
 
   def focus
-    puts "Focus on issue: "
-    issue_id = $stdin.gets.to_i
+    issue_id = Readline.readline('Focus on issue : ').to_i
     issue = Issue.find(@db, issue_id)
     # FIXME
     # SysConfig.last_focus = issue.id if issue

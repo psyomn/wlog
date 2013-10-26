@@ -77,8 +77,8 @@ class LogEntry
   # Print things nicely formmated no more than 80 cars (well, unless you stick
   # the time in the end which is not counted for).
   def to_s
-    str    = "[#{id}] "
-    tmp    = @description + " [#{@date.strftime("%H:%M:%S")}]"
+    str    = "[#{@id}] "
+    tmp    = "#{@description} [#{@date.strftime("%H:%M:%S")}]"
     desc   = Helpers.break_string(tmp,80)
     indent = " " * (id.to_s.split('').count + 5)
     desc.gsub!(/#{$/}/, "#{$/}#{indent}")

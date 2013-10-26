@@ -1,3 +1,5 @@
+require 'readline'
+
 require 'wlog/commands/replace_pattern'
 require 'wlog/commands/new_entry'
 require 'wlog/commands/make_csv'
@@ -19,8 +21,7 @@ class IssueUi
   def run
     cmd = "default"
     until cmd == "end" do
-      print "[issue ##{@issue.id}] "
-      cmd = $stdin.gets || ""
+      cmd = Readline.readline("[issue ##{@issue.id}] ") || ""
       cmd.chomp!
 
       case cmd
@@ -64,8 +65,8 @@ private
 
   # Exit the issue, mark as finished
   def finish
-    print "Are you done with this task? [yes/no] : "
-    if ret = !!$stdin.gets.match(/^yes/i)
+    question = 'Are you done with this task? [yes/no] :'
+    if ret = !! Readline.readline(question).match(/^yes/i)
       @issue.mark_finished!
       @issue.update
     end
@@ -73,41 +74,34 @@ private
  
   # new entry command
   def new_entry
-    print "Enter new issue:#{$/}  "
-    description = $stdin.gets.chomp!
+    description = Readline.readline("Enter new issue:#{$/}  ")
+    description.chomp!
     @issue.mark_working!
     @issue.update
     NewEntry.new(@db, description, @issue.id).execute
   end
 
   def delete_entry
-    print "Remove task with id: "
-    LogEntry.delete($stdin.gets.to_i)
+    LogEntry.delete(Readline.readline('Remove task with id : ').to_i)
   end
 
   # Concatenate an aggregate description to a previous item
   def concat_description
-    print "ID of task to concatenate to: "
-    id = $stdin.gets.to_i
-    print "Information to concatenate: "
-    str = $stdin.gets.chomp!
+    id = Readline.readline("ID of task to concatenate to: ").to_i
+    str = Readline.readline("Information to concatenate: ").chomp!
     ConcatDescription.new(@db, id, str).execute
   end
 
   # Replace a pattern from a description of a log entry
   def replace_pattern
-    print "ID of task to perform replace: "
-    id       = $stdin.gets.to_i
-    print "replace : "
-    old_pattern = $stdin.gets.chomp!
-    print "with    : "
-    new_pattern = $stdin.gets.chomp!
+    id = Readline.readline("ID of task to perform replace: ").to_i
+    old_pattern = Readline.readline('replace : ').chomp!
+    new_pattern = Readline.readline('with    : ').chomp!
     ReplacePattern.new(@db, id, old_pattern, new_pattern).execute
   end
 
   def search_term
-    print "Term to search: "
-    term = $stdin.gets.chomp!
+    term = Readline.readline('search : ').chomp!
     print_entries(LogEntry.search_descriptions(@db, term))
   end
 
