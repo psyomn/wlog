@@ -85,7 +85,8 @@ private
     args = cmd.split[1..-1]
 
     if args.length > 0 
-      if args[1] == 'finished'
+      if args[0] == 'finished'
+        puts "Archiving finished issues."
         ArchiveFinishedIssues.new(@db).execute
       else # gave ids
         ids = args.map{|sids| sids.to_i}
