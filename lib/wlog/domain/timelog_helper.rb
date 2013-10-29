@@ -9,6 +9,19 @@ class TimelogHelper
     self.calculate_time(loggings)
   end
 
+  # @param time is time in seconds 
+  # @return in nice format (2d 1h 20m)
+  def self.time_to_s(time)
+    str = ""
+    p TimesRev
+    TimesArr.each do |interval|
+      rem = time % interval
+      occ = (time - rem) / interval
+      str.concat("#{occ}#{TimesRev[interval]} ") if occ > 0
+      time = rem
+    end
+  str end
+
 private_class_method
   # Calculate time interface (get an array of time entries, and calculate)
   def self.calculate_time(time_arr)
@@ -21,6 +34,9 @@ private_class_method
     time_item.to_i * magnitude
   end
 
+  def self.count_occurences(time, step)
+  end
+
   Times = {
     'h' => 60 * 60,
     's' => 1,
@@ -28,5 +44,11 @@ private_class_method
     'd' => 8 * 60 * 60, # We assume logging a day = 8 hours
     'w' => 8 * 60 * 60 * 7
   }
+
+  # Reverse format for times
+  TimesRev = Hash[Times.to_a.collect{|arr| arr.reverse}]
+
+  # For a format to output a given int to time (1221 => 20m 21s)
+  TimesArr = Times.to_a.sort{|x1,x2| x2[1] <=> x1[1]}.collect{|e| e[1]}
 end
 end
