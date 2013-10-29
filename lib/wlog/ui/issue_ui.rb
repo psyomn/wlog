@@ -6,6 +6,7 @@ require 'wlog/commands/make_csv'
 require 'wlog/commands/innit_db'
 require 'wlog/commands/concat_description'
 require 'wlog/domain/sys_config'
+require 'wlog/domain/timelog_helper'
 
 module Wlog
 # The interface when focusing on an issue
@@ -25,18 +26,19 @@ class IssueUi
       cmd.chomp!
 
       case cmd
-      when /attach/  then attach
-      when /new/     then new_entry
-      when /show/    then show_entries
-      when /desc/    then describe_issue
-      when /delete/  then delete_entry
-      when /search/  then search_term
-      when /concat/  then concat_description
-      when /replace/ then replace_pattern
-      when /search/  then search_term
-      when /forget/  then cmd = "end"
-      when /finish/  then finish.nil? ? nil : cmd = "end"
-      when /help/    then print_help
+      when /^attach/  then attach
+      when /^new/     then new_entry
+      when /^show/    then show_entries
+      when /^desc/    then describe_issue
+      when /^delete/  then delete_entry
+      when /^search/  then search_term
+      when /^concat/  then concat_description
+      when /^replace/ then replace_pattern
+      when /^search/  then search_term
+      when /^lt/      then time(cmd.split.drop 1) # lt for log time
+      when /^forget/  then cmd = "end"
+      when /^finish/  then finish.nil? ? nil : cmd = "end"
+      when /^help/    then print_help
       else puts "Type 'help' for help"
       end
     end
@@ -46,6 +48,13 @@ class IssueUi
   attr_accessor :issue
 
 private 
+
+  # Time logging command
+  def time(rest)
+    time = TimelogHelper.parse(rest.join) 
+    @issue.log_time(time)
+    puts @strmaker.green('logged time!')
+  end
 
   # Print the description of the issue
   def describe_issue; puts @issue end

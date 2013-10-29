@@ -8,14 +8,15 @@ module IssueSql
   # Standard insert
   InsertSql = \
     "INSERT INTO #{TableName} "\
-    "(description, reported_date, due_date, status) "\
-    "values (?,?,?,?);"
+    "(description, reported_date, due_date, status, timelog) "\
+    "values (?,?,?,?,0);"
   # Standard delete
   DeleteSql = "DELETE FROM #{TableName} WHERE id = ? ;"
 
   # Standard update
   UpdateSql = "UPDATE #{TableName} SET "\
-    "description = ? , reported_date = ? , due_date = ? , status = ?"\
+    "description = ? , reported_date = ? , due_date = ? , status = ?, "\
+    "timelog = ? "\
     "WHERE id = ?;"
   
   # Select by id

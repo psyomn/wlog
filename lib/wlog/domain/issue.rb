@@ -12,7 +12,7 @@ class Issue
   def initialize(db_handle)
     @reported_date = Time.now
     @log_entries   = Array.new
-    @status        = 0
+    @status = @seconds = 0
     @db = db_handle
   end
 
@@ -49,7 +49,7 @@ class Issue
 
   def update
     @db.execute(UpdateSql, @description, @reported_date.to_i, 
-                @due_date.to_i, @status, @id)
+                @due_date.to_i, @status, @seconds, @id)
   end
 
   # Add a log entry object to the issue
@@ -58,16 +58,23 @@ class Issue
   end
 
   def quick_assign!(row)
-    @id, @description, @reported_date, @due_date , @status =\
-      row[0], row[1], Time.at(row[2]), Time.at(row[3]), row[4]
+    @id, @description, @reported_date, @due_date, @status, @seconds =\
+      row[0], row[1], Time.at(row[2]), Time.at(row[3]), row[4], row[5] || 0
   nil end
+
+  # Log the seconds into the issue
+  def log_time(seconds)
+    @seconds += seconds
+    update
+  end
 
   def to_s
     "+ Issue ##{@id}#{$/}"\
     "  - Reported : #{@reported_date}#{$/}"\
     "  - Due      : #{@due_date}#{$/}"\
     "  - Entries  : #{@log_entries.count}#{$/}"\
-    "  - Status   : "\
+    "  - Status   : #{Statuses[@status]}#{$/}"\
+    "  - Time     : #{@seconds}"\
     "#{$/}"\
     "  - #{@description}"
   end
@@ -106,6 +113,10 @@ class Issue
   # [Fixnum] Status of the current issue (0 is for not started, 1 working on, 
   # 2 for finished)
   attr_accessor :status
+
+  # The seconds that you have wasted your life on in order to get something
+  # done
+  attr_accessor :seconds
 
   # The database handle for this AR
   attr_accessor :db
