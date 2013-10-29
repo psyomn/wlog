@@ -1,6 +1,7 @@
 require 'wlog/db_registry'
 require 'wlog/domain/sql_modules/issue_sql'
 require 'wlog/domain/log_entry'
+require 'wlog/domain/timelog_helper'
 
 module Wlog
 # This aggregates log entries. The total time spent on this issue is
@@ -74,7 +75,7 @@ class Issue
     "  - Due      : #{@due_date}#{$/}"\
     "  - Entries  : #{@log_entries.count}#{$/}"\
     "  - Status   : #{Statuses[@status]}#{$/}"\
-    "  - Time     : #{@seconds}#{$/}"\
+    "  - Time     : #{TimelogHelper.time_to_s(@seconds)}#{$/}"\
     "#{$/}"\
     "  - #{@description}#{$/}"
   end
