@@ -74,9 +74,9 @@ class Issue
     "  - Due      : #{@due_date}#{$/}"\
     "  - Entries  : #{@log_entries.count}#{$/}"\
     "  - Status   : #{Statuses[@status]}#{$/}"\
-    "  - Time     : #{@seconds}"\
+    "  - Time     : #{@seconds}#{$/}"\
     "#{$/}"\
-    "  - #{@description}"
+    "  - #{@description}#{$/}"
   end
 
   # Mark issue as started
