@@ -6,8 +6,10 @@ require 'wlog/domain/sys_config'
 require 'wlog/domain/attachment'
 require 'wlog/domain/helpers'
 require 'wlog/ui/commands/create_issue'
+
 require 'wlog/commands/archive_issues'
 require 'wlog/commands/archive_finished_issues'
+require 'wlog/commands/delete_issue'
 require 'wlog/ui/issue_ui'
 
 module Wlog
@@ -41,7 +43,7 @@ class CliInterface
       when /new/    then new_issue
       when /show/   then show_issues
       when /outcsv/ then outcsv
-      when /delete/ then delete_entry
+      when /delete/ then delete_issue
       when /help/   then print_help
       end
     end
@@ -59,6 +61,12 @@ private
  
   # Create a new issue
   def new_issue; CreateIssue.new(@db).execute end
+
+  # Procedure to delete an issue
+  def delete_issue
+    issue_id = Readline.readline('Which issue id to delete? : ').to_i
+    DeleteIssue.new(@db, issue_id).execute
+  end
 
   # Wriet out the data contained in the database of the attachment
   def output_attach

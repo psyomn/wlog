@@ -91,7 +91,8 @@ private
   end
 
   def delete_entry
-    LogEntry.delete(Readline.readline('Remove task with id : ').to_i)
+    id = Readline.readline('Remove task log with id : ').to_i
+    LogEntry.delete_by_id(@db, id)
   end
 
   # Concatenate an aggregate description to a previous item
