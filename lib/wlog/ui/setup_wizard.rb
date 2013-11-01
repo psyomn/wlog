@@ -13,14 +13,22 @@ class SetupWizard
 
   # Call this to prompt the user for things
   def run
-    input = ""
-    until ['yes', 'no'].include? input
-      question = "Do you use a terminal that supports ANSI colors? [yes/no] :"
-      input = Readline.readline(question)
-      input.chomp!
-    end
-    SysConfig.store_config('ansi', input)
+    get_setting
+    SysConfig.store_config('ansi', @input)
     TaintSetup.new.execute
   end
+
+private 
+
+  def get_setting
+    question = "Do you use a terminal that supports ANSI colors? [yes/no] :"
+    until ['yes', 'no'].include? input
+      @input = Readline.readline(question)
+      @input.chomp!
+    end
+  end
+
+  attr :input
+
 end
 end
