@@ -75,12 +75,12 @@ potential of this application.
 
 You can list the available databases by running the following command:
 
-  wlog --list
+    wlog --list
 
 If for some reason you need to check out where the application stores the 
 databases, you can do the following: 
 
-  wlog --where
+    wlog --where
 
 That will print the absolute path to that directory. 
 
@@ -95,9 +95,11 @@ So when you start the application this is what you see:
 Enter the command `show` to list the issues
 
     [wlog] show
-    1 [started work] - This issue is here to ...
-    2 [finished] - This issue is here to treat you better than the last one
-    3 [new] - this issue just does not belong
+    started work 2
+      [6] Fix colors for wlog and make it pretty
+      [4] Weird bug crash when pressing ctrl+d
+    new 1
+      [3] Need to check out templating system
 
 Now we want to focus on a particular issue. We type in `focus`
 
@@ -109,15 +111,27 @@ Now we want to focus on a particular issue. We type in `focus`
 And now we can show all the logged work with `show`: 
 
     [issue #1] show
-    2013-10-13 -    Sunday [2]
-    [4] I did some work on this issue [15:34:08] 
-    [5] Some trivial work there too [15:35:32] 
+    2013-10-13 - Sunday [2]
+      [4] I did some work on this issue [15:34:08] 
+      [5] Some trivial work there too [15:35:32] 
     [issue #1] 
 
 To exit the scope of an issue, you can use the `forget` command:
 
     [issue #1] forget
     [wlog] 
+
+If you forgot what you are doing, you can do
+
+    [issue #1] desc
+    + Issue #6
+      - Reported : 2013-10-26 15:01:45 -0400
+      - Due      : 1969-12-31 19:00:00 -0500
+      - Entries  : 0
+      - Status   : started work
+      - Time     : 3h 
+
+      - Whatever description you wrote for issue 1
 
 You can also attach files to issues
 
@@ -165,5 +179,6 @@ are `show`, `search`, `replace`, `delete`, and `concat`.
 
 ### For newcommers
 
-Look at the github issues, for things marked as 'Up for Grabs'.
+Look at the github issues, for things marked as 'Up for Grabs'. Feel free to 
+message me to ask anything. I'll be more than happy to answer.
 
