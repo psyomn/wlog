@@ -17,6 +17,8 @@ module StaticConfigurations
   # Absolute path to the data directory
   DataDirectory = "#{AppDirectory}data/"
 
+  TemplateDir = "#{AppDirectory}templates/"
+
   # Default database name (when unspecified)
   DefaultDb = "default"
 
