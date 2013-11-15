@@ -7,8 +7,6 @@ require 'wlog/ui/cli_interface'
 
 include Wlog
     
-# Make overall configurations
-Bootstrap.configure!
 
 if ARGV.size > 0
   case ARGV[0]
@@ -17,12 +15,18 @@ if ARGV.size > 0
     CliInterface.list_databases
   when '--where'
     puts StaticConfigurations::DataDirectory
+  when '--version', '-v'
+    puts Wlog::VERSION
   when /--/
     puts "Unknown command."
   else
+    # Make overall configurations
+    Bootstrap.configure!
     CliInterface.new.run
   end
 else
+  # Make overall configurations
+  Bootstrap.configure!
   CliInterface.new.run
 end
 
