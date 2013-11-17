@@ -46,6 +46,7 @@ class CliInterface
       when /outcsv/ then outcsv
       when /delete/ then delete_issue
       when /help/   then print_help
+      when /search/ then search
       end
     end
   end
@@ -160,9 +161,13 @@ private
     end
   end
 
-  # TODO might need refactoring
   def show_issues
     entries_arr = Issue.find_all(@db)
+    print_list(entries_arr)
+  end
+
+  # TODO might need refactoring
+  def print_list(entries_arr)
     issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
     issue_collections.each_key do |stat|
       print @strmaker.green("#{stat}")
@@ -189,6 +194,13 @@ private
     from_time = Time.parse(from).to_i
     to_time = Time.parse(to).to_i
     issues = Issue.find_in_time_range(@db, from_time, to_time)
+  end
+
+  # Search for an issue
+  def search
+    term = Readline.readline("search issues for term : ")
+    issues = Issue.find_all(@db).select{|el| el.description.match(/#{term}/)}
+    print_list(issues)
   end
 
 end
