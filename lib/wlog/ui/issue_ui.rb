@@ -98,15 +98,15 @@ private
   # Concatenate an aggregate description to a previous item
   def concat_description
     id = Readline.readline("ID of task to concatenate to: ").to_i
-    str = Readline.readline("Information to concatenate: ").chomp!
+    str = Readline.readline("Information to concatenate: ").chomp
     ConcatDescription.new(@db, id, str).execute
   end
 
   # Replace a pattern from a description of a log entry
   def replace_pattern
     id = Readline.readline("ID of task to perform replace: ").to_i
-    old_pattern = Readline.readline('replace : ').chomp!
-    new_pattern = Readline.readline('with    : ').chomp!
+    old_pattern = Readline.readline('replace : ').chomp
+    new_pattern = Readline.readline('with    : ').chomp
     ReplacePattern.new(@db, id, old_pattern, new_pattern).execute
   end
 
