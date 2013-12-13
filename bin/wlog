@@ -16,6 +16,7 @@ if ARGV.size > 0
   when '--where'
     puts StaticConfigurations::DataDirectory
   when '--version', '-v'
+    print "wlog "
     puts Wlog::VERSION
   when /--/
     puts "Unknown command."
