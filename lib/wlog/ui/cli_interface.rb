@@ -113,9 +113,9 @@ private
   def attach
     issue_id = Readline.readline('Attach to issue id: ').to_i
     loc = Readline.readline('Absolute file location: ')
-    loc.chomp!
+    loc.strip!
     name_alias = Readline.readline('Alias name for file (optional): ')
-    name_alias.chomp!
+    name_alias.strip!
     
     unless loc.nil?
       fh = File.open(loc, "r")

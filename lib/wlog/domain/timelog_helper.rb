@@ -13,7 +13,6 @@ class TimelogHelper
   # @return in nice format (2d 1h 20m)
   def self.time_to_s(time)
     str = ""
-    p TimesRev
     TimesArr.each do |interval|
       rem = time % interval
       occ = (time - rem) / interval
