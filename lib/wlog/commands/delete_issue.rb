@@ -9,13 +9,23 @@ class DeleteIssue
   def initialize(db, id)
     @db = db
     @issue_id = id
+    @deleted = false
   end
 
   # delete the issue
   def execute
     issue = Issue.find(@db, @issue_id)
-    issue.delete
+    if issue
+      issue.delete
+      @deleted = true
+    end
   end
+
+  def deleted?
+    @deleted
+  end
+
+  attr :deleted
 end
 end
 

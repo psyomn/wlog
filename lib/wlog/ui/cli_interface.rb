@@ -67,7 +67,9 @@ private
   # Procedure to delete an issue
   def delete_issue
     issue_id = Readline.readline('Which issue id to delete? : ').to_i
-    DeleteIssue.new(@db, issue_id).execute
+    dcmd = DeleteIssue.new(@db, issue_id)
+    dcmd.execute
+    puts "No such issue" unless dcmd.deleted?
   end
 
   # Wriet out the data contained in the database of the attachment
@@ -136,9 +138,11 @@ private
   def focus
     issue_id = Readline.readline('Focus on issue : ').to_i
     issue = Issue.find(@db, issue_id)
-    # FIXME
-    # SysConfig.last_focus = issue.id if issue
-    IssueUi.new(@db, issue).run
+    if issue
+      IssueUi.new(@db, issue).run
+    else 
+      puts "No such issue"
+    end
   end
 
   def outcsv
