@@ -14,7 +14,9 @@ class CreateIssue < UiCommand
   def execute
     @ret = Issue.new(@db)
     desc = Readline.readline("Small issue description :") || "None."
+    ldesc = Readline.readline("Long issue description :") || "None."
     @ret.description = desc.chomp
+    @ret.long_description = ldesc
     @ret.insert
   end
   attr_accessor :ret

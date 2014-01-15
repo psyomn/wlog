@@ -59,8 +59,10 @@ class Issue
   end
 
   def quick_assign!(row)
-    @id, @description, @reported_date, @due_date, @status, @seconds =\
-      row[0], row[1], Time.at(row[2]), Time.at(row[3]), row[4], row[5] || 0
+    @id, @description, @reported_date, @due_date, @status, @seconds,
+    @long_description =\
+      row[0], row[1], Time.at(row[2]), Time.at(row[3]), row[4], 
+      row[5] || 0, row[6]
   nil end
 
   # Log the seconds into the issue
@@ -97,6 +99,10 @@ class Issue
 
   # [String] Description of the issue at hand
   attr_accessor :description
+
+  # A longer description that can provide more details as opposed to a simple
+  # title as suggested by @description.
+  attr_accessor :long_description
 
   # [Time] The due date of the issue
   attr_accessor :due_date
