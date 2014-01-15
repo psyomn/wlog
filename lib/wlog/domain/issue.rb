@@ -41,7 +41,7 @@ class Issue
   def insert
     unless @id
       @db.execute(InsertSql, @description, 
-        @reported_date.to_i, @due_date.to_i, @status)
+        @reported_date.to_i, @due_date.to_i, @status, @long_description)
       @id = @db.last_row_from(TableName).first[0]
     end
   end
