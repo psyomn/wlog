@@ -79,7 +79,8 @@ class Issue
     "  - Status   : #{Statuses[@status]}#{$/}"\
     "  - Time     : #{TimelogHelper.time_to_s(@seconds)}#{$/}"\
     "#{$/}"\
-    "  - #{@description}#{$/}"
+    "  - #{@description}#{$/}"\
+    "  - #{@long_description}#{$/}"
   end
 
   # Mark issue as started
