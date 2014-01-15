@@ -26,7 +26,6 @@ class IssueUi
       cmd.chomp!
 
       case cmd
-      when /^attach/  then attach
       when /^new/     then new_entry
       when /^show/    then show_entries
       when /^desc/    then describe_issue
@@ -91,21 +90,22 @@ private
   end
 
   def delete_entry
-    LogEntry.delete(Readline.readline('Remove task with id : ').to_i)
+    id = Readline.readline('Remove task log with id : ').to_i
+    LogEntry.delete_by_id(@db, id)
   end
 
   # Concatenate an aggregate description to a previous item
   def concat_description
     id = Readline.readline("ID of task to concatenate to: ").to_i
-    str = Readline.readline("Information to concatenate: ").chomp!
+    str = Readline.readline("Information to concatenate: ").chomp
     ConcatDescription.new(@db, id, str).execute
   end
 
   # Replace a pattern from a description of a log entry
   def replace_pattern
     id = Readline.readline("ID of task to perform replace: ").to_i
-    old_pattern = Readline.readline('replace : ').chomp!
-    new_pattern = Readline.readline('with    : ').chomp!
+    old_pattern = Readline.readline('replace : ').chomp
+    new_pattern = Readline.readline('with    : ').chomp
     ReplacePattern.new(@db, id, old_pattern, new_pattern).execute
   end
 

@@ -35,6 +35,15 @@ class Issue
     self.generic_find_all(db, SelectFinishedSql)
   end
 
+  def self.find_in_time_range(db, from, to)
+    arr = Array.new
+    db.execute(SelectTimeRange, from, to).each do |row|
+      tmp = Issue.new(@db)
+      tmp.quick_assign!(row)
+      arr.push tmp
+    end
+  arr end
+
   def self.delete_by_id(db, id); db.execute(DeleteSql, id) end
 
   # inserts the entry into the database if it has not been stored before.
@@ -54,6 +63,7 @@ class Issue
   end
 
   # Add a log entry object to the issue
+  # TODO this does nothing / used for nothing yet
   def add_log_entry(le)
     @log_entries.push le
   end

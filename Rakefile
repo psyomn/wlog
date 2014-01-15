@@ -48,7 +48,6 @@ namespace :reek do
     sh "reek 2>&1 lib/ | grep -i param"
   end
 
-  task :default => 'all'
 end
 
 namespace :test do 

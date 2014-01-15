@@ -28,6 +28,10 @@ module IssueSql
 
   # Select issues that are finished
   SelectFinishedSql = "SELECT * FROM #{TableName} WHERE status = 2"
+
+  # Select issues given a time range
+  SelectTimeRange = "SELECT * FROM #{TableName}"\
+    " WHERE reported_date >= ? AND reported_date <= ?"
 end
 end
 

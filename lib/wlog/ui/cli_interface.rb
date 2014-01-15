@@ -6,8 +6,10 @@ require 'wlog/domain/sys_config'
 require 'wlog/domain/attachment'
 require 'wlog/domain/helpers'
 require 'wlog/ui/commands/create_issue'
+
 require 'wlog/commands/archive_issues'
 require 'wlog/commands/archive_finished_issues'
+require 'wlog/commands/delete_issue'
 require 'wlog/ui/issue_ui'
 
 module Wlog
@@ -36,13 +38,15 @@ class CliInterface
       when /archive/ then archive cmd
       when /showattach/ then show_attach
       when /outattach/  then output_attach
+      when /generateinvoice/ then generate_invoice
       when /attach/ then attach
       when /focus/  then focus
       when /new/    then new_issue
       when /show/   then show_issues
       when /outcsv/ then outcsv
-      when /delete/ then delete_entry
+      when /delete/ then delete_issue
       when /help/   then print_help
+      when /search/ then search
       end
     end
   end
@@ -59,6 +63,14 @@ private
  
   # Create a new issue
   def new_issue; CreateIssue.new(@db).execute end
+
+  # Procedure to delete an issue
+  def delete_issue
+    issue_id = Readline.readline('Which issue id to delete? : ').to_i
+    dcmd = DeleteIssue.new(@db, issue_id)
+    dcmd.execute
+    puts "No such issue" unless dcmd.deleted?
+  end
 
   # Wriet out the data contained in the database of the attachment
   def output_attach
@@ -103,9 +115,9 @@ private
   def attach
     issue_id = Readline.readline('Attach to issue id: ').to_i
     loc = Readline.readline('Absolute file location: ')
-    loc.chomp!
+    loc.strip!
     name_alias = Readline.readline('Alias name for file (optional): ')
-    name_alias.chomp!
+    name_alias.strip!
     
     unless loc.nil?
       fh = File.open(loc, "r")
@@ -126,9 +138,11 @@ private
   def focus
     issue_id = Readline.readline('Focus on issue : ').to_i
     issue = Issue.find(@db, issue_id)
-    # FIXME
-    # SysConfig.last_focus = issue.id if issue
-    IssueUi.new(@db, issue).run
+    if issue
+      IssueUi.new(@db, issue).run
+    else 
+      puts "No such issue"
+    end
   end
 
   def outcsv
@@ -151,9 +165,13 @@ private
     end
   end
 
-  # TODO might need refactoring
   def show_issues
     entries_arr = Issue.find_all(@db)
+    print_list(entries_arr)
+  end
+
+  # TODO might need refactoring
+  def print_list(entries_arr)
     issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
     issue_collections.each_key do |stat|
       print @strmaker.green("#{stat}")
@@ -170,6 +188,25 @@ private
     cmd.execute
     cmd.ret
   end
+
+  def generate_invoice
+    require 'time'
+    puts "Eg: valid input is Oct 2013 15"
+    from = Readline.readline("From: ")
+    to   = Readline.readline("To  : ")
+
+    from_time = Time.parse(from).to_i
+    to_time = Time.parse(to).to_i
+    issues = Issue.find_in_time_range(@db, from_time, to_time)
+  end
+
+  # Search for an issue
+  def search
+    term = Readline.readline("search issues for term : ")
+    issues = Issue.find_all(@db).select{|el| el.description.match(/#{term}/)}
+    print_list(issues)
+  end
+
 end
 end # module Wlog
 
