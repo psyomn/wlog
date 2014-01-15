@@ -17,6 +17,8 @@ if ARGV.size > 0
     CliInterface.list_databases
   when '--where'
     puts StaticConfigurations::DataDirectory
+  when '--version'
+    puts VERSION
   when /--/
     puts "Unknown command."
   else
