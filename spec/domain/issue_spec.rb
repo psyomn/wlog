@@ -72,14 +72,21 @@ describe Issue do
     issue2.description = "find me 2" 
     issue3.description = "find me 3"
     
+    issue1.long_description = "long desc 1"
+    issue2.long_description = "long desc 2"
+    issue3.long_description = "long desc 3"
+    
     issue1.insert
     issue2.insert
     issue3.insert
 
     arr = Issue.find_all(@db)
-    descs = arr.collect{|issue| issue.description}
+    descs  = arr.collect{|issue| issue.description}
+    ldescs = arr.collect{|issue| issue.long_description}
     existing = descs & ["find me 1", "find me 2", "find me 3"]
+    lexisting = ldescs & ["long desc 1", "long desc 2", "long desc 3"]
     expect(existing.size).to eq(3)
+    expect(lexisting.size).to eq(3)
   end
 
   it "should not insert an existing value twice" do
