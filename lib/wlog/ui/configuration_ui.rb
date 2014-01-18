@@ -19,6 +19,7 @@ class ConfigurationUi
 
       case cmd 
       when /^show/ then show_configurations
+      when /^set/  then set(cmd)
       when /^help/ then help
       end
     end
@@ -35,13 +36,26 @@ private
 
   # Simply, to show the possible actions on this particular Ui
   def help
-    ['show', 'shows the current configurations',
-    'set <key> <value>', 
-    'set the configuration pair'].each_with_index do |el,ix|
-      print "  " if ix % 2 == 1
-      puts el
+    Commands.each_pair do |k,v|
+      puts k
+      puts "  #{v}"
     end
   end
 
+  # Set a value to something else
+  def set(cmd)
+    arr = cmd.split
+    if arr.size != 3 
+      puts "Wrong number of arguments"
+      return
+    end
+    cmd, key, value = arr
+    SysConfig.store_config(key, value)
+  end
+
+  Commands = {
+    'show' => 'shows the current configurations',
+    'set <key> <value>' => 'set the configuration pair'}
 end
 end # module wlog
+

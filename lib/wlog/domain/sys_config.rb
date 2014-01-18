@@ -70,7 +70,6 @@ class SysConfig
     fh.write(str)
     fh.close
   end
-  private_class_method :write_attributes
 
   # Load a hash from a text file.
   # @see self.write_attributes
