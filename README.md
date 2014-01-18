@@ -132,6 +132,7 @@ If you forgot what you are doing, you can do
       - Time     : 3h 
 
       - Whatever description you wrote for issue 1
+      - And here there exists an even larger description of the issue
 
 You can also attach files to issues
 
@@ -156,7 +157,9 @@ And then you can output them to a location:
     Which attachment to output? : 1
     Output where (abs dir) : /tmp/
 
-You can run these commands in this 'sub-shell': 
+## Inside issues
+
+You can run these commands in this 'sub-shell' of the issues: 
 are `show`, `search`, `replace`, `delete`, and `concat`.
 
 `show` lists the latest work log entries.
@@ -168,6 +171,25 @@ are `show`, `search`, `replace`, `delete`, and `concat`.
 `delete` removes an entry from the database.
 
 `concat` appends a string to the specified log entry.
+
+All of these will modify the entries of those issues.
+
+## Logging Time
+
+It's possible to log time now with the following commands:
+
+    lt 10m
+
+To log 10 minutes 
+
+    lt 1h20m
+
+To log 1 hour 20 minutes
+
+    lt 1d 1s
+
+To log one day, one second. (A day is 8 hours). The total time is stored on the
+issue.
 
 ## Contributing
 
