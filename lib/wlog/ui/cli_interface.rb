@@ -5,7 +5,9 @@ require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/attachment'
 require 'wlog/domain/helpers'
+
 require 'wlog/ui/commands/create_issue'
+require 'wlog/ui/configuration_ui'
 
 require 'wlog/commands/archive_issues'
 require 'wlog/commands/archive_finished_issues'
@@ -35,18 +37,19 @@ class CliInterface
       cmd.chomp!
 
       case cmd
-      when /archive/ then archive cmd
-      when /showattach/ then show_attach
-      when /outattach/  then output_attach
-      when /generateinvoice/ then generate_invoice
-      when /attach/ then attach
-      when /focus/  then focus
-      when /new/    then new_issue
-      when /show/   then show_issues
-      when /outcsv/ then outcsv
-      when /delete/ then delete_issue
-      when /help/   then print_help
-      when /search/ then search
+      when /^archive/ then archive cmd
+      when /^showattach/ then show_attach
+      when /^outattach/  then output_attach
+      when /^generateinvoice/ then generate_invoice
+      when /^attach/ then attach
+      when /^focus/  then focus
+      when /^new/    then new_issue
+      when /^show/   then show_issues
+      when /^outcsv/ then outcsv
+      when /^delete/ then delete_issue
+      when /^help/   then print_help
+      when /^search/ then search
+      when /^config/ then config
       end
     end
   end
@@ -206,6 +209,9 @@ private
     issues = Issue.find_all(@db).select{|el| el.description.match(/#{term}/)}
     print_list(issues)
   end
+
+  # Run the configuration Ui
+  def config; ConfigurationUi.new.run end
 
 end
 end # module Wlog
