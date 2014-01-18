@@ -58,8 +58,6 @@ class SysConfig
 
   attr_accessor :db
 
-private
-
   # terms is a hash -> {:a => :b, :c => :d}
   # write each key value to a file like this:
   #   a:b
@@ -72,6 +70,7 @@ private
     fh.write(str)
     fh.close
   end
+  private_class_method :write_attributes
 
   # Load a hash from a text file.
   # @see self.write_attributes
