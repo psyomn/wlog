@@ -1,4 +1,4 @@
-# wlog [![Code Climate](https://codeclimate.com/github/psyomn/wlog.png)](https://codeclimate.com/github/psyomn/wlog)
+# wlog [![Code Climate](https://codeclimate.com/github/psyomn/wlog.png)](https://codeclimate.com/github/psyomn/wlog) [![Build Status](https://travis-ci.org/psyomn/wlog.png?branch=v1.1.0)](https://travis-ci.org/psyomn/wlog)
 
 wlog (worklog) is a small utility to track tasks in command line. I use this
 for things I work on and need to submit a list of stuff done on a particular 
