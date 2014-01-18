@@ -6,10 +6,12 @@ module Wlog
 # @author Simon Symeonidis
 class ConfigurationUi
 
+  # Default init
   def initialize
     @strmaker = SysConfig.string_decorator
   end
 
+  # launch the ui
   def run
     cmd = "default"
     label = @strmaker.yellow('config')

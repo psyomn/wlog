@@ -23,14 +23,17 @@ class SysConfig
     @key_value.put!('last_focus', "#{issue}")
   end
 
+  # Are the settings set to ansi?
   def self.ansi?
     self.read_attributes['ansi'] == 'yes'
   end
 
+  # Oh no! The settings are not ansi!
   def self.not_ansi!
     self.store_config('ansi', 'no')
   end
 
+  # SET THE SETTINGS TO ANSI!
   def self.ansi!
     self.store_config('ansi', 'yes')
   end
@@ -84,6 +87,7 @@ class SysConfig
     end
   values end
 
+  # Key value domain object / helper
   attr :key_value
 
 end
