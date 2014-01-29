@@ -173,17 +173,24 @@ private
     print_list(entries_arr)
   end
 
-  # TODO might need refactoring
   def print_list(entries_arr)
     issue_collections = entries_arr.reverse.group_by{|iss| iss.status_s}
     issue_collections.each_key do |stat|
-      print @strmaker.green("#{stat}")
-      puts @strmaker.magenta(" #{issue_collections[stat].count}")
-      issue_collections[stat].each do |iss|
-        print @strmaker.red("  [#{iss.id}] ")
-        puts "#{iss.description}"
-      end
+      print_date_collection(stat, issue_collections)
     end
+  end
+
+  def print_date_collection(stat, issues)
+    print @strmaker.green("#{stat}")
+    puts @strmaker.magenta(" #{issues[stat].count}")
+    issues[stat].each do |iss|
+      print_issue(iss)
+    end
+  end
+
+  def print_issue(issue)
+    print @strmaker.red("  [#{issue.id}] ")
+    puts "#{issue.description}"
   end
 
   def make_csv
