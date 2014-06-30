@@ -17,6 +17,12 @@ class Issue
     @db = db_handle
   end
 
+  # Calculate the total time that someone has wasted on all the
+  # issues in the current database
+  def self.total_time
+    # issues = Issue.find_all
+  end
+
   def self.find(db, id)
     issue = Issue.new(db)
     ret = db.execute(SelectSql, id).first
