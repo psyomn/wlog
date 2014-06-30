@@ -162,7 +162,17 @@ private
     "outcsv", "Export everything to CSV",
     "help",   "print this dialog",
     "end",    "Exit the progam",
-    "delete", "Remove the issue with a given id"].each_with_index do |el,ix| 
+    "delete", "Remove the issue with a given id",
+	 "archive", "Archive a file into a specific issue",
+	 "showattach", "Show what files have been attached to an issue",
+	 "outattach", "Extract a file from the database",
+	 "generateinvoice", "todo",
+	 "focus", "Focus on a particular ",
+	 "show", "List all the issues",
+	 "help", "Show this information",
+	 "search", "Search for a specific text",
+	 "config", "Set differeing configuration parameters"
+	 ].each_with_index do |el,ix| 
       print "  " if 1 == ix % 2
       puts el
     end
