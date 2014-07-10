@@ -33,7 +33,7 @@ class IssueUi
       when /^search/  then search_term
       when /^concat/  then concat_description
       when /^replace/ then replace_pattern
-      when /^search/  then search_term
+      when /^search/  then search_term(cmd.split.drop 1)
       when /^lt/      then time(cmd.split.drop 1) # lt for log time
       when /^forget/  then cmd = "end"
       when /^finish/  then finish.nil? ? nil : cmd = "end"
@@ -109,8 +109,8 @@ private
     ReplacePattern.new(@db, id, old_pattern, new_pattern).execute
   end
 
-  def search_term
-    term = Readline.readline('search : ').chomp!
+  def search_term(term)
+    term.chomp!
     print_entries(LogEntry.search_descriptions(@db, term))
   end
 
