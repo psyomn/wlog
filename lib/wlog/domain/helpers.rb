@@ -10,6 +10,7 @@ class Helpers
   # @param string is the string that we want processed.
   # @param numchars is the amount of characters max per line.
   def self.break_string(string,numchars)
+    return unless string
     desc , cl = "", 0
     string.split.each do |word|
       wlength = word.length
