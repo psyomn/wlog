@@ -42,7 +42,7 @@ class CliInterface
       when /^outattach/  then output_attach
       when /^generateinvoice/ then generate_invoice
       when /^attach/ then attach
-      when /^focus/  then focus
+      when /^focus/  then focus(cmd)
       when /^new/    then new_issue
       when /^show/   then show_issues
       when /^outcsv/ then outcsv
@@ -132,14 +132,23 @@ private
       att.filename   = loc.split('/').last
       att.given_name = name_alias
       att.insert
-      puts "Attached file."
+      puts 'Attached file.'
     else
-      puts "You need to provide a proper path."
+      puts 'You need to provide a proper path.'
     end
   end
 
-  def focus
-    issue_id = Readline.readline('Focus on issue : ').to_i
+  # Focus on an issue to log work etc
+  def focus(cmd)
+    issue_id = cmd.split[1]
+	 if !issue_id
+	   puts 'usage: '
+		puts '  focus <id>'
+		return
+	 else
+	   issue_id = issue_id.to_i
+	 end
+
     issue = Issue.find(@db, issue_id)
     if issue
       IssueUi.new(@db, issue).run
@@ -158,22 +167,22 @@ private
   # FIXME (update the command stuff)
   # Print the help of the cli app
   def print_help
-    ["new",   "Create a new log entry", 
-    "outcsv", "Export everything to CSV",
-    "help",   "print this dialog",
-    "end",    "Exit the progam",
-    "delete", "Remove the issue with a given id",
-	 "archive", "Archive a file into a specific issue",
-	 "showattach", "Show what files have been attached to an issue",
-	 "outattach", "Extract a file from the database",
-	 "generateinvoice", "todo",
-	 "focus", "Focus on a particular ",
-	 "show", "List all the issues",
-	 "help", "Show this information",
-	 "search", "Search for a specific text",
-	 "config", "Set differeing configuration parameters"
+    ['new',   'Create a new log entry', 
+    'outcsv', 'Export everything to CSV',
+    'help',   'print this dialog',
+    'end',    'Exit the progam',
+    'delete', 'Remove the issue with a given id',
+	 'archive', 'Archive a file into a specific issue',
+	 'showattach', 'Show what files have been attached to an issue',
+	 'outattach', 'Extract a file from the database',
+	 'generateinvoice', 'todo',
+	 'focus', 'Focus on a particular ',
+	 'show', 'List all the issues',
+	 'help', 'Show this information',
+	 'search', 'Search for a specific text',
+	 'config', 'Set differeing configuration parameters'
 	 ].each_with_index do |el,ix| 
-      print "  " if 1 == ix % 2
+      print '  ' if 1 == ix % 2
       puts el
     end
   end
