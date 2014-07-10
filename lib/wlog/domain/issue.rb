@@ -3,6 +3,7 @@ require 'wlog/domain/sql_modules/issue_sql'
 require 'wlog/domain/log_entry'
 require 'wlog/domain/timelog_helper'
 require 'wlog/domain/sys_config'
+require 'wlog/domain/helpers'
 
 module Wlog
 # This aggregates log entries. The total time spent on this issue is
@@ -99,8 +100,8 @@ class Issue
     "#{$/}"\
 	 "#{@strmaker.yellow('Summary')} #{$/}"\
     "  #{@description}#{$/}"\
-	 "#{@strmaker.yellow('Description')}"\
-    "  #{@long_description}#{$/}"
+	 "#{@strmaker.yellow('Description')} #{$/}"\
+    "  #{Helpers.break_string(@long_description, 80)}#{$/}"
   end
 
   # Mark issue as started
