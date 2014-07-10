@@ -46,7 +46,7 @@ class CliInterface
       when /^new/    then new_issue
       when /^show/   then show_issues
       when /^outcsv/ then outcsv
-      when /^delete/ then delete_issue
+      when /^delete/ then delete_issue(cmd)
       when /^help/   then print_help
       when /^search/ then search
       when /^config/ then config
@@ -68,10 +68,26 @@ private
   def new_issue; CreateIssue.new(@db).execute end
 
   # Procedure to delete an issue
-  def delete_issue
-    issue_id = Readline.readline('Which issue id to delete? : ').to_i
+  def delete_issue(cmd)
+    issue_id = cmd.split[1]
+
+    if !issue_id
+	   puts 'usage:'
+		puts '  delete <id>'
+	 else 
+	   issue_id = issue_id.to_i
+	 end
+
     dcmd = DeleteIssue.new(@db, issue_id)
-    dcmd.execute
+	 if dcmd
+       choice = Readline.readline("Delete issue #{issue_id}? [y/n]").strip
+		 if choice == "y"
+         dcmd.execute
+		 else 
+		   puts "Did nothing" 
+			return
+       end
+	 end
     puts "No such issue" unless dcmd.deleted?
   end
 
