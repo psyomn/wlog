@@ -30,7 +30,6 @@ class IssueUi
       when /^show/    then show_entries
       when /^desc/    then describe_issue
       when /^delete/  then delete_entry
-      when /^search/  then search_term
       when /^concat/  then concat_description
       when /^replace/ then replace_pattern
       when /^search/  then search_term(cmd.split.drop 1)
