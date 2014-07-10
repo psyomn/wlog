@@ -2,6 +2,7 @@ require 'wlog/db_registry'
 require 'wlog/domain/sql_modules/issue_sql'
 require 'wlog/domain/log_entry'
 require 'wlog/domain/timelog_helper'
+require 'wlog/domain/sys_config'
 
 module Wlog
 # This aggregates log entries. The total time spent on this issue is
@@ -15,6 +16,7 @@ class Issue
     @log_entries   = Array.new
     @status = @seconds = 0
     @db = db_handle
+    @strmaker = SysConfig.string_decorator
   end
 
   # Calculate the total time that someone has wasted on all the
@@ -88,15 +90,17 @@ class Issue
   end
 
   def to_s
-    "+ Issue ##{@id}#{$/}"\
-    "  - Reported : #{@reported_date}#{$/}"\
-    "  - Due      : #{@due_date}#{$/}"\
-    "  - Entries  : #{@log_entries.count}#{$/}"\
-    "  - Status   : #{Statuses[@status]}#{$/}"\
-    "  - Time     : #{TimelogHelper.time_to_s(@seconds)}#{$/}"\
+    "#{@strmaker.yellow('Issue')} ##{@id}#{$/}"\
+    "  #{@strmaker.blue('Reported')} : #{@reported_date}#{$/}"\
+    "  #{@strmaker.blue('Due')}      : #{@due_date}#{$/}"\
+    "  #{@strmaker.blue('Entries')}  : #{@log_entries.count}#{$/}"\
+    "  #{@strmaker.blue('Status')}   : #{Statuses[@status]}#{$/}"\
+    "  #{@strmaker.blue('Time')}     : #{TimelogHelper.time_to_s(@seconds)}#{$/}"\
     "#{$/}"\
-    "  - #{@description}#{$/}"\
-    "  - #{@long_description}#{$/}"
+	 "#{@strmaker.yellow('Summary')} #{$/}"\
+    "  #{@description}#{$/}"\
+	 "#{@strmaker.yellow('Description')}"\
+    "  #{@long_description}#{$/}"
   end
 
   # Mark issue as started
