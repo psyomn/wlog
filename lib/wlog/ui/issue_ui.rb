@@ -37,6 +37,7 @@ class IssueUi
       when /^forget/  then cmd = "end"
       when /^finish/  then finish.nil? ? nil : cmd = "end"
       when /^help/    then print_help
+		when /^end/     then next
       else puts "Type 'help' for help"
       end
     end
