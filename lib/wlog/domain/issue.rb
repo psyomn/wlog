@@ -99,9 +99,9 @@ class Issue
     "  #{@strmaker.blue('Time')}     : #{TimelogHelper.time_to_s(@seconds)}#{$/}"\
     "#{$/}"\
 	 "#{@strmaker.yellow('Summary')} #{$/}"\
-    "  #{@description}#{$/}"\
+    "  #{@description}#{$/ + $/}"\
 	 "#{@strmaker.yellow('Description')} #{$/}"\
-    "  #{Helpers.break_string(@long_description, 80)}#{$/}"
+    "  #{Helpers.break_string(@long_description, 80)}#{$/ + $/}"
   end
 
   # Mark issue as started
