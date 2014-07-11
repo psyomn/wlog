@@ -1,3 +1,4 @@
+require 'date'
 require 'readline'
 
 require 'wlog/commands/replace_pattern'
@@ -26,18 +27,19 @@ class IssueUi
       cmd.chomp!
 
       case cmd
-      when /^new/     then new_entry
-      when /^show/    then show_entries
-      when /^desc/    then describe_issue
-      when /^delete/  then delete_entry
-      when /^concat/  then concat_description
-      when /^replace/ then replace_pattern
-      when /^search/  then search_term(cmd.split.drop 1)
-      when /^lt/      then time(cmd.split.drop 1) # lt for log time
-      when /^forget/  then cmd = "end"
-      when /^finish/  then finish.nil? ? nil : cmd = "end"
-      when /^help/    then print_help
-		when /^end/     then next
+      when /^new/       then new_entry
+      when /^(ls|show)/ then show_entries
+      when /^desc/      then describe_issue
+      when /^delete/    then delete_entry
+      when /^edit/      then edit_what(cmd.split.drop 1)
+      when /^concat/    then concat_description
+      when /^replace/   then replace_pattern
+      when /^search/    then search_term(cmd.split.drop 1)
+      when /^lt/        then time(cmd.split.drop 1) # lt for log time
+      when /^forget/    then cmd = "end"
+      when /^finish/    then finish.nil? ? nil : cmd = "end"
+      when /^help/      then print_help
+    when /^end/       then next
       else puts "Type 'help' for help"
       end
     end
@@ -112,6 +114,40 @@ private
   def search_term(term)
     term.chomp!
     print_entries(LogEntry.search_descriptions(@db, term))
+  end
+
+  # Command comes in as edit <...>. This definition will check what comes
+  # next and invoke the proper method to execute.
+  def edit_what(terms_a)
+    case terms_a[0]
+    when /^title/
+
+    when /^desc/
+
+    when /^due/
+      date_time = terms_a.drop 1
+      edit_time(date_time.join(' '))
+
+    when /^time/
+      puts "Placeholder for time"
+
+    else 
+      $stdout.puts "Usage: "
+      $stdout.puts "  edit title - to edit the title"
+      $stdout.puts "  edit desc  - to edit the long description"
+      $stdout.puts "  edit due   - to edit the due date"
+      $stdout.puts "  edit time  - to edit the time"
+    end
+  end
+  
+  # @param time is the date-time in string format (eg Oct 28)
+  def edit_time(time)
+    date_time = DateTime.parse(time)
+    @issue.due_date = date_time.to_time
+    @issue.update
+    puts @strmaker.green("Updated time")
+  rescue ArgumentError
+    $stderr.puts "Invalid date/time format. Try something like Oct 28"
   end
 
   # TODO might need refactoring
