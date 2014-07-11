@@ -39,7 +39,7 @@ class IssueUi
       when /^forget/    then cmd = "end"
       when /^finish/    then finish.nil? ? nil : cmd = "end"
       when /^help/      then print_help
-    when /^end/       then next
+      when /^end/       then next
       else puts "Type 'help' for help"
       end
     end
@@ -143,6 +143,7 @@ private
   # @param time is the date-time in string format (eg Oct 28)
   def edit_time(time)
     date_time = DateTime.parse(time)
+    date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
     @issue.due_date = date_time.to_time
     @issue.update
     puts @strmaker.green("Updated time")
