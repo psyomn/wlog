@@ -92,8 +92,8 @@ class Issue
 
   def to_s
     "#{@strmaker.yellow('Issue')} ##{@id}#{$/}"\
-    "  #{@strmaker.blue('Reported')} : #{@reported_date}#{$/}"\
-    "  #{@strmaker.blue('Due')}      : #{@due_date}#{$/}"\
+    "  #{@strmaker.blue('Reported')} : #{@reported_date.asctime}#{$/}"\
+    "  #{@strmaker.blue('Due')}      : #{@due_date.asctime}#{$/}"\
     "  #{@strmaker.blue('Entries')}  : #{@log_entries.count}#{$/}"\
     "  #{@strmaker.blue('Status')}   : #{Statuses[@status]}#{$/}"\
     "  #{@strmaker.blue('Time')}     : #{TimelogHelper.time_to_s(@seconds)}#{$/}"\
