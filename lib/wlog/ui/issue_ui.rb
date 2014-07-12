@@ -135,6 +135,8 @@ private
       edit_time(date_time.join(' '))
 
     when /^reported/
+      date_time = terms_a.drop 1
+      edit_reported_time(date_time.join(' '))
 
     else 
       $stdout.puts "Usage: "
@@ -142,13 +144,14 @@ private
       $stdout.puts "  edit desc  - to edit the long description"
       $stdout.puts "  edit due   - to edit the due date"
       $stdout.puts "  edit time  - to edit the time"
+
     end
   end
   
   # @param time is the date-time in string format (eg Oct 28)
   def edit_time(time)
     date_time = time_handle(time)
-    @issue.due_date = date_time.to_time
+    @issue.due_date = date_time.to_time 
     @issue.update
     puts @strmaker.green('Updated due date')
   rescue ArgumentError
