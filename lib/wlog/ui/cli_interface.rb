@@ -44,7 +44,7 @@ class CliInterface
       when /^attach/ then attach
       when /^focus/  then focus(cmd)
       when /^new/    then new_issue
-      when /^show/   then show_issues
+      when /^(ls|show)/   then show_issues
       when /^outcsv/ then outcsv
       when /^delete/ then delete_issue(cmd)
       when /^help/   then print_help
