@@ -121,15 +121,20 @@ private
   def edit_what(terms_a)
     case terms_a[0]
     when /^title/
+      title = (terms_a.drop 1).join ' '
+      @issue.description = title
+      @issue.update
 
     when /^desc/
+      long = (terms_a.drop 1).join ' '
+      @issue.long_description = long
+      @issue.update 
 
     when /^due/
       date_time = terms_a.drop 1
       edit_time(date_time.join(' '))
 
-    when /^time/
-      puts "Placeholder for time"
+    when /^reported/
 
     else 
       $stdout.puts "Usage: "
@@ -142,13 +147,32 @@ private
   
   # @param time is the date-time in string format (eg Oct 28)
   def edit_time(time)
-    date_time = DateTime.parse(time)
-    date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
+    date_time = time_handle(time)
     @issue.due_date = date_time.to_time
     @issue.update
-    puts @strmaker.green("Updated time")
+    puts @strmaker.green('Updated due date')
   rescue ArgumentError
-    $stderr.puts "Invalid date/time format. Try something like Oct 28"
+    $stderr.puts @strmaker.red \
+      "Invalid date/time format. Try format like 'Oct 28'"
+  end
+
+  def edit_reported_time(time_str)
+    date_time = time_handle(time_str)
+    @issue.reported_date = date_time.to_time
+    @issue.update
+    puts @strmaker.green('Updated reported date')
+  rescue ArgumentError
+    $stderr.puts @strmaker.red \
+      "Invalid date/time format. Try format like 'Oct 28'"
+  end
+
+  # TODO fix me 
+  # @param time_str The time that we want to kind of sanitize
+  # @return a Time object which is set to 9am on that day if no time 
+  #   is provided
+  def time_handle(time_str)
+    date_time = DateTime.parse(time)
+    date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
   end
 
   # TODO might need refactoring
