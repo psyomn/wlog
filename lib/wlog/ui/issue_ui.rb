@@ -34,7 +34,7 @@ class IssueUi
       when /^edit/      then edit_what(cmd.split.drop 1)
       when /^concat/    then concat_description
       when /^replace/   then replace_pattern
-      when /^search/    then search_term(cmd.split.drop 1)
+      when /^search/    then search_term((cmd.split.drop 1).join ' ')
       when /^lt/        then time(cmd.split.drop 1) # lt for log time
       when /^forget/    then cmd = "end"
       when /^finish/    then finish.nil? ? nil : cmd = "end"
@@ -112,6 +112,7 @@ private
   end
 
   def search_term(term)
+    term ||= ''
     term.chomp!
     print_entries(LogEntry.search_descriptions(@db, term))
   end
