@@ -72,6 +72,8 @@ class SysConfig
     fh = File.open(ConfigFile, 'w')
     fh.write(str)
     fh.close
+  rescue Errno::ENOENT
+    $stderr.puts "#{self.class.name}: Problem opening file #{ConfigFile}"
   end
 
   # Load a hash from a text file.
@@ -85,7 +87,12 @@ class SysConfig
     terms.each do |term_tuple| # [term, value]
       values[term_tuple[0]] = term_tuple[1]
     end
-  values end
+    values 
+  rescue Errno::ENOENT
+    $stderr.puts "#{self.class.name}: Problem opening file #{ConfigFile}"
+    # Minimum guarantee: disable ansi colors 
+	 {'ansi' => 'no'}
+  end
 
   # Key value domain object / helper
   attr :key_value

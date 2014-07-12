@@ -42,11 +42,11 @@ class CliInterface
       when /^outattach/  then output_attach
       when /^generateinvoice/ then generate_invoice
       when /^attach/ then attach
-      when /^focus/  then focus
+      when /^focus/  then focus(cmd)
       when /^new/    then new_issue
       when /^show/   then show_issues
       when /^outcsv/ then outcsv
-      when /^delete/ then delete_issue
+      when /^delete/ then delete_issue(cmd)
       when /^help/   then print_help
       when /^search/ then search
       when /^config/ then config
@@ -68,10 +68,26 @@ private
   def new_issue; CreateIssue.new(@db).execute end
 
   # Procedure to delete an issue
-  def delete_issue
-    issue_id = Readline.readline('Which issue id to delete? : ').to_i
+  def delete_issue(cmd)
+    issue_id = cmd.split[1]
+
+    if !issue_id
+	   puts 'usage:'
+		puts '  delete <id>'
+	 else 
+	   issue_id = issue_id.to_i
+	 end
+
     dcmd = DeleteIssue.new(@db, issue_id)
-    dcmd.execute
+	 if dcmd
+       choice = Readline.readline("Delete issue #{issue_id}? [y/n]").strip
+		 if choice == "y"
+         dcmd.execute
+		 else 
+		   puts "Did nothing" 
+			return
+       end
+	 end
     puts "No such issue" unless dcmd.deleted?
   end
 
@@ -132,14 +148,23 @@ private
       att.filename   = loc.split('/').last
       att.given_name = name_alias
       att.insert
-      puts "Attached file."
+      puts 'Attached file.'
     else
-      puts "You need to provide a proper path."
+      puts 'You need to provide a proper path.'
     end
   end
 
-  def focus
-    issue_id = Readline.readline('Focus on issue : ').to_i
+  # Focus on an issue to log work etc
+  def focus(cmd)
+    issue_id = cmd.split[1]
+	 if !issue_id
+	   puts 'usage: '
+		puts '  focus <id>'
+		return
+	 else
+	   issue_id = issue_id.to_i
+	 end
+
     issue = Issue.find(@db, issue_id)
     if issue
       IssueUi.new(@db, issue).run
@@ -158,22 +183,22 @@ private
   # FIXME (update the command stuff)
   # Print the help of the cli app
   def print_help
-    ["new",   "Create a new log entry", 
-    "outcsv", "Export everything to CSV",
-    "help",   "print this dialog",
-    "end",    "Exit the progam",
-    "delete", "Remove the issue with a given id",
-	 "archive", "Archive a file into a specific issue",
-	 "showattach", "Show what files have been attached to an issue",
-	 "outattach", "Extract a file from the database",
-	 "generateinvoice", "todo",
-	 "focus", "Focus on a particular ",
-	 "show", "List all the issues",
-	 "help", "Show this information",
-	 "search", "Search for a specific text",
-	 "config", "Set differeing configuration parameters"
+    ['new',   'Create a new log entry', 
+    'outcsv', 'Export everything to CSV',
+    'help',   'print this dialog',
+    'end',    'Exit the progam',
+    'delete', 'Remove the issue with a given id',
+	 'archive', 'Archive a file into a specific issue',
+	 'showattach', 'Show what files have been attached to an issue',
+	 'outattach', 'Extract a file from the database',
+	 'generateinvoice', 'todo',
+	 'focus', 'Focus on a particular ',
+	 'show', 'List all the issues',
+	 'help', 'Show this information',
+	 'search', 'Search for a specific text',
+	 'config', 'Set differeing configuration parameters'
 	 ].each_with_index do |el,ix| 
-      print "  " if 1 == ix % 2
+      print '  ' if 1 == ix % 2
       puts el
     end
   end
