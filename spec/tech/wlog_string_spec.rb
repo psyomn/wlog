@@ -10,37 +10,37 @@ describe WlogString do
   end
 
   it 'should write in red' do
-    @str.red('').should match(/^\x1b\[#{Red}/)
-    @str.red('').should match(/\x1b\[0m$/)
+    expect(@str.red('')).to match(/^\x1b\[#{Red}/)
+    expect(@str.red('')).to match(/\x1b\[0m$/)
   end
 
   it 'should write in green' do
-    @str.green('').should match(/^\x1b\[#{Green}/)
-    @str.green('').should match(/\x1b\[0m$/)
+    expect(@str.green('')).to match(/^\x1b\[#{Green}/)
+    expect(@str.green('')).to match(/\x1b\[0m$/)
   end
 
   it 'should write in blue' do
-    @str.blue('').should match(/^\x1b\[#{Blue}/)
-    @str.blue('').should match(/\x1b\[0m$/)
+    expect(@str.blue('')).to match(/^\x1b\[#{Blue}/)
+    expect(@str.blue('')).to match(/\x1b\[0m$/)
   end
 
   it 'should write in yellow' do
-    @str.yellow('').should match(/^\x1b\[#{Yellow}/)
-    @str.yellow('').should match(/\x1b\[0m$/)
+    expect(@str.yellow('')).to match(/^\x1b\[#{Yellow}/)
+    expect(@str.yellow('')).to match(/\x1b\[0m$/)
   end
 
   it 'should write in white' do
-    @str.white('').should match(/^\x1b\[#{White}/)
-    @str.white('').should match(/\x1b\[0m$/)
+    expect(@str.white('')).to match(/^\x1b\[#{White}/)
+    expect(@str.white('')).to match(/\x1b\[0m$/)
   end
 
   it 'should write in cyan' do
-    @str.cyan('').should match(/^\x1b\[#{Cyan}/)
-    @str.cyan('').should match(/\x1b\[0m$/)
+    expect(@str.cyan('')).to match(/^\x1b\[#{Cyan}/)
+    expect(@str.cyan('')).to match(/\x1b\[0m$/)
   end
 
   it 'should write in magenta' do
-    @str.magenta('').should match(/^\x1b\[#{Magenta}/)
-    @str.magenta('').should match(/\x1b\[0m$/)
+    expect(@str.magenta('')).to match(/^\x1b\[#{Magenta}/)
+    expect(@str.magenta('')).to match(/\x1b\[0m$/)
   end
 end
