@@ -72,22 +72,23 @@ private
     issue_id = cmd.split[1]
 
     if !issue_id
-	   puts 'usage:'
-		puts '  delete <id>'
-	 else 
-	   issue_id = issue_id.to_i
-	 end
+      puts 'usage:'
+      puts '  delete <id>'
+    else 
+      issue_id = issue_id.to_i
+    end
 
     dcmd = DeleteIssue.new(@db, issue_id)
-	 if dcmd
-       choice = Readline.readline("Delete issue #{issue_id}? [y/n]").strip
-		 if choice == "y"
-         dcmd.execute
-		 else 
-		   puts "Did nothing" 
-			return
-       end
-	 end
+    if dcmd
+      choice = Readline.readline("Delete issue #{issue_id}? [y/n]").strip
+      if choice == "y"
+        dcmd.execute
+      else 
+        puts "Did nothing" 
+        return
+      end
+    end
+
     puts "No such issue" unless dcmd.deleted?
   end
 
@@ -157,13 +158,13 @@ private
   # Focus on an issue to log work etc
   def focus(cmd)
     issue_id = cmd.split[1]
-	 if !issue_id
-	   puts 'usage: '
-		puts '  focus <id>'
-		return
-	 else
-	   issue_id = issue_id.to_i
-	 end
+    if !issue_id
+      puts 'usage: '
+      puts '  focus <id>'
+      return
+    else
+      issue_id = issue_id.to_i
+    end
 
     issue = Issue.find(@db, issue_id)
     if issue
@@ -188,16 +189,16 @@ private
     'help',   'print this dialog',
     'end',    'Exit the progam',
     'delete', 'Remove the issue with a given id',
-	 'archive', 'Archive a file into a specific issue',
-	 'showattach', 'Show what files have been attached to an issue',
-	 'outattach', 'Extract a file from the database',
-	 'generateinvoice', 'todo',
-	 'focus', 'Focus on a particular ',
-	 'show', 'List all the issues',
-	 'help', 'Show this information',
-	 'search', 'Search for a specific text',
-	 'config', 'Set differeing configuration parameters'
-	 ].each_with_index do |el,ix| 
+    'archive', 'Archive a file into a specific issue',
+    'showattach', 'Show what files have been attached to an issue',
+    'outattach', 'Extract a file from the database',
+    'generateinvoice', 'todo',
+    'focus', 'Focus on a particular ',
+    'show', 'List all the issues',
+    'help', 'Show this information',
+    'search', 'Search for a specific text',
+    'config', 'Set differeing configuration parameters'
+    ].each_with_index do |el,ix| 
       print '  ' if 1 == ix % 2
       puts el
     end
