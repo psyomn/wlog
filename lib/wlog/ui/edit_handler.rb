@@ -2,9 +2,12 @@
 module Wlog
 # @author Simon Symeonidis
 class EditHandler
+
+  def initialize(issue); @issue = issue end
+
   # Command comes in as edit <...>. This definition will check what comes
   # next and invoke the proper method to execute.
-  def self.edit_what(terms_a)
+  def edit_what(terms_a)
     case terms_a[0]
     when /^title/
       title = (terms_a.drop 1).join ' '
@@ -18,11 +21,11 @@ class EditHandler
 
     when /^due/
       date_time = terms_a.drop 1
-      self.edit_time(date_time.join(' '))
+      edit_time(date_time.join(' '))
 
     when /^reported/
       date_time = terms_a.drop 1
-      self.edit_reported_time(date_time.join(' '))
+      edit_reported_time(date_time.join(' '))
 
     else 
       $stdout.puts "Usage: "
@@ -35,8 +38,8 @@ class EditHandler
   end
   
   # @param time is the date-time in string format (eg Oct 28)
-  def self.edit_time(time)
-    date_time = self.time_handle(time)
+  def edit_time(time)
+    date_time = time_handle(time)
     @issue.due_date = date_time.to_time 
     @issue.update
     puts @strmaker.green('Updated due date')
@@ -45,8 +48,8 @@ class EditHandler
       "Invalid date/time format. Try format like 'Oct 28'"
   end
 
-  def self.edit_reported_time(time_str)
-    date_time = self.time_handle(time_str)
+  def edit_reported_time(time_str)
+    date_time = time_handle(time_str)
     @issue.reported_date = date_time.to_time
     @issue.update
     puts @strmaker.green('Updated reported date')
@@ -59,7 +62,7 @@ class EditHandler
   # @param time_str The time that we want to kind of sanitize
   # @return a Time object which is set to 9am on that day if no time 
   #   is provided
-  def self.time_handle(time_str)
+  def time_handle(time_str)
     date_time = DateTime.parse(time)
     date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
   end
