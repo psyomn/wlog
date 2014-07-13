@@ -67,6 +67,8 @@ class EditHandler
     date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
   end
 
+  # Pass the issue from the previous ui to this one. This ui modifies
+  attr :issue
 
 end
 end # wlog 
