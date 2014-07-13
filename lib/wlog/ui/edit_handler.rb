@@ -1,0 +1,69 @@
+
+module Wlog
+# @author Simon Symeonidis
+class EditHandler
+  # Command comes in as edit <...>. This definition will check what comes
+  # next and invoke the proper method to execute.
+  def self.edit_what(terms_a)
+    case terms_a[0]
+    when /^title/
+      title = (terms_a.drop 1).join ' '
+      @issue.description = title
+      @issue.update
+
+    when /^desc/
+      long = (terms_a.drop 1).join ' '
+      @issue.long_description = long
+      @issue.update 
+
+    when /^due/
+      date_time = terms_a.drop 1
+      self.edit_time(date_time.join(' '))
+
+    when /^reported/
+      date_time = terms_a.drop 1
+      self.edit_reported_time(date_time.join(' '))
+
+    else 
+      $stdout.puts "Usage: "
+      $stdout.puts "  edit title - to edit the title"
+      $stdout.puts "  edit desc  - to edit the long description"
+      $stdout.puts "  edit due   - to edit the due date"
+      $stdout.puts "  edit time  - to edit the time"
+
+    end
+  end
+  
+  # @param time is the date-time in string format (eg Oct 28)
+  def self.edit_time(time)
+    date_time = self.time_handle(time)
+    @issue.due_date = date_time.to_time 
+    @issue.update
+    puts @strmaker.green('Updated due date')
+  rescue ArgumentError
+    $stderr.puts @strmaker.red \
+      "Invalid date/time format. Try format like 'Oct 28'"
+  end
+
+  def self.edit_reported_time(time_str)
+    date_time = self.time_handle(time_str)
+    @issue.reported_date = date_time.to_time
+    @issue.update
+    puts @strmaker.green('Updated reported date')
+  rescue ArgumentError
+    $stderr.puts @strmaker.red \
+      "Invalid date/time format. Try format like 'Oct 28'"
+  end
+
+  # TODO fix me 
+  # @param time_str The time that we want to kind of sanitize
+  # @return a Time object which is set to 9am on that day if no time 
+  #   is provided
+  def self.time_handle(time_str)
+    date_time = DateTime.parse(time)
+    date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
+  end
+
+
+end
+end # wlog 
