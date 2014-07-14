@@ -19,17 +19,13 @@ You can find the sources on github:
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'wlog'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it with:
 
     $ gem install wlog
+
+Run with:
+
+    $ wlog
 
 ## Usage
 
@@ -47,31 +43,15 @@ The databases are located here:
 
     $HOME/.config/wlog/data/
 
-And you should be in a command line interface. In the interface you can type in
+The next section will talk about this a little more.
+
+When you're in the command line interface, you can always run
 
     help
 
-To see a list of actions that you can do. 
-
-Usually you'll just need to write:
-
-    new
-
-And enter the work description that you wish. You can add tags like this too
-in order to tag units of work:
-
-    new
-
-    Enter work description:
-      I did something very productive today. #bugfix #completed #feature
-
-The tags can be pretty much anything you want, and for now are not very 
-important. In the future however they might be used for something more useful.
+in order to list the possible commands you can use.
 
 ### More Commands
-
-These are the commands that you can also use in order to exploit the full
-potential of this application.
 
 You can list the available databases by running the following command:
 
@@ -94,7 +74,7 @@ So when you start the application this is what you see:
 
 Enter the command `show` to list the issues
 
-    [wlog] show
+    [wlog] ls
     started work 2
       [6] Fix colors for wlog and make it pretty
       [4] Weird bug crash when pressing ctrl+d
@@ -103,14 +83,12 @@ Enter the command `show` to list the issues
 
 Now we want to focus on a particular issue. We type in `focus`
 
-    [wlog] focus
-    Focus on issue: 
-    1
+    [wlog] focus 1
     [issue #1] 
 
-And now we can show all the logged work with `show`: 
+And now we can show all the logged work with `ls` or `show`: 
 
-    [issue #1] show
+    [issue #1] ls
     2013-10-13 - Sunday [2]
       [4] I did some work on this issue [15:34:08] 
       [5] Some trivial work there too [15:35:32] 
@@ -121,20 +99,27 @@ To exit the scope of an issue, you can use the `forget` command:
     [issue #1] forget
     [wlog] 
 
-If you forgot what you are doing, you can do
+While in the scope of an issue, you can display its full description by invoking
+the command `desc`.
 
-    [issue #1] desc
-    + Issue #6
-      - Reported : 2013-10-26 15:01:45 -0400
-      - Due      : 1969-12-31 19:00:00 -0500
-      - Entries  : 0
-      - Status   : started work
-      - Time     : 3h 
+    [issue #4] desc
+    
+    Issue #4
+      Reported : Sat Jul 12 00:46:27 2014
+      Due      : Fri Oct 24 05:00:00 2014
+      Entries  : 0
+      Status   : started work
+      Time     : 3w 4d 1h 
+    
+    Summary 
+      This is some impressive work right here
+    
+    Description 
+      But this is an ever longer desc 
 
-      - Whatever description you wrote for issue 1
-      - And here there exists an even larger description of the issue
-
-You can also attach files to issues
+You can also attach files to issues (you have to be outside the scope of an
+issue for this - this feature is experimental at the momment so don't rely too
+much on it):
 
     [wlog] attach
     Attach to which issue? : 1
