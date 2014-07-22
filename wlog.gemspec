@@ -27,5 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "yard"
   spec.add_runtime_dependency "sqlite3", ">= 1.3.7"
-  spec.add_runtime_dependency "turntables", ">= 1.0.3"
+  spec.add_runtime_dependency "rake", ">= 10.3.2"
+  spec.add_runtime_dependency "standalone_migrations"
 end
