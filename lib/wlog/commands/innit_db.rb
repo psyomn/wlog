@@ -1,7 +1,7 @@
 require 'wlog/db_registry'
 require 'wlog/commands/commandable'
 require 'wlog/domain/static_configurations'
-require 'wlog/Rakefile'
+require 'standalone_migrations'
 
 module Wlog
 # Command to create the initial database
@@ -14,6 +14,7 @@ class InnitDb < Commandable
 
     # You need to set the env variale to false, else the migrations will pring
     # on the command line
+    StandaloneMigrations::Tasks.load_tasks
     ENV['VERBOSE'] = 'false'
     Rake::Task["db:migrate"].invoke
   end
