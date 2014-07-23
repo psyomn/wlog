@@ -1,5 +1,4 @@
 require 'readline'
-require 'turntables'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
