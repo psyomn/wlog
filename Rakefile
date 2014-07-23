@@ -3,6 +3,8 @@ require "rspec/core/rake_task"
 require "./lib/wlog/domain/static_configurations"
 require 'yard'
 
+require 'standalone_migrations'
+
 RSpec::Core::RakeTask.new(:spec)
 
 # note: rake yard
@@ -53,4 +55,6 @@ end
 namespace :test do 
   task :all => :spec
 end 
+
+StandaloneMigrations::Tasks.load_tasks
 
