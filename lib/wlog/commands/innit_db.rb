@@ -2,6 +2,7 @@ require 'wlog/db_registry'
 require 'wlog/commands/commandable'
 require 'wlog/domain/static_configurations'
 require 'standalone_migrations'
+require 'rake'
 
 module Wlog
 # Command to create the initial database
