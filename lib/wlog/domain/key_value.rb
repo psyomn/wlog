@@ -12,42 +12,21 @@ class KeyValue < ActiveRecord::Base
 
   # Insert a key in the storage. If exists, replace the value with new one
   # @return nil
-  def put!(key, value)
+  def self.put!(key, value)
     if find_by_key(key).nil?
-      create!(key, value)
-    else 
-      update(key, value)
+      create(:key => key, :value => value)
     end
+    save
   end
 
   # Get a certain value by key
   # @return the value given the key. nil if not found
-  def my_get(key)
-    ret = @db.execute(Select, key)
-    ret = ret.empty? ? nil : ret.first[1]
+  def self.get(key)
+    ret = find_by_key(key)
+    ret = ret ? ret.value : nil
   end
-
-  # destroy by key
-  def my_destroy!(key)
-    @db.execute(DeleteSql, key)
-  nil end
-
-  # The db handle
-  attr_accessor :db
 
 private
-
-  # We want to provide a simple interface to the kv store, so the user should
-  # not really care about updates
-  def my_update(key,value)
-    @db.execute(UpdateSql, value, key)
-  end
-
-  # Create a pair... ;)
-  def my_create!(key, value)
-    @db.execute(InsertSql, key, value)
-  end
-
 end 
 end # module Wlog
 
