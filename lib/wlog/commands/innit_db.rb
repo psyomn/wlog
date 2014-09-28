@@ -1,4 +1,3 @@
-require 'wlog/db_registry'
 require 'wlog/commands/commandable'
 require 'wlog/domain/static_configurations'
 

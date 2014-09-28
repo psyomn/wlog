@@ -1,3 +1,4 @@
+require 'active_record'
 require 'wlog/commands/commandable'
 require 'wlog/domain/log_entry'
 
@@ -6,7 +7,7 @@ module Wlog
 # @author Simon Symeonidis
 class NewEntry < Commandable
 
-  def initialize(db, desc, issue_id) 
+  def initialize(desc, issue_id) 
     @desc, @iid = desc, issue_id 
     @db = db
   end

@@ -9,15 +9,10 @@ module Wlog
 #
 # @author Simon Symeonidis
 class KeyValue < ActiveRecord::Base
-  include KeyValueSql
-
-  def initialize(db_handle)
-    @db = db_handle
-  end
 
   # Insert a key in the storage. If exists, replace the value with new one
   # @return nil
-  def put!(key, value)
+  def my_put!(key, value)
     if get(key).nil?
       create!(key, value)
     else 
@@ -27,13 +22,13 @@ class KeyValue < ActiveRecord::Base
 
   # Get a certain value by key
   # @return the value given the key. nil if not found
-  def get(key)
+  def my_get(key)
     ret = @db.execute(Select, key)
     ret = ret.empty? ? nil : ret.first[1]
   end
 
   # destroy by key
-  def destroy!(key)
+  def my_destroy!(key)
     @db.execute(DeleteSql, key)
   nil end
 
@@ -44,12 +39,12 @@ private
 
   # We want to provide a simple interface to the kv store, so the user should
   # not really care about updates
-  def update(key,value)
+  def my_update(key,value)
     @db.execute(UpdateSql, value, key)
   end
 
   # Create a pair... ;)
-  def create!(key, value)
+  def my_create!(key, value)
     @db.execute(InsertSql, key, value)
   end
 

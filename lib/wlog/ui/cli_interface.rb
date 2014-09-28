@@ -23,7 +23,6 @@ class CliInterface
   # This is the main entry point of the application. Therefore when we init,
   # we want to trigger the table creation stuff.
   def initialize
-    @db = DbRegistry.new(nil)
     @strmaker = SysConfig.string_decorator
   end
 
@@ -42,7 +41,7 @@ class CliInterface
       when /^generateinvoice/ then generate_invoice
       when /^attach/ then attach
       when /^focus/  then focus(cmd)
-      when /^new/    then new_issue
+      when /new/    then new_issue
       when /^(ls|show)/   then show_issues
       when /^outcsv/ then outcsv
       when /^delete/ then delete_issue(cmd)
@@ -64,7 +63,7 @@ class CliInterface
 private 
  
   # Create a new issue
-  def new_issue; CreateIssue.new(@db).execute end
+  def new_issue; CreateIssue.new.execute end
 
   # Procedure to delete an issue
   def delete_issue(cmd)
@@ -204,7 +203,7 @@ private
   end
 
   def show_issues
-    entries_arr = Issue.find_all(@db)
+    entries_arr = Issue.all
     print_list(entries_arr)
   end
 
