@@ -3,7 +3,6 @@ require 'wlog/db_registry'
 require 'wlog/domain/log_entry'
 require 'wlog/domain/issue'
 
-require 'turntables/turntable'
 require 'wlog/commands/replace_pattern'
 
 include Wlog

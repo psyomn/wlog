@@ -2,8 +2,6 @@ require_relative '../make_db'
 require 'wlog/db_registry'
 require 'wlog/domain/sys_config'
 
-require 'turntables/turntable'
-
 include Wlog
 
 describe SysConfig do

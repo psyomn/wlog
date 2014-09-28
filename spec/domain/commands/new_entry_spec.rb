@@ -5,8 +5,6 @@ require 'wlog/domain/log_entry'
 require 'wlog/domain/issue'
 require 'wlog/commands/new_entry'
 
-require 'turntables/turntable'
-
 include Wlog
 
 describe NewEntry do 

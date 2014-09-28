@@ -4,8 +4,6 @@ require 'wlog/domain/attachment'
 require 'wlog/domain/log_entry'
 require 'wlog/domain/issue'
 
-require 'turntables/turntable'
-
 include Wlog
 
 describe Attachment do 

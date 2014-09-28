@@ -2,8 +2,6 @@ require_relative '../make_db'
 require 'wlog/db_registry'
 require 'wlog/domain/issue'
 
-require 'turntables/turntable'
-
 include Wlog
 
 describe Issue do 
