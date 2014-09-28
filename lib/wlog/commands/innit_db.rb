@@ -2,6 +2,8 @@ require 'wlog/db_registry'
 require 'wlog/commands/commandable'
 require 'wlog/domain/static_configurations'
 
+require 'wlog/migrations/make_standard_tables'
+
 require 'active_record'
 require 'sqlite3'
 
@@ -44,6 +46,15 @@ private
   end
 
   def execute_migrations!
+    migrations = [MakeStandardTables]
+    existing = SchemaMigration.all.collect{ |el| el.version }
+
+    migrations.reject!{ |e| existing.include? e.to_s}
+
+    migrations.each do |migration| 
+      ActiveRecord::Base.run(migration)
+      SchemaMigration.create(:version => migration.name)
+    end
   end
 
   # TODO this should probably be moved
