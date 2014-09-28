@@ -10,8 +10,8 @@ class MakeCsv < Commandable
   # TODO refactor me. Because I feel like a horrible piece of code.
   def execute
     str = ""
-    LogEntry.find_all(@db).group_by{|el| el.date.strftime("%Y-%m-%d")}.each_pair do |key,value|
-      str.concat("#{value.first.date.strftime("%A")} #{key}\n")
+    LogEntry.all.group_by{|el| el.created_at.strftime("%Y-%m-%d")}.each_pair do |key,value|
+      str.concat("#{value.first.created_at.strftime("%A")} #{key}\n")
       value.each do |entry|
         str.concat(",\"#{Helpers.break_string(entry.description,80)}\"#{$/}")
       end

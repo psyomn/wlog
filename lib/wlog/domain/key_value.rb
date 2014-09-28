@@ -12,8 +12,8 @@ class KeyValue < ActiveRecord::Base
 
   # Insert a key in the storage. If exists, replace the value with new one
   # @return nil
-  def my_put!(key, value)
-    if get(key).nil?
+  def put!(key, value)
+    if find_by_key(key).nil?
       create!(key, value)
     else 
       update(key, value)

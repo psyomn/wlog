@@ -233,7 +233,7 @@ private
   end
 
   def make_csv
-    cmd = MakeCsv.new(@db)
+    cmd = MakeCsv.new
     cmd.execute
     cmd.ret
   end
