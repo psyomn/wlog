@@ -22,7 +22,7 @@ class MakeStandardTables < ActiveRecord::Migration
     create_table :attachments do |t|
       t.text :filename 
       t.text :given_name
-      t.blob :data
+      t.text :data
     end
 
     create_table :key_values do |t|
