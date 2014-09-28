@@ -1,5 +1,4 @@
 require_relative '../make_db'
-require 'wlog/db_registry'
 require 'wlog/domain/sys_config'
 
 include Wlog
