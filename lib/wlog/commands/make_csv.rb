@@ -7,10 +7,6 @@ module Wlog
 # @author Simon Symeonidis
 class MakeCsv < Commandable
 
-  def initialize(db)
-    @db = db
-  end
-
   # TODO refactor me. Because I feel like a horrible piece of code.
   def execute
     str = ""
