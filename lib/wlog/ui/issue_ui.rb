@@ -38,7 +38,7 @@ class IssueUi
       when /^search/    then search_term((cmd.split.drop 1).join ' ')
       when /^lt/        then time(cmd.split.drop 1) # lt for log time
       when /^forget/    then cmd = "end"
-      when /^finish/    then finish.nil? ? nil : cmd = "end"
+      when /^finish/    then finish ? cmd = "end" : nil
       when /^help/      then print_help
       when /^end/       then next
       else puts "Type 'help' for help"
@@ -79,7 +79,7 @@ private
     question = 'Are you done with this task? [yes/no] :'
     if ret = !! Readline.readline(question).match(/^yes/i)
       @issue.mark_finished!
-      @issue.update
+      @issue.save
     end
   ret end
  

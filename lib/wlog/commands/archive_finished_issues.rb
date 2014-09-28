@@ -7,8 +7,8 @@ module Wlog
 # @author Simon Symeonidis
 class ArchiveFinishedIssues < Commandable
 
-  def initialize(db)
-    @issues = Issue.find_all_finished(db)
+  def initialize
+    @issues = Issue.where(:status => 2)
     @arch_command = ArchiveIssues.new(@issues)
   end
 

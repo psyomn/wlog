@@ -14,7 +14,7 @@ class ArchiveIssues < Commandable
   def execute
     @issues.each do |issue|
       issue.archive!
-      issue.update
+      issue.save
     end
   end
 

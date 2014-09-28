@@ -92,6 +92,8 @@ private
 
   # Wriet out the data contained in the database of the attachment
   def output_attach
+    puts "Migration of implementation pending" and return
+
     att_id = Readline.readline('Which attachment to output? : ').to_i
     loc = Readline.readline('Output where (abs dir) ? : ')
     loc.chomp!
@@ -103,6 +105,7 @@ private
   end
 
   def show_attach
+    puts "Migration of implementation pending" and return
     issue_id = Readline.readline('Which issue id? : ').to_i
     atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
     atts.each do |att| 
@@ -117,7 +120,7 @@ private
     if args.length > 0 
       if args[0] == 'finished'
         puts "Archiving finished issues."
-        ArchiveFinishedIssues.new(@db).execute
+        ArchiveFinishedIssues.new.execute
       else # gave ids
         ids = args.map{|sids| sids.to_i}
         issues = ids.map{|id| Issue.find(@db, id)} - [nil]

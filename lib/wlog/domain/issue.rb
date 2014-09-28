@@ -50,16 +50,16 @@ class Issue < ActiveRecord::Base
   end
 
   # Mark issue as started
-  def mark_started!; status = 0 end
+  def mark_started!; self.status = 0 end
   
   # Mark the issue as working
-  def mark_working!; status = 1 end
+  def mark_working!; self.status = 1 end
   
   # Mark the issue as finished
-  def mark_finished!; status = 2 end
+  def mark_finished!; self.status = 2 end
 
   # Archive the issue
-  def archive!; status = 3 end
+  def archive!; self.status = 3 end
 
   # Get the status as a string
   def status_s; Statuses[status] end
