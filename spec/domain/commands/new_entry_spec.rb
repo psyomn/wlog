@@ -8,31 +8,31 @@ include Wlog
 
 describe NewEntry do 
 
-  db_name = './default'
+  db_name = 'default'
+  db_path = standard_db_path(db_name)
 
   before(:all) do
     make_testing_db(db_name)
-    @db = DbRegistry.new(db_name) 
-    @issue = Issue.new(@db)
+    @issue = Issue.new
     @issue.description = 'my issue'
-    @issue.insert
+    @issue.save
   end
 
   after(:all) do
-    FileUtils.rm db_name
+    FileUtils.rm db_path
   end
 
   it "should insert a new entry on execution" do 
-    command = NewEntry.new(@db, "my desc", @issue.id)
+    command = NewEntry.new("my desc", @issue)
     command.execute
-    expect(LogEntry.find_all(@db).count).to eq(1)
+    expect(LogEntry.count).to eq(1)
   end
 
   it "should create 5 more inserts on 5 more executions" do
-    previous = LogEntry.find_all(@db).count
-    command = NewEntry.new(@db, "my desc", @issue.id)
+    previous = LogEntry.count
+    command = NewEntry.new("my desc", @issue)
     5.times{ command.execute }
-    expect(LogEntry.find_all(@db).count).to eq(5 + previous)
+    expect(LogEntry.count).to eq(5 + previous)
   end
 
 end
