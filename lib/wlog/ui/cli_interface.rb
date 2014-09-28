@@ -76,7 +76,7 @@ private
       issue_id = issue_id.to_i
     end
 
-    dcmd = DeleteIssue.new(@db, issue_id)
+    dcmd = DeleteIssue.new(issue_id)
     if dcmd
       choice = Readline.readline("Delete issue #{issue_id}? [y/n]").strip
       if choice == "y"

@@ -5,20 +5,21 @@ module Wlog
 # Command for deleting issues
 # @author Simon Symeonidis
 class DeleteIssue
-  # Init with the db handle, and issue id
-  def initialize(db, id)
-    @db = db
+  # Init with the issue id
+  def initialize(id)
     @issue_id = id
     @deleted = false
   end
 
   # delete the issue
   def execute
-    issue = Issue.find(@db, @issue_id)
+    issue = Issue.find(@issue_id)
     if issue
-      issue.delete
+      issue.destroy
       @deleted = true
     end
+  rescue ActiveRecord::RecordNotFound
+    @deleted = false 
   end
 
   def deleted?

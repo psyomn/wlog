@@ -53,40 +53,11 @@ class Issue < ActiveRecord::Base
 
   # def self.delete_by_id(db, id); db.execute(DeleteSql, id) end
 
-  # # inserts the entry into the database if it has not been stored before.
-  # def insert
-  #   unless @id
-  #     @db.execute(InsertSql, @description, 
-  #       @reported_date.to_i, @due_date.to_i, @status, @long_description)
-  #     @id = @db.last_row_from(TableName).first[0]
-  #   end
-  # end
-
-  # def delete; @db.execute(DeleteSql, @id) end
-
-  # def update
-  #   @db.execute(UpdateSql, @description, @reported_date.to_i, 
-  #               @due_date.to_i, @status, @seconds, @id)
-  # end
-
-  # # Add a log entry object to the issue
-  # # TODO this does nothing / used for nothing yet
-  # def add_log_entry(le)
-  #   @log_entries.push le
-  # end
-
-  # def quick_assign!(row)
-  #   @id, @description, @reported_date, @due_date, @status, @seconds,
-  #   @long_description =\
-  #     row[0], row[1], Time.at(row[2]), Time.at(row[3]), row[4], 
-  #     row[5] || 0, row[6]
-  # nil end
-
-  # # Log the seconds into the issue
-  # def log_time(seconds)
-  #   @seconds += seconds
-  #   update
-  # end
+  # Log the seconds into the issue
+  def log_time(sec)
+    seconds += sec
+    save
+  end
 
   def to_s
     @strmaker = SysConfig.string_decorator
