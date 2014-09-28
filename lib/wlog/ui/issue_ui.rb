@@ -94,7 +94,6 @@ private
   def delete_entry
     id = Readline.readline('Remove task log with id : ').to_i
     LogEntry.delete(id)
-    @issue.reload
   end
 
   # Concatenate an aggregate description to a previous item
@@ -102,7 +101,8 @@ private
   def concat_description
     id = Readline.readline("ID of task to concatenate to: ").to_i
     str = Readline.readline("Information to concatenate: ").chomp
-    ConcatDescription.new(@db, id, str).execute
+    ok = ConcatDescription.new(id, str).execute
+    puts "No such issue" if !ok
   end
 
   # Replace a pattern from a description of a log entry
@@ -122,6 +122,7 @@ private
 
   # TODO might need refactoring
   def show_entries
+    @issue.reload
     print_entries(@issue.log_entries)
   end
 
