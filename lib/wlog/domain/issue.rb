@@ -23,7 +23,7 @@ class Issue < ActiveRecord::Base
 
   # Log the seconds into the issue
   def log_time(sec)
-    seconds += sec
+    self.timelog += sec
     save
   end
 
