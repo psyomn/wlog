@@ -58,37 +58,6 @@ class Issue < ActiveRecord::Base
   # Get the status as a string
   def status_s; Statuses[status] end
 
-  # # [String] Description of the issue at hand
-  # attr_accessor :description
-
-  # # A longer description that can provide more details as opposed to a simple
-  # # title as suggested by @description.
-  # attr_accessor :long_description
-
-  # # [Time] The due date of the issue
-  # attr_accessor :due_date
-  # 
-  # # [Time] The reported date of the issue
-  # attr_accessor :reported_date
-  # 
-  # # [Array<LogEntry>] an array containing the log entries that are specific
-  # # to this issue
-  # attr_accessor :log_entries
-
-  # # [Fixnum] is the identifier of this object
-  # attr_accessor :id
-
-  # # [Fixnum] Status of the current issue (0 is for not started, 1 working on, 
-  # # 2 for finished)
-  # attr_accessor :status
-
-  # # The seconds that you have wasted your life on in order to get something
-  # # done
-  # attr_accessor :seconds
-
-  # # The database handle for this AR
-  # attr_accessor :db
-
 private
   Statuses = {
     StatusNew      => "new", 
@@ -97,15 +66,6 @@ private
     StatusArchived => "archived"}
 
 private_class_method
-
-  # def self.generic_find_all(db, sql)
-  #   arr = Array.new
-  #   db.execute(sql).each do |row|
-  #     issue = Issue.new(db)
-  #     issue.quick_assign! row
-  #     arr.push issue
-  #   end
-  # arr end
 
 end # class  Issue
 end # module Wlog
