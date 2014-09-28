@@ -9,11 +9,11 @@ describe KeyValue do
 
   before(:all) do
     make_testing_db(db_name)
-    @kv = KeyValue.new(DbRegistry.new(db_name))
+    @kv = KeyValue
   end
 
   after(:all) do
-    FileUtils.rm db_name
+    FileUtils.rm standard_db_path(db_name)
   end
 
   it "Should insert a value" do
@@ -24,8 +24,7 @@ describe KeyValue do
   it "Should insert a value only once" do
     @kv.put!('new_check', '2012')
     @kv.put!('new_check', '2013')
-    db = SQLite3::Database.new db_name
-    ret = db.execute('select * from key_values where key = ?', 'new_check')
+    ret = KeyValue.where(:key => 'new_check')
     expect(ret.size).to eq(1)
   end
 

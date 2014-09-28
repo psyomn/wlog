@@ -13,10 +13,12 @@ class KeyValue < ActiveRecord::Base
   # Insert a key in the storage. If exists, replace the value with new one
   # @return nil
   def self.put!(key, value)
-    if find_by_key(key).nil?
-      create(:key => key, :value => value)
+    if ret = KeyValue.find_by_key(key)
+      ret.value = value
+    else 
+      ret = KeyValue.new(:key => key, :value => value)
     end
-    save
+    ret.save
   end
 
   # Get a certain value by key
