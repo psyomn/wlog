@@ -10,7 +10,7 @@ class MakeStandardTables < ActiveRecord::Migration
       t.text :description
       t.datetime :due_date
       t.integer :status
-      t.bigint :timelog
+      t.int :timelog, :limit => 8
       t.text :long_description
     end
 
