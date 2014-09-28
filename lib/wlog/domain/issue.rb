@@ -11,6 +11,8 @@ module Wlog
 # @author Simon Symeonidis 
 class Issue < ActiveRecord::Base
 
+  has_many :log_entries
+
   StatusNew       = 0
   StatusStarted   = 1
   StatusFinished  = 2

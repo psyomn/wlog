@@ -7,16 +7,17 @@ module Wlog
 # @author Simon Symeonidis
 class NewEntry < Commandable
 
-  def initialize(desc, issue_id) 
-    @desc, @iid = desc, issue_id 
-    @db = db
+  def initialize(desc, issue) 
+    @desc, @issue = desc, issue
   end
 
   def execute
-    log_entry = LogEntry.new(@db)
-    log_entry.description = @desc
-    log_entry.issue_id = @iid
-    log_entry.insert
+    log_entry = LogEntry.new(
+      :description => @desc, 
+      :created_at => Time.now,
+      :updated_at => Time.now)
+
+    @issue.log_entries << log_entry
   end
 end
 end

@@ -14,9 +14,8 @@ module Wlog
 # The interface when focusing on an issue
 # @author Simon
 class IssueUi
-  def initialize(db, issue)
+  def initialize(issue)
     @issue = issue
-    @db = db
     @strmaker = SysConfig.string_decorator
   end
 
@@ -88,8 +87,8 @@ private
     description = Readline.readline("Enter new issue:#{$/}  ")
     description.chomp!
     @issue.mark_working!
-    @issue.update
-    NewEntry.new(@db, description, @issue.id).execute
+    @issue.save
+    NewEntry.new(description, @issue).execute
   end
 
   def delete_entry
@@ -120,11 +119,11 @@ private
 
   # TODO might need refactoring
   def show_entries
-    entries_arr = LogEntry.find_all_by_issue_id(@db, @issue.id)
-    date_collections = entries_arr.group_by{|le| le.date.strftime("%Y-%m-%d")}
+    entries_arr = @issue.log_entries
+    date_collections = entries_arr.group_by{|le| le.created_at.strftime("%Y-%m-%d")}
     date_collections.each_key do |date_c|
     print @strmaker.green("#{date_c} - ")
-    print @strmaker.yellow(date_collections[date_c].first.date.strftime("%A"))
+    print @strmaker.yellow(date_collections[date_c].first.created_at.strftime("%A"))
     puts " [#{@strmaker.magenta(date_collections[date_c].count.to_s)}]"
       date_collections[date_c].each do |le|
         puts "  #{le}"

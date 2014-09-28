@@ -134,6 +134,8 @@ private
   end
 
   def attach
+    puts "Migration of implementation pending" and return
+
     issue_id = Readline.readline('Attach to issue id: ').to_i
     loc = Readline.readline('Absolute file location: ')
     loc.strip!
@@ -167,9 +169,9 @@ private
       issue_id = issue_id.to_i
     end
 
-    issue = Issue.find(@db, issue_id)
+    issue = Issue.find(issue_id)
     if issue
-      IssueUi.new(@db, issue).run
+      IssueUi.new(issue).run
     else 
       puts "No such issue"
     end
