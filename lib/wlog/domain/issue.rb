@@ -11,7 +11,7 @@ module Wlog
 # @author Simon Symeonidis 
 class Issue < ActiveRecord::Base
 
-  has_many :log_entries
+  has_many :log_entries, dependent: :delete_all
 
   StatusNew       = 0
   StatusStarted   = 1
