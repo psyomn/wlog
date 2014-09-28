@@ -9,7 +9,7 @@ module Wlog
 class SysConfig
 
   def initialize
-    @key_value = KeyValue.new
+    @key_value = KeyValue
   end
 
   # load the last focused issue
