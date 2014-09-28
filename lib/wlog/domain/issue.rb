@@ -28,12 +28,13 @@ class Issue < ActiveRecord::Base
   end
 
   def to_s
+    le_count = self.log_entries.count
     @strmaker = SysConfig.string_decorator
     "#{@strmaker.yellow('Issue')} ##{id}#{$/}"\
     "  #{@strmaker.blue('Reported')} : #{created_at.asctime}#{$/}"\
     "  #{@strmaker.blue('Due')}      : #{due_date.asctime}#{$/}"\
-    "  #{@strmaker.blue('Entries')}  : TODO #{$/}"\
-    "  #{@strmaker.blue('Status')}   : #{Statuses[@status]}#{$/}"\
+    "  #{@strmaker.blue('Entries')}  : #{le_count} #{$/}"\
+    "  #{@strmaker.blue('Status')}   : #{Statuses[status]}#{$/}"\
     "  #{@strmaker.blue('Time')}     : #{TimelogHelper.time_to_s(timelog)}#{$/}"\
     "#{$/}"\
 	 "#{@strmaker.yellow('Summary')} #{$/}"\

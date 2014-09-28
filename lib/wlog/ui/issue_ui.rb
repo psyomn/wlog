@@ -93,7 +93,8 @@ private
 
   def delete_entry
     id = Readline.readline('Remove task log with id : ').to_i
-    LogEntry.destroy(id)
+    LogEntry.delete(id)
+    @issue.reload
   end
 
   # Concatenate an aggregate description to a previous item
