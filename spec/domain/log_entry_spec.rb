@@ -6,55 +6,54 @@ include Wlog
 
 describe LogEntry do 
 
-  db_name = './default'
+  db_name = 'default'
+  db_path = standard_db_path(db_name)
 
   before(:all) do
     make_testing_db(db_name)
-    @db = DbRegistry.new(db_name) 
-    @issue = Issue.new(@db)
+    @issue = Issue.new
     @issue.description = "Attach logs to me!"
-    @issue.insert
+    @issue.save
   end
 
   after(:all) do
-    FileUtils.rm db_name
+    FileUtils.rm db_path
   end
 
   it "should be inserted" do
-    le = LogEntry.new(@db)
+    le = LogEntry.new
     desc = "This is a log description" 
     le.description = desc
-    le.issue_id = @issue.id
-    le.insert
+    @issue.log_entries << le
 
-    other = LogEntry.find(@db, le.id)
+    other = @issue.log_entries.first
     expect(other.description).to eq(desc)
     expect(other.issue_id).to eq(@issue.id)
   end 
 
   it "should handle something that is not found properly" do
-    le = LogEntry.find(@db, 12123123123)
+    le = LogEntry.find_by_id(12123123123)
     expect(le).to eq(nil)
   end
 
   it "should not be inserted more than once" do
-    previous = LogEntry.find_all(@db).count
-    le = LogEntry.new(@db)
+    previous = LogEntry.count
+    le = LogEntry.new
     le.description = "derp" 
     le.issue_id = @issue.id
-    4.times{ le.insert } 
-    after = LogEntry.find_all(@db).count
+    4.times{ le.save } 
+    after = LogEntry.count
     expect(after).to eq(previous + 1)
   end
 
   it "should be deleted from the issue" do
-    le = LogEntry.new(@db)
+    le = LogEntry.new
     le.description = "derp derp derp"
     le.issue_id = @issue.id
-    le.insert
+    le.save
     id = le.id
-    le.delete
-    check = LogEntry.find(@db, id)
+    LogEntry.delete(id)
+    check = LogEntry.find_by_id(id)
     expect(check).to eq(nil)
   end
 
@@ -64,19 +63,12 @@ describe LogEntry do
     after  = "herp"
     le.description = before
     le.issue_id = @issue.id
-    le.insert
+    le.save
     le.description = after
-    le.update
-    check = LogEntry.find(@db, le.id)
+    le.save
+    check = LogEntry.find(le.id)
 
     expect(check.description).to eq(after)
   end
-
-  it "should not be created if no issue id bound" do
-    le = LogEntry.new(@db)
-    le.description = "DERP"
-    expect{le.insert}.to raise_error('Need issue_id')
-  end
-
 end 
 
