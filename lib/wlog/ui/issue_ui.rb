@@ -117,13 +117,16 @@ private
   def search_term(term)
     term ||= ''
     term.chomp!
-    print_entries(LogEntry.search_descriptions(@db, term))
+    print_entries(LogEntry.where(["description LIKE ?", "%#{term}%"]))
   end
 
   # TODO might need refactoring
   def show_entries
-    entries_arr = @issue.log_entries
-    date_collections = entries_arr.group_by{|le| le.created_at.strftime("%Y-%m-%d")}
+    print_entries(@issue.log_entries)
+  end
+
+  def print_entries(entries_a)
+    date_collections = entries_a.group_by{|le| le.created_at.strftime("%Y-%m-%d")}
     date_collections.each_key do |date_c|
     print @strmaker.green("#{date_c} - ")
     print @strmaker.yellow(date_collections[date_c].first.created_at.strftime("%A"))
