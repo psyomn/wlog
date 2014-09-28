@@ -31,6 +31,22 @@ class InnitDb < Commandable
     execute_migrations!
   end
 
+  # TODO making this public is hacky, but I'm doing this for now for being able
+  # to test. Once tests are ok again, then I'm going to refactor this somewhere
+  # else so it's more sane.
+  def execute_migrations!
+    migrations = [MakeStandardTables]
+    existing = SchemaMigration.all.collect{ |el| el.version }
+
+    migrations.reject!{ |e| existing.include? e.to_s}
+
+    migrations.each do |migration| 
+      ActiveRecord::Migration.run(migration)
+      SchemaMigration.create(:version => migration.name)
+    end
+  end
+
+
 private
 
   # Checks to see if versioning table is there. Create if not.
@@ -41,18 +57,6 @@ private
     unless SchemaMigration.table_exists?
       ActiveRecord::Migration.verbose = false 
       ActiveRecord::Migration.run(MakeSchemaMigration)
-    end
-  end
-
-  def execute_migrations!
-    migrations = [MakeStandardTables]
-    existing = SchemaMigration.all.collect{ |el| el.version }
-
-    migrations.reject!{ |e| existing.include? e.to_s}
-
-    migrations.each do |migration| 
-      ActiveRecord::Migration.run(migration)
-      SchemaMigration.create(:version => migration.name)
     end
   end
 
