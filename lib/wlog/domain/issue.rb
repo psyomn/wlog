@@ -11,35 +11,10 @@ module Wlog
 # @author Simon Symeonidis 
 class Issue < ActiveRecord::Base
 
-  # def initialize(db_handle)
-  #   @reported_date = Time.now
-  #   @log_entries   = Array.new
-  #   @status = @seconds = 0
-  #   @db = db_handle
-  # end
-
   # # Calculate the total time that someone has wasted on all the
   # # issues in the current database
   # def self.total_time
   #   # issues = Issue.find_all
-  # end
-
-  # def self.find(db, id)
-  #   issue = Issue.new(db)
-  #   ret = db.execute(SelectSql, id).first
-  #   if ret.nil? || ret.empty?
-  #     issue = nil
-  #   else 
-  #     issue.quick_assign! ret
-  #   end
-  # issue end
-
-  # def self.find_all(db)
-  #   self.generic_find_all(db, SelectAllSql)
-  # end
-
-  # def self.find_all_finished(db)
-  #   self.generic_find_all(db, SelectFinishedSql)
   # end
 
   # def self.find_in_time_range(db, from, to)
