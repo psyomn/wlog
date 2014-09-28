@@ -252,7 +252,7 @@ private
   # Search for an issue
   def search
     term = Readline.readline("search issues for term : ")
-    issues = Issue.find_all(@db).select{|el| el.description.match(/#{term}/)}
+    issues = Issue.where(["description like ?", "%#{term}%"]) 
     print_list(issues)
   end
 
