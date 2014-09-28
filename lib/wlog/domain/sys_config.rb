@@ -8,8 +8,7 @@ module Wlog
 # @author Simon Symeonidis
 class SysConfig
 
-  def initialize(db)
-    @db = db
+  def initialize
     @key_value = KeyValue.new
   end
 
@@ -58,8 +57,6 @@ class SysConfig
       UncoloredString
     end
   end
-
-  attr_accessor :db
 
   # terms is a hash -> {:a => :b, :c => :d}
   # write each key value to a file like this:
