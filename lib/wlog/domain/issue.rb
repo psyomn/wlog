@@ -1,4 +1,5 @@
-require 'wlog/db_registry'
+require 'active_record' 
+
 require 'wlog/domain/sql_modules/issue_sql'
 require 'wlog/domain/log_entry'
 require 'wlog/domain/timelog_helper'
@@ -9,7 +10,7 @@ module Wlog
 # This aggregates log entries. The total time spent on this issue is
 # calculated from checking out said log entries.
 # @author Simon Symeonidis 
-class Issue
+class Issue < ActiveRecord::Base
   include IssueSql
 
   def initialize(db_handle)

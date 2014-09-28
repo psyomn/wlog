@@ -1,5 +1,3 @@
-require 'wlog/db_registry'
-require 'wlog/domain/sql_modules/attachment_sql'
 require 'wlog/domain/sql_modules/polymorphic_attachments_sql'
 
 module Wlog

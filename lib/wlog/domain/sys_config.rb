@@ -10,7 +10,7 @@ class SysConfig
 
   def initialize(db)
     @db = db
-    @key_value = KeyValue.new(@db)
+    @key_value = KeyValue.new
   end
 
   # load the last focused issue

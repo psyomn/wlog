@@ -1,5 +1,4 @@
-require 'wlog/db_registry'
-require 'wlog/domain/sql_modules/key_value_sql'
+require 'active_record'
 module Wlog
 # An active record that stores keys with values. Keys and values are strings.
 # convert as you need them.
@@ -9,7 +8,7 @@ module Wlog
 # '42', when looking up 'jon' you will retrieve only the latter (42).
 #
 # @author Simon Symeonidis
-class KeyValue
+class KeyValue < ActiveRecord::Base
   include KeyValueSql
 
   def initialize(db_handle)
