@@ -1,5 +1,0 @@
-development:
-  adapter: sqlite3
-  database: <%= ENV['HOME'] %>/.config/wlog/data/databaseface
-  pool: 5
-  timeout: 5000
