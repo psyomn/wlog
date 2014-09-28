@@ -37,7 +37,7 @@ private
   # Checks to see if versioning table is there. Create if not.
   def make_schema_migrations! 
     ActiveRecord::Base.configurations = dbconfig
-    ActiveRecord::Base.establish_connection('development')
+    ActiveRecord::Base.establish_connection(:development)
 
     unless SchemaMigration.table_exists?
       ActiveRecord::Migration.verbose = false 
@@ -52,7 +52,7 @@ private
     migrations.reject!{ |e| existing.include? e.to_s}
 
     migrations.each do |migration| 
-      ActiveRecord::Base.run(migration)
+      ActiveRecord::Migration.run(migration)
       SchemaMigration.create(:version => migration.name)
     end
   end
