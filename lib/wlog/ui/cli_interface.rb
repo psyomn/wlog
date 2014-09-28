@@ -206,7 +206,7 @@ private
   end
 
   def show_issues
-    entries_arr = Issue.all
+    entries_arr = Issue.find_not_archived
     print_list(entries_arr)
   end
 

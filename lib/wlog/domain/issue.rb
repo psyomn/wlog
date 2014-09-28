@@ -11,22 +11,13 @@ module Wlog
 # @author Simon Symeonidis 
 class Issue < ActiveRecord::Base
 
-  # # Calculate the total time that someone has wasted on all the
-  # # issues in the current database
-  # def self.total_time
-  #   # issues = Issue.find_all
-  # end
+  StatusNew       = 0
+  StatusStarted   = 1
+  StatusFinished  = 2
+  StatusArchived  = 3
 
-  # def self.find_in_time_range(db, from, to)
-  #   arr = Array.new
-  #   db.execute(SelectTimeRange, from, to).each do |row|
-  #     tmp = Issue.new(@db)
-  #     tmp.quick_assign!(row)
-  #     arr.push tmp
-  #   end
-  # arr end
-
-  # def self.delete_by_id(db, id); db.execute(DeleteSql, id) end
+  # Anything which is not archived (eg: new, started work, finished)
+  def self.find_not_archived; where("status NOT IN (?)", StatusArchived) end
 
   # Log the seconds into the issue
   def log_time(sec)
@@ -96,10 +87,11 @@ class Issue < ActiveRecord::Base
   # attr_accessor :db
 
 private
-
   Statuses = {
-    0 => "new", 1 => "started work", 
-    2 => "finished", 3 => "archived"}
+    StatusNew      => "new", 
+    StatusStarted  => "started work", 
+    StatusFinished => "finished", 
+    StatusArchived => "archived"}
 
 private_class_method
 
