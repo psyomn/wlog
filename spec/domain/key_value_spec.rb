@@ -5,7 +5,8 @@ include Wlog
 
 describe KeyValue do 
  
-  db_name = "./default"
+  db_name = "default"
+  db_path = standard_db_path(db_name)
 
   before(:all) do
     make_testing_db(db_name)
