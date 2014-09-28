@@ -5,65 +5,65 @@ include Wlog
 
 describe Issue do 
 
-  db_name = './default'
+  db_name = 'default'
 
   before(:all) do
     make_testing_db(db_name)
-    @db = DbRegistry.new(db_name) 
   end
 
   after(:all) do
-    FileUtils.rm db_name
+    close_testing_db
+    FileUtils.rm standard_db_path(db_name)
   end
 
   it "should insert an issue" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     issue.description = "Some issue"
     issue.mark_started!
-    issue.insert
+    issue.save
     
-    ret = @db.last_row_from('issues')
+    ret = Issue.all
     expect(ret.size).to eq(1)
   end
 
   it "should delete an issue" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     issue.description = "Delete issue"
     issue.mark_started!
-    issue.insert
-
+    issue.save
     issue.delete
-    ret = Issue.find(@db, issue.id) 
+
+    ret = Issue.find_by_id(issue.id) 
     expect(ret).to eq(nil)
   end
 
   it "should mark itself as new" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     issue.mark_started!
     expect(issue.status).to eq(0)
   end
 
   it "should mark itself as working" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     issue.mark_working!
     expect(issue.status).to eq(1)
   end
 
   it "should mark itself as finished" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     issue.mark_finished!
     expect(issue.status).to eq(2)
   end
 
   it "should return nil on issue that is not found" do
-    issue = Issue.find(@db, 123123123)
+    issue = Issue.find_by_id(123123123)
     expect(issue).to eq(nil)
   end
 
   it "should find all the inserted values" do
-    issue1 = Issue.new(@db)
-    issue2 = Issue.new(@db) 
-    issue3 = Issue.new(@db)
+    issue1 = Issue.new
+    issue2 = Issue.new
+    issue3 = Issue.new
 
     issue1.description = "find me 1"
     issue2.description = "find me 2" 
@@ -73,11 +73,11 @@ describe Issue do
     issue2.long_description = "long desc 2"
     issue3.long_description = "long desc 3"
     
-    issue1.insert
-    issue2.insert
-    issue3.insert
+    issue1.save
+    issue2.save
+    issue3.save
 
-    arr = Issue.find_all(@db)
+    arr = Issue.all
     descs  = arr.collect{|issue| issue.description}
     ldescs = arr.collect{|issue| issue.long_description}
     existing = descs & ["find me 1", "find me 2", "find me 3"]
@@ -87,38 +87,38 @@ describe Issue do
   end
 
   it "should not insert an existing value twice" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     issue.description = "Add me once"
-    previous = Issue.find_all(@db).count
-    issue.insert
-    issue.insert
-    issue.insert
-    issue.insert
-    newcount = Issue.find_all(@db).count
+    previous = Issue.all.count
+    issue.save
+    issue.save
+    issue.save
+    issue.save
+    newcount = Issue.all.count
     expect(newcount).to eq(previous + 1)
   end
 
   it "should update with valid information" do
-    issue = Issue.new(@db)
+    issue = Issue.new
     previous = "Update me"
     after    = "UPDATED"
     issue.description = previous
-    issue.insert
+    issue.save
     issue.description = after
-    issue.update
+    issue.save
 
-    uissue = Issue.find(@db, issue.id)
+    uissue = Issue.find(issue.id)
     expect(uissue.description).to eq(after)
   end
 
   it "should find all finished issues" do
     4.times do 
-      iss = Issue.new(@db)
+      iss = Issue.new
       iss.description = "hello"
       iss.mark_finished!
-      iss.insert
+      iss.save
     end
-    issues = Issue.find_all_finished(@db)
+    issues = Issue.where(:status => 2)
 
     issues.each do |iss|
       expect(iss.status).to eq(2)
