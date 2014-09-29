@@ -12,6 +12,7 @@ require 'wlog/commands/archive_issues'
 require 'wlog/commands/archive_finished_issues'
 require 'wlog/commands/delete_issue'
 require 'wlog/ui/issue_ui'
+require 'wlog/ui/template_ui'
 
 module Wlog
 # @author Simon Symeonidis
@@ -48,6 +49,7 @@ class CliInterface
       when /^help/   then print_help
       when /^search/ then search
       when /^config/ then config
+      when /^templates/ then TemplateUi.new.run
       end
     end
   end
