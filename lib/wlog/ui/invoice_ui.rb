@@ -15,12 +15,13 @@ class InvoiceUi
     cmd = "default"
 
     while cmd != 'end'
-      cmd = Readline.readline("[#{@strmaker.red('invoice')}] ")
+      cmd = Readline.readline("[#{@strmaker.red('invoice')}] ") || ""
       case cmd
-      when /^new/ then make_invoice
+      when /^new/       then make_invoice
       when /^(ls|show)/ then ls
-      when /^delete/ then delete(cmd.split.drop 1)
-      when /^end/ then next
+      when /^delete/    then delete(cmd.split.drop 1)
+      when /^generate/  then generate(cmd.split.drop 1)
+      when /^end/       then next
       else 
         puts "type 'help' for a list of options"
       end
@@ -28,6 +29,15 @@ class InvoiceUi
   end
 
 private
+
+  def generate(rest)
+    num = rest.first || 1
+    invoice = Invoice.find(num.to_i)
+    les = LogEntry.where(created_at: invoice.from..invoice.to)
+    p les
+  rescue ActiveRecord::RecordNotFound
+    puts 'No such invoice'
+  end
 
   def delete(rest)
     id = rest[0]
@@ -47,7 +57,11 @@ private
   end
 
   def print_help
-    ['new', 'make a new invoice'].each_with_index do |cmd,ix|
+    ['new', 'make a new invoice',
+     'ls,show', 'list the current invoice templates',
+     'delete', 'delete an invoice (eg: delete 2)',
+     'generate', 'generate an invoice using set template (eg: generate 2)'
+    ].each_with_index do |cmd,ix|
       print '  ' if ix % 2 == 1 
       puts cmd
     end
@@ -64,7 +78,8 @@ private
     Invoice.create(:from => from_d, :to => to_d, :description => description)
   end
 
-  # TODO: this would have to be factored out at some point
+  # TODO: this would have to be factored out at some point. Also I think the
+  # implementation is crappy. I have to recheck at some point.
   def longtext
     times = 3
     str = ""
