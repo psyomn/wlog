@@ -1,9 +1,9 @@
+require 'active_record'
+
 module Wlog
 # The invoice domain object - use this to manipulate invoice recordings, or 
 # this along with some renderer and templates in order to create said invoices.
 # @author Simon Symeonidis
-class Invoice
-  def initialize(date_from, date_to)
-  end
+class Invoice < ActiveRecord::Base
 end
 end
