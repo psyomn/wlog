@@ -20,6 +20,8 @@ module StaticConfigurations
   # Where the template files exist
   TemplateDir = "#{AppDirectory}templates/"
 
+  TemplateSampleFile = "#{TemplateDir}/default.erb"
+
   # Default database name (when unspecified)
   DefaultDb = "default"
 
