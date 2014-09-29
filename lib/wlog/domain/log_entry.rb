@@ -8,6 +8,8 @@ module Wlog
 #  Active Record Domain object for a log entry
 class LogEntry < ActiveRecord::Base
 
+  belongs_to :issue
+
     # Search by string to find a matching description with 'LIKE'.
 #   def self.search_descriptions(db, term)
 #     all = Array.new
