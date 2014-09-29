@@ -19,6 +19,7 @@ class InvoiceUi
       case cmd
       when /^new/ then make_invoice
       when /^(ls|show)/ then ls
+      when /^delete/ then delete(cmd.split.drop 1)
       when /^end/ then next
       else 
         puts "type 'help' for a list of options"
@@ -27,6 +28,13 @@ class InvoiceUi
   end
 
 private
+
+  def delete(rest)
+    id = rest[0]
+    cmd = Readline.readline("Are you sure you want to delete invoice ##{id}? [y/n]: ")
+    return if cmd != 'y' 
+    Invoice.delete(id)
+  end
 
   def ls
     Invoice.all.each do |invoice|
@@ -46,8 +54,8 @@ private
   end
 
   def make_invoice
-    from_s = Readline.readline("From (dd-mm-yyyy)")
-    to_s   = Readline.readline("To   (dd-mm-yyyy)")
+    from_s = Readline.readline("#{@strmaker.blue('From')} (dd-mm-yyyy) ")
+    to_s   = Readline.readline("#{@strmaker.blue('To')}   (dd-mm-yyyy) ")
 
     from_d = Date.parse(from_s)
     to_d = Date.parse(to_s)
@@ -56,6 +64,7 @@ private
     Invoice.create(:from => from_d, :to => to_d, :description => description)
   end
 
+  # TODO: this would have to be factored out at some point
   def longtext
     times = 3
     str = ""
@@ -72,6 +81,10 @@ private
           times -= 1
           count = 0
         end
+      else 
+        # reset blank line count. The user will have to hammer enter a few times
+        # to escape from this menu
+        count = 0
       end
     end
   str end
