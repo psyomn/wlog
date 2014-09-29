@@ -24,7 +24,7 @@ module StaticConfigurations
   TemplateSampleFile = "#{TemplateDir}/default.erb"
 
   # In the future if someone wants to code an alternative, go ahead
-  TemplateOutputDir = "#{ENV['HOME']}/Documents/wlog"
+  TemplateOutputDir = "#{ENV['HOME']}/Documents/wlog/"
 
   # Default database name (when unspecified)
   DefaultDb = "default"

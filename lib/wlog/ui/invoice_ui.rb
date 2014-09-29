@@ -1,11 +1,14 @@
 require 'readline'
 require 'wlog/domain/invoice'
 require 'wlog/domain/sys_config'
+require 'wlog/domain/static_configurations'
+require 'erb'
 
 module Wlog
 # An interface for the invoices
 # @author Simon Symeonidis
 class InvoiceUi
+  include StaticConfigurations
 
   def initialize
     @strmaker = SysConfig.string_decorator
@@ -33,8 +36,25 @@ private
   def generate(rest)
     num = rest.first || 1
     invoice = Invoice.find(num.to_i)
-    les = LogEntry.where(created_at: invoice.from..invoice.to)
-    p les
+    
+    # NOTE: these need to be instance vars, so we expose them to ERB later on
+    @les = LogEntry.where(created_at: invoice.from..invoice.to)
+    @issues = [Issue.find(*(@les.collect(&:issue_id).uniq))].compact.flatten
+    
+    # Get the template
+    num        = SysConfig.get_config('template') || 1
+    tpath      = Dir[TemplateDir + '*'][num.to_i - 1]
+    template_s = File.read(tpath)
+
+    renderer = ERB.new(template_s)
+    output = renderer.result(binding)
+
+    FileUtils.mkdir_p TemplateOutputDir
+    template_ext = tpath.split(File::SEPARATOR).last.split('.').last
+    filename = TemplateOutputDir + "#{invoice.id}-invoice.#{template_ext}"
+
+    File.write(filename, output)
+
   rescue ActiveRecord::RecordNotFound
     puts 'No such invoice'
   end
