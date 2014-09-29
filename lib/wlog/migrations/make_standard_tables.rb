@@ -34,6 +34,12 @@ class MakeStandardTables < ActiveRecord::Migration
       t.text :key
       t.text :value
     end
+
+    create_table :invoices do  |t|
+      t.datetime :from
+      t.datetime :to
+      t.text :description
+    end
   end
 end
 end 
