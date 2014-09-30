@@ -33,12 +33,13 @@ class InvoiceUi
 
 private
 
+  # TODO maybe separate this in the future for better testing.
   def generate(rest)
     num = rest.first || 1
     invoice = Invoice.find(num.to_i)
     
     # NOTE: these need to be instance vars, so we expose them to ERB later on
-    @les = LogEntry.where(created_at: invoice.from..invoice.to)
+    @les = invoice.log_entries_within_dates
     @issues = [Issue.find(*(@les.collect(&:issue_id).uniq))].compact.flatten
     
     # Get the template
@@ -57,6 +58,8 @@ private
 
   rescue ActiveRecord::RecordNotFound
     puts 'No such invoice'
+  rescue => e
+    puts e.message
   end
 
   def delete(rest)
@@ -87,12 +90,13 @@ private
     end
   end
 
+  # TODO this should be extracted for testing
   def make_invoice
     from_s = Readline.readline("#{@strmaker.blue('From')} (dd-mm-yyyy) ")
     to_s   = Readline.readline("#{@strmaker.blue('To')}   (dd-mm-yyyy) ")
 
-    from_d = Date.parse(from_s)
-    to_d = Date.parse(to_s)
+    from_d = DateTime.parse(from_s)
+    to_d = DateTime.parse(to_s + " 23:59")
     description = longtext()
 
     Invoice.create(:from => from_d, :to => to_d, :description => description)

@@ -53,6 +53,7 @@ private
   def make_schema_migrations! 
     ActiveRecord::Base.configurations = dbconfig
     ActiveRecord::Base.establish_connection(:development)
+    ActiveRecord::Base.default_timezone = :local
 
     unless SchemaMigration.table_exists?
       ActiveRecord::Migration.verbose = false 
