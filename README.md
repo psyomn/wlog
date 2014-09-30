@@ -64,15 +64,16 @@ databases, you can do the following:
 
 That will print the absolute path to that directory. 
 
-At the moment there are two main uis in this application. One of the UI is to
-demonstrate the issues that are currently to be worked on. Then you choose an
-issue, and log your work on that particular issue only. 
-
-So when you start the application this is what you see: 
+# Main Interface
 
     [wlog]
 
-Enter the command `show` to list the issues
+Enter the command `new` to create a new issue: 
+
+    [wlog] new
+
+Follow the on screen queries in order to create the issue.
+Enter the command `show` or `ls` to list the issues:
 
     [wlog] ls
     started work 2
@@ -81,7 +82,7 @@ Enter the command `show` to list the issues
     new 1
       [3] Need to check out templating system
 
-Now we want to focus on a particular issue. We type in `focus`
+Now we want to focus on a particular issue. We type in `focus`:
 
     [wlog] focus 1
     [issue #1] 
@@ -94,10 +95,8 @@ And now we can show all the logged work with `ls` or `show`:
       [5] Some trivial work there too [15:35:32] 
     [issue #1] 
 
-To exit the scope of an issue, you can use the `forget` command:
-
-    [issue #1] forget
-    [wlog] 
+And commands you execute apply to the scope of only that issue. You can type in
+`help` for more info.
 
 While in the scope of an issue, you can display its full description by invoking
 the command `desc`.
@@ -116,6 +115,50 @@ the command `desc`.
     
     Description 
       But this is an ever longer desc 
+
+## Logging Time
+
+It's possible to log time within issue scope with the following commands:
+
+    lt 10m
+
+To log 10 minutes 
+
+    lt 1h20m
+
+To log 1 hour 20 minutes
+
+    lt 1d 1s
+
+To log one day, one second. (A day is 8 hours). The total time is stored on the
+issue.
+
+## Inside issues
+
+You can run these commands in this 'sub-shell' of the issues: 
+are `search`, `replace`, `delete`, and `concat`.
+
+    search 
+        searches the database for a pattern that you specify.
+
+    replace 
+        searches and replaces a pattern that you specify.
+
+    delete 
+        removes an entry from the database.
+
+    concat 
+        appends a string to the specified log entry.
+
+## Escape Scope 
+
+To exit the scope of an issue, you can use the `forget` command:
+
+    [issue #1] forget
+    [wlog] 
+
+*NOTE*: Attachments don't currently work in v1.1.5 - they might be back in the
+future.
 
 You can also attach files to issues (you have to be outside the scope of an
 issue for this - this feature is experimental at the momment so don't rely too
@@ -142,39 +185,68 @@ And then you can output them to a location:
     Which attachment to output? : 1
     Output where (abs dir) : /tmp/
 
-## Inside issues
+# Generating Invoices
 
-You can run these commands in this 'sub-shell' of the issues: 
-are `show`, `search`, `replace`, `delete`, and `concat`.
+You can generate invoices. You need to create an invoice first. To do that,
+enter the command `invoices` in the `wlog` shell:
 
-`show` lists the latest work log entries.
+    [wlog] invoices
+    [invoices]
 
-`search` searches the database for a pattern that you specify.
+You can create a new invoice with the `new` command. Enter the two dates which
+correspond the date range you want to bill. For example, let's enter the whole
+month of September:
 
-`replace` searches and replaces a pattern that you specify.
+    [invoice] new
+    From (dd-mm-yyyy) 01-09-2014
+    To   (dd-mm-yyyy) 30-09-2014
+    I did many things this month
+    It is very very true
+    And I can write all of this in multiline
+    
+    And I can break into another paragraph.
+    
+    And another.
+    
+    But you need to press enter a few more times until you
+    break you of the input for the invoice.
+    
+    
+    
+    
+    
+    
+    [invoice] 
 
-`delete` removes an entry from the database.
+So now you should have your first invoice:
 
-`concat` appends a string to the specified log entry.
+    [invoice] show
+      [1] 01-09-2014 -> 30-09-2014 I
 
-All of these will modify the entries of those issues.
+And now you can generate your invoice with the following command:
 
-## Logging Time
+    [invoice] generate 1
 
-It's possible to log time now with the following commands:
+This will write the output in `~/Documents/wlog/`. Will create dirs if not
+exist.
 
-    lt 10m
+## Templates
 
-To log 10 minutes 
+To generate invoices templates are used. Templates are _erb_ templates. They are
+stored in `~/.config/wlog/templates/`. You can write your own as well. If you
+write your own, you need to tell wlog to use them. Do so with the following
+commands:
 
-    lt 1h20m
+    [templates] show
+       [  1] /home/psyomn/.config/wlog/templates/default.erb
+     * [  2] /home/psyomn/.config/wlog/templates/mine.erb.html
+    [templates] set 1
+    [templates] show
+     * [  1] /home/psyomn/.config/wlog/templates/default.erb
+       [  2] /home/psyomn/.config/wlog/templates/mine.erb.html
 
-To log 1 hour 20 minutes
-
-    lt 1d 1s
-
-To log one day, one second. (A day is 8 hours). The total time is stored on the
-issue.
+Also, worth to note that you should verify any template you get off the
+internet to use as your own.
 
 ## Contributing
 
@@ -184,8 +256,6 @@ issue.
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-### For newcommers
+# Developers
 
-Look at the github issues, for things marked as 'Up for Grabs'. Feel free to 
-message me to ask anything. I'll be more than happy to answer.
-
+Check issue tracker - thanks.
