@@ -45,7 +45,8 @@ private
     num = SysConfig.get_config('template') || 1
     num = num.to_i
     Dir[TemplateDir + "*"].each_with_index do |file,ix|
-      print " #{ix + 1 == num ? @strmaker.blue('*') : ' '}  "
+      print " #{ix + 1 == num ? @strmaker.blue('*') : ' '} "
+      print "[%3d] " % (ix + 1)
       puts file
     end
   end
