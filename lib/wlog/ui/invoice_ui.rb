@@ -18,7 +18,7 @@ class InvoiceUi
     cmd = "default"
 
     while cmd != 'end'
-      cmd = Readline.readline("[#{@strmaker.red('invoice')}] ") || ""
+      cmd = Readline.readline("[#{@strmaker.red('invoices')}] ") || ""
       case cmd
       when /^new/       then make_invoice
       when /^(ls|show)/ then ls
