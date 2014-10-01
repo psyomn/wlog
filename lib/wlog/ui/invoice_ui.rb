@@ -36,10 +36,10 @@ private
   # TODO maybe separate this in the future for better testing.
   def generate(rest)
     num = rest.first || 1
-    invoice = Invoice.find(num.to_i)
+    @invoice = Invoice.find(num.to_i)
     
     # NOTE: these need to be instance vars, so we expose them to ERB later on
-    @les = invoice.log_entries_within_dates
+    @les = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@les.collect(&:issue_id).uniq))].compact.flatten
     
     # Get the template
@@ -52,7 +52,7 @@ private
 
     FileUtils.mkdir_p TemplateOutputDir
     template_ext = tpath.split(File::SEPARATOR).last.split('.').last
-    filename = TemplateOutputDir + "#{invoice.id}-invoice.#{template_ext}"
+    filename = TemplateOutputDir + "#{@invoice.id}-invoice.#{template_ext}"
 
     File.write(filename, output)
 
@@ -75,7 +75,7 @@ private
       print @strmaker.yellow(invoice.from.strftime("%d-%m-%Y"))
       print @strmaker.blue(" -> ")
       print @strmaker.yellow(invoice.to.strftime("%d-%m-%Y"))
-      puts " #{invoice.description.split.first}"
+      puts " #{invoice.description[0..49]}..."
     end
   end
 
