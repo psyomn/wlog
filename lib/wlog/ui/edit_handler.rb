@@ -39,8 +39,7 @@ class EditHandler
   # @param time is the date-time in string format (eg Oct 28)
   def edit_time(time)
     date_time = time_handle(time)
-    @issue.due_date = date_time.to_time 
-    @issue.update
+    @issue.update(:due_date => date_time)
     puts @strmaker.green('Updated due date')
   rescue ArgumentError
     $stderr.puts @strmaker.red \
