@@ -75,6 +75,7 @@ private
     if !issue_id
       puts 'usage:'
       puts '  delete <id>'
+      return
     else 
       issue_id = issue_id.to_i
     end
