@@ -1,12 +1,12 @@
 require 'active_record'
 require 'readline'
-require 'wlog/ui/commands/ui_command'
+require 'wlog/commands/commandable'
 require 'wlog/domain/issue'
 
 module Wlog
 # Creational logic for issues
 # @author Simon Symeonidis
-class CreateIssue < UiCommand
+class CreateIssue < Commandable
   # Execute create issue transaction
   def execute
     desc = Readline.readline("Small issue description :") || "None."

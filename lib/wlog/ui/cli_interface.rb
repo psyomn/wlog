@@ -5,7 +5,7 @@ require 'wlog/domain/sys_config'
 require 'wlog/domain/attachment'
 require 'wlog/domain/helpers'
 
-require 'wlog/ui/commands/create_issue'
+require 'wlog/commands/create_issue'
 require 'wlog/ui/configuration_ui'
 
 require 'wlog/commands/archive_issues'
