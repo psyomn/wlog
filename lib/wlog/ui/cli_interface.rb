@@ -40,7 +40,6 @@ class CliInterface
       when /^archive/ then archive cmd
       when /^showattach/ then show_attach
       when /^outattach/  then output_attach
-      when /^generateinvoice/ then generate_invoice
       when /^attach/ then attach
       when /^focus/  then focus(cmd)
       when /new/    then new_issue
@@ -243,17 +242,6 @@ private
     cmd = MakeCsv.new
     cmd.execute
     cmd.ret
-  end
-
-  def generate_invoice
-    require 'time'
-    puts "Eg: valid input is Oct 2013 15"
-    from = Readline.readline("From: ")
-    to   = Readline.readline("To  : ")
-
-    from_time = Time.parse(from).to_i
-    to_time = Time.parse(to).to_i
-    issues = Issue.find_in_time_range(@db, from_time, to_time)
   end
 
   # Search for an issue
