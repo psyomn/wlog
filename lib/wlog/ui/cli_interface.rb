@@ -202,7 +202,8 @@ private
     'archive', 'Archive a file into a specific issue',
     'showattach', 'Show what files have been attached to an issue',
     'outattach', 'Extract a file from the database',
-    'generateinvoice', 'todo',
+    'invoices', 'Go to invoices interface',
+    'templates', 'Go to template interface, and set templates'
     'focus', 'Focus on a particular ',
     'show', 'List all the issues',
     'help', 'Show this information',
