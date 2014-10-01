@@ -1,9 +1,13 @@
+require 'wlog/domain/sys_config'
 
 module Wlog
 # @author Simon Symeonidis
 class EditHandler
 
-  def initialize(issue); @issue = issue end
+  def initialize(issue)
+    @issue = issue 
+    @strmaker = SysConfig.string_decorator
+  end
 
   # Command comes in as edit <...>. This definition will check what comes
   # next and invoke the proper method to execute.
