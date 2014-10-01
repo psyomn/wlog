@@ -75,7 +75,7 @@ private
       print @strmaker.yellow(invoice.from.strftime("%d-%m-%Y"))
       print @strmaker.blue(" -> ")
       print @strmaker.yellow(invoice.to.strftime("%d-%m-%Y"))
-      puts " #{invoice.description[0..49]}..."
+      puts " #{invoice.description.lines.first[0..49]}..."
     end
   end
 
