@@ -58,8 +58,8 @@ class EditHandler
   # @return a Time object which is set to 9am on that day if no time 
   #   is provided
   def time_handle(time_str)
-    date_time = DateTime.parse(time)
-    date_time = DateTime.parse(time + ' 9:00') if date_time.hour == 0
+    date_time = DateTime.parse(time_str)
+    date_time = DateTime.parse(time_str + ' 9:00') if date_time.hour == 0
   end
 
   # Pass the issue from the previous ui to this one. This ui modifies
