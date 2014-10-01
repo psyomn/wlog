@@ -18,10 +18,10 @@ class EditHandler
       @issue.update(:long_description => param)
 
     when /^due/
-      edit_time(param.join(' '))
+      edit_time(param)
 
     when /^reported/
-      edit_reported_time(param.join(' '))
+      edit_reported_time(param)
 
     else 
       $stdout.puts "Usage: "
