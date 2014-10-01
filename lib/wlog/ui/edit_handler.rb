@@ -8,24 +8,20 @@ class EditHandler
   # Command comes in as edit <...>. This definition will check what comes
   # next and invoke the proper method to execute.
   def edit_what(terms_a)
+    param = (terms_a.drop 1).join ' '
+
     case terms_a[0]
     when /^title/
-      title = (terms_a.drop 1).join ' '
-      @issue.description = title
-      @issue.update
+      @issue.update(:description => param)
 
     when /^desc/
-      long = (terms_a.drop 1).join ' '
-      @issue.long_description = long
-      @issue.update 
+      @issue.update(:long_description => param)
 
     when /^due/
-      date_time = terms_a.drop 1
-      edit_time(date_time.join(' '))
+      edit_time(param.join(' '))
 
     when /^reported/
-      date_time = terms_a.drop 1
-      edit_reported_time(date_time.join(' '))
+      edit_reported_time(param.join(' '))
 
     else 
       $stdout.puts "Usage: "
@@ -33,7 +29,6 @@ class EditHandler
       $stdout.puts "  edit desc  - to edit the long description"
       $stdout.puts "  edit due   - to edit the due date"
       $stdout.puts "  edit time  - to edit the time"
-
     end
   end
   
