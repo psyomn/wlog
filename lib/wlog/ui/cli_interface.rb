@@ -179,9 +179,9 @@ private
     issue = Issue.find(issue_id)
     if issue
       IssueUi.new(issue).run
-    else 
-      puts "No such issue"
     end
+  rescue ActiveRecord::RecordNotFound
+    puts "No such issue"
   end
 
   def outcsv
