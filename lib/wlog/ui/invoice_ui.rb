@@ -39,7 +39,7 @@ private
     @invoice = Invoice.find(num.to_i)
     
     # NOTE: these need to be instance vars, so we expose them to ERB later on
-    @les = @invoice.log_entries_within_dates
+    @log_entries = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@les.collect(&:issue_id).uniq))].compact.flatten
     
     # Get the template
