@@ -40,7 +40,7 @@ private
     
     # NOTE: these need to be instance vars, so we expose them to ERB later on
     @log_entries = @invoice.log_entries_within_dates
-    @issues = [Issue.find(*(@les.collect(&:issue_id).uniq))].compact.flatten
+    @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
     
     # Get the template
     num        = SysConfig.get_config('template') || 1
