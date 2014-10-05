@@ -42,7 +42,7 @@ private
   end
 
   def ls
-    num = SysConfig.get_config('template') || 1
+    num = KeyValue.get('template') || 1
     num = num.to_i
     Dir[TemplateDir + "*"].each_with_index do |file,ix|
       print " #{ix + 1 == num ? @strmaker.blue('*') : ' '} "
@@ -58,7 +58,7 @@ private
       return
     end
 
-    SysConfig.store_config('template', num)
+    KeyValue.put!('template', num)
   end
 
 end

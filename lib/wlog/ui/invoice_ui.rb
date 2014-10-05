@@ -43,7 +43,7 @@ private
     @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
     
     # Get the template
-    num        = SysConfig.get_config('template') || 1
+    num        = KeyValue.get('template') || 1
     tpath      = Dir[TemplateDir + '*'][num.to_i - 1]
     template_s = File.read(tpath)
 
