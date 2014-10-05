@@ -19,7 +19,7 @@ class KeyValue < ActiveRecord::Base
       ret = KeyValue.new(:key => key, :value => value)
     end
     ret.save
-  end
+  nil end
 
   # Get a certain value by key
   # @return the value given the key. nil if not found
