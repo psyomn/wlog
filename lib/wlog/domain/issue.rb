@@ -41,7 +41,9 @@ class Issue < ActiveRecord::Base
 	 "#{@strmaker.yellow('Summary')} #{$/}"\
     "  #{description}#{$/ + $/}"\
 	 "#{@strmaker.yellow('Description')} #{$/}"\
-    "  #{Helpers.break_string(long_description, 80)}#{$/ + $/}"
+    "  #{Helpers.break_string(long_description, 80)}#{$/ + $/}"\
+    "#{@strmaker.yellow('Files')}#{$/}"\
+    "#{attachments_s}"
   end
 
   # Mark issue as started
@@ -65,6 +67,17 @@ private
     StatusStarted  => "started work", 
     StatusFinished => "finished", 
     StatusArchived => "archived"}
+
+  # Stringify attachments for terminal output
+  def attachments_s
+    str = ''
+    self.attachments.each do |att| 
+      str.concat("  [").concat(@strmaker.green(att.id)).concat("] ")
+      str.concat(@strmaker.red(att.filename)).concat($/)
+    end
+    str = @strmaker.red("  N/A#{$/}") if str == '' # no attachments
+    str.concat($/)
+  str end
 
 private_class_method
 
