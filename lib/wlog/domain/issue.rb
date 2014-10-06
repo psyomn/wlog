@@ -12,6 +12,7 @@ module Wlog
 class Issue < ActiveRecord::Base
 
   has_many :log_entries, dependent: :delete_all
+  has_many :attachments, as: :attachable
 
   StatusNew       = 0
   StatusStarted   = 1
