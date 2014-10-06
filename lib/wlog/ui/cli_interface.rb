@@ -2,7 +2,6 @@ require 'readline'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
-require 'wlog/domain/attachment'
 require 'wlog/domain/helpers'
 
 require 'wlog/commands/create_issue'
@@ -38,9 +37,6 @@ class CliInterface
 
       case cmd
       when /^archive/ then archive cmd
-      when /^showattach/ then show_attach
-      when /^outattach/  then output_attach
-      when /^attach/ then attach
       when /^focus/  then focus(cmd)
       when /new/    then new_issue
       when /^(ls|show)/   then show_issues
@@ -93,32 +89,6 @@ private
 
     puts "No such issue" unless dcmd.deleted?
   end
-
-  # Wriet out the data contained in the database of the attachment
-  def output_attach
-    puts "Migration of implementation pending" 
-    return
-
-    att_id = Readline.readline('Which attachment to output? : ').to_i
-    loc = Readline.readline('Output where (abs dir) ? : ')
-    loc.chomp!
-    att = Attachment.find(@db, Issue.name, att_id)
-    
-    fh = File.open("#{loc}/#{att.filename}", 'w')
-    fh.write(att.data)
-    fh.close
-  end
-
-  def show_attach
-    puts "Migration of implementation pending" 
-    return
-    issue_id = Readline.readline('Which issue id? : ').to_i
-    atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
-    atts.each do |att| 
-      printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
-    end
-  end
-
   # Archive means set status to 3 (arhive status) to the listed issues
   def archive(cmd)
     args = cmd.split[1..-1]
@@ -136,32 +106,6 @@ private
       puts "usage: "
       puts "  archive finished"
       puts "  archive <id>+"
-    end
-  end
-
-  def attach
-    puts "Migration of implementation pending" 
-    return
-
-    issue_id = Readline.readline('Attach to issue id: ').to_i
-    loc = Readline.readline('Absolute file location: ')
-    loc.strip!
-    name_alias = Readline.readline('Alias name for file (optional): ')
-    name_alias.strip!
-    
-    unless loc.nil?
-      fh = File.open(loc, "r")
-      data = fh.read
-      fh.close
-
-      att = Attachment.new(@db, Issue.name, issue_id)
-      att.data       = data
-      att.filename   = loc.split('/').last
-      att.given_name = name_alias
-      att.insert
-      puts 'Attached file.'
-    else
-      puts 'You need to provide a proper path.'
     end
   end
 
@@ -200,8 +144,6 @@ private
     'end',    'Exit the progam',
     'delete', 'Remove the issue with a given id',
     'archive', 'Archive a file into a specific issue',
-    'showattach', 'Show what files have been attached to an issue',
-    'outattach', 'Extract a file from the database',
     'invoices', 'Go to invoices interface',
     'templates', 'Go to template interface, and set templates',
     'focus', 'Focus on a particular ',
