@@ -1,5 +1,6 @@
 # We'll be ignoring this for now...
 #
+require_relative '../spec_helper.rb'
 # require_relative '../make_db'
 # require 'wlog/domain/attachment'
 # require 'wlog/domain/log_entry'
