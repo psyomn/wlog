@@ -8,6 +8,7 @@ require 'wlog/commands/innit_db'
 require 'wlog/commands/concat_description'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/timelog_helper'
+require 'wlog/domain/attachment'
 require 'wlog/ui/edit_handler'
 
 module Wlog
@@ -38,6 +39,9 @@ class IssueUi
       when /^lt/        then time(cmd.split.drop 1) # lt for log time
       when /^forget/    then cmd = "end"
       when /^finish/    then finish ? cmd = "end" : nil
+      when /^showattach/ then show_attach
+      when /^outattach/  then output_attach
+      when /^attach/ then attach
       when /^help/      then print_help
       when /^end/       then next
       else puts "Type 'help' for help"
@@ -49,6 +53,57 @@ class IssueUi
   attr_accessor :issue
 
 private 
+
+  # Wriet out the data contained in the database of the attachment
+  def output_attach
+    puts "Migration of implementation pending" 
+    return
+
+    att_id = Readline.readline('Which attachment to output? : ').to_i
+    loc = Readline.readline('Output where (abs dir) ? : ')
+    loc.chomp!
+    att = Attachment.find(@db, Issue.name, att_id)
+    
+    fh = File.open("#{loc}/#{att.filename}", 'w')
+    fh.write(att.data)
+    fh.close
+  end
+
+  def show_attach
+    puts "Migration of implementation pending" 
+    return
+    issue_id = Readline.readline('Which issue id? : ').to_i
+    atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
+    atts.each do |att| 
+      printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
+    end
+  end
+
+  def attach
+    puts "Migration of implementation pending" 
+    return
+
+    issue_id = Readline.readline('Attach to issue id: ').to_i
+    loc = Readline.readline('Absolute file location: ')
+    loc.strip!
+    name_alias = Readline.readline('Alias name for file (optional): ')
+    name_alias.strip!
+    
+    unless loc.nil?
+      fh = File.open(loc, "r")
+      data = fh.read
+      fh.close
+
+      att = Attachment.new(@db, Issue.name, issue_id)
+      att.data       = data
+      att.filename   = loc.split('/').last
+      att.given_name = name_alias
+      att.insert
+      puts 'Attached file.'
+    else
+      puts 'You need to provide a proper path.'
+    end
+  end
 
   # Time logging command
   def time(rest)
@@ -64,6 +119,8 @@ private
   def print_help
     ["new",   "Create a new log entry", 
     "outcsv", "Export everything to CSV",
+    'showattach', 'Show what files have been attached to an issue',
+    'outattach', 'Extract a file from the database',
     "help",   "print this dialog",
     "end",    "Exit the progam",
     "search", "Search for a string in the log description text",
