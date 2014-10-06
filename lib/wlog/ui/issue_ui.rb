@@ -39,8 +39,8 @@ class IssueUi
       when /^lt/        then time(cmd.split.drop 1) # lt for log time
       when /^forget/    then cmd = "end"
       when /^finish/    then finish ? cmd = "end" : nil
-      when /^showattach/ then show_attach
-      when /^outattach/  then output_attach
+      when /^attachout/  then output_attach
+      when /^attachls/ then show_attach
       when /^attach/ then attach
       when /^help/      then print_help
       when /^end/       then next
@@ -108,8 +108,9 @@ private
   def print_help
     ["new",   "Create a new log entry", 
     "outcsv", "Export everything to CSV",
-    'showattach', 'Show what files have been attached to an issue',
-    'outattach', 'Extract a file from the database',
+    'attach', 'Attach a file to the current issue',
+    'attachls', 'Show what files have been attached to an issue',
+    'attachout', 'Extract a file from the database',
     "help",   "print this dialog",
     "end",    "Exit the progam",
     "search", "Search for a string in the log description text",
