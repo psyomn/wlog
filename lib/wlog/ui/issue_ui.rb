@@ -74,10 +74,6 @@ private
   end
 
   def attach
-    puts "Migration of implementation pending" 
-    return
-
-    issue_id = Readline.readline('Attach to issue id: ').to_i
     loc = Readline.readline('Absolute file location: ')
     loc.strip!
     name_alias = Readline.readline('Alias name for file (optional): ')
@@ -88,11 +84,10 @@ private
       data = fh.read
       fh.close
 
-      att = Attachment.new(@db, Issue.name, issue_id)
-      att.data       = data
-      att.filename   = loc.split('/').last
-      att.given_name = name_alias
-      att.insert
+      att = Attachment.new(:filename => loc.split('/').last, :data => data, 
+        :given_name => :name_alias)
+      @issue.attachments << att
+
       puts 'Attached file.'
     else
       puts 'You need to provide a proper path.'
