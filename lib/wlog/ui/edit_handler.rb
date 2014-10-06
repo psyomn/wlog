@@ -1,6 +1,9 @@
 require 'wlog/domain/sys_config'
 
 module Wlog
+# Provides a bunch of edit helping functions for altering already inserted
+# information about issues.
+#
 # @author Simon Symeonidis
 class EditHandler
 
@@ -36,6 +39,8 @@ class EditHandler
     end
   end
   
+  # Small helper to parse the due date when editing the dates of issues.
+  #   Accepted formats should be like Oct 28.
   # @param time is the date-time in string format (eg Oct 28)
   def edit_time(time)
     date_time = time_handle(time)
@@ -46,6 +51,9 @@ class EditHandler
       "Invalid date/time format. Try format like 'Oct 28'"
   end
 
+  # Edit the reported date of an issue, given a date string in the format of
+  #   'Oct 28'.
+  # @param time_str is the time in string format
   def edit_reported_time(time_str)
     date_time = time_handle(time_str)
     @issue.reported_date = date_time.to_time
