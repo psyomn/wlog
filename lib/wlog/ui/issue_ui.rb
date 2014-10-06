@@ -56,13 +56,10 @@ private
 
   # Wriet out the data contained in the database of the attachment
   def output_attach
-    puts "Migration of implementation pending" 
-    return
-
     att_id = Readline.readline('Which attachment to output? : ').to_i
     loc = Readline.readline('Output where (abs dir) ? : ')
     loc.chomp!
-    att = Attachment.find(@db, Issue.name, att_id)
+    att = Attachment.find(att_id)
     
     fh = File.open("#{loc}/#{att.filename}", 'w')
     fh.write(att.data)
@@ -70,10 +67,7 @@ private
   end
 
   def show_attach
-    puts "Migration of implementation pending" 
-    return
-    issue_id = Readline.readline('Which issue id? : ').to_i
-    atts = Attachment.find_all_by_discriminator(@db, Issue.name, issue_id)
+    atts = @issue.attachments
     atts.each do |att| 
       printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
     end
