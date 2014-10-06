@@ -1,4 +1,4 @@
-# wlog [![Code Climate](https://codeclimate.com/github/psyomn/wlog.png)](https://codeclimate.com/github/psyomn/wlog) [![Build Status](https://travis-ci.org/psyomn/wlog.png?branch=v1.1.0)](https://travis-ci.org/psyomn/wlog) [![Inline docs](http://inch-ci.org/github/psyomn/wlog.svg?branch=master)](http://inch-ci.org/github/psyomn/wlog) [![Gem Version](https://badge.fury.io/rb/wlog.svg)](http://badge.fury.io/rb/wlog)
+# wlog [![Code Climate](https://codeclimate.com/github/psyomn/wlog.png)](https://codeclimate.com/github/psyomn/wlog) [![Build Status](https://travis-ci.org/psyomn/wlog.png?branch=v1.1.0)](https://travis-ci.org/psyomn/wlog) [![Inline docs](http://inch-ci.org/github/psyomn/wlog.svg?branch=master)](http://inch-ci.org/github/psyomn/wlog) [![Gem Version](https://badge.fury.io/rb/wlog.svg)](http://badge.fury.io/rb/wlog) [![Coverage Status](https://img.shields.io/coveralls/psyomn/wlog.svg)](https://coveralls.io/r/psyomn/wlog?branch=v1.2.0)
 
 wlog (worklog) is a small utility to track tasks in command line. I use this
 for things I work on and need to submit a list of stuff done on a particular 
