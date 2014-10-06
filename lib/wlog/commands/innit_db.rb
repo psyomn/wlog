@@ -52,12 +52,12 @@ private
 
   # Checks to see if versioning table is there. Create if not.
   def make_schema_migrations! 
+    ActiveRecord::Migration.verbose = false 
     ActiveRecord::Base.configurations = dbconfig
     ActiveRecord::Base.establish_connection(:development)
     ActiveRecord::Base.default_timezone = :local
 
     unless SchemaMigration.table_exists?
-      ActiveRecord::Migration.verbose = false 
       ActiveRecord::Migration.run(MakeSchemaMigration)
     end
   end
