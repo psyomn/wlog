@@ -2,6 +2,7 @@ require 'wlog/commands/commandable'
 require 'wlog/domain/static_configurations'
 
 require 'wlog/migrations/make_standard_tables'
+require 'wlog/migrations/fix_attachments_polymorphic_table'
 
 require 'active_record'
 require 'sqlite3'
@@ -35,7 +36,7 @@ class InnitDb < Commandable
   # to test. Once tests are ok again, then I'm going to refactor this somewhere
   # else so it's more sane.
   def execute_migrations!
-    migrations = [MakeStandardTables]
+    migrations = [MakeStandardTables, FixAttachmentsPolymorphicTable]
     existing = SchemaMigration.all.collect{ |el| el.version }
 
     migrations.reject!{ |e| existing.include? e.to_s}
