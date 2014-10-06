@@ -3,6 +3,7 @@ module Wlog
 # Following the Active Record pattern
 # OO way of handling blobs of data, to be stored in memory or in db.
 class Attachment < ActiveRecord::Base
+  belongs_to :imageable, polymorphic: true
 
   # Can only initialize with a caller name and id, since relations to
   # attachments are polymorphic.
