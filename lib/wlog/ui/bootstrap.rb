@@ -7,6 +7,7 @@ module Wlog
 # point of the application and, the first transaction you require.
 # @author Simon Symeonidis
 class Bootstrap
+  # make $HOME/.config/wlog standard dirs, and pull up database
   def self.configure!
     Helpers.make_dirs!
     InnitDb.new.execute 
