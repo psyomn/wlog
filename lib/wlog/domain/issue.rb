@@ -72,8 +72,7 @@ private
   def attachments_s
     str = ''
     self.attachments.each do |att| 
-      str.concat("  [").concat(@strmaker.green(att.id)).concat("] ")
-      str.concat(@strmaker.red(att.filename)).concat($/)
+      str.concat(att.to_s)
     end
     str = @strmaker.red("  N/A#{$/}") if str == '' # no attachments
     str.concat($/)
