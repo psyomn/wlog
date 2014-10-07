@@ -145,6 +145,10 @@ private
     command = FetchGitCommits.new(inv.from, inv.to, repo, author)
     command.execute
 
+    puts
+    print '  '
+    puts "git commits for #{@strmaker.yellow(author)}"
+    puts
     print_git_commits(command.commits)
     
   rescue ActiveRecord::RecordNotFound
