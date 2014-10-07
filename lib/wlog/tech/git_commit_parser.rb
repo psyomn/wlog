@@ -1,3 +1,4 @@
+require 'wlog/domain/git_commit'
 module Wlog
 # Parses git text from a `git log` command invocation
 # @author Simon Symeonidis
@@ -14,7 +15,7 @@ class GitCommitParser
       when /^commit/i
         inmessage = false 
         gitlogs.push cur if cur
-        cur = GitLog.new
+        cur = GitCommit.new
         cur.commit = line.split[1].strip
                             
       when /^author/i
