@@ -13,6 +13,7 @@ require 'wlog/commands/delete_issue'
 require 'wlog/ui/issue_ui'
 require 'wlog/ui/template_ui'
 require 'wlog/ui/invoice_ui'
+require 'wlog/ui/git_ui'
 
 module Wlog
 # @author Simon Symeonidis
@@ -45,6 +46,7 @@ class CliInterface
       when /^help/   then print_help
       when /^search/ then search
       when /^config/ then config
+      when /^git/ then GitUi.new.run
       when /^templates/ then TemplateUi.new.run
       when /^invoices/ then InvoiceUi.new.run
       end
