@@ -19,7 +19,7 @@ class FetchGitCommits < Commandable
     @commits = GitCommitParser.parse(result)
   nil end
 
-  attr :commits
+  attr_accessor :commits
 
 private
 
