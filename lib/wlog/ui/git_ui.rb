@@ -13,7 +13,6 @@ class GitUi
 
     until cmd == "end" do 
       cmd = Readline.readline("[#{@strmaker.blue('git')}] ")
-      cmd = gets.chomp
 
       case cmd 
       when /^set/
@@ -30,7 +29,11 @@ class GitUi
       when /^unset/
         KeyValue.put!("git", "")
 
-      end 
+      when /^(ls|show)/
+        print '  '
+        puts @strmaker.green(KeyValue.get("git"))
+
+      end
     end
   end
 
