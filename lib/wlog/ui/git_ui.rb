@@ -36,7 +36,7 @@ class GitUi
         print '  repo: '
         puts @strmaker.green(KeyValue.get("git"))
         print '  auth: '
-        puts @strmaker.yellow(KeyValue.author("author"))
+        puts @strmaker.yellow(KeyValue.get("author"))
 
       end
     end
