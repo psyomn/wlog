@@ -33,8 +33,10 @@ class GitUi
         KeyValue.put!("git", "")
 
       when /^(ls|show)/
-        print '  '
+        print '  repo: '
         puts @strmaker.green(KeyValue.get("git"))
+        print '  auth: '
+        puts @strmaker.yellow(KeyValue.author("author"))
 
       end
     end
