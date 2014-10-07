@@ -12,7 +12,7 @@ class GitUi
     cmd = "default" 
 
     until cmd == "end" do 
-      cmd = Readline.readline("[#{@strmaker.blue(git)}] ")
+      cmd = Readline.readline("[#{@strmaker.blue('git')}] ")
       cmd = gets.chomp
 
       case cmd 
