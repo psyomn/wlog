@@ -10,7 +10,8 @@ module GitCommitPrinter
     commit_a.each do |commit| 
       print '  '
       print sm.blue(commit.commit)
-      puts  sm.green(commit.shortlog[1..50] + '...')
+      print ' ' 
+      puts  sm.green(commit.shortlog[0..50] + ' ...')
     end
   nil end
 
