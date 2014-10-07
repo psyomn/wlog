@@ -2,6 +2,8 @@ require 'readline'
 require 'wlog/domain/invoice'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/static_configurations'
+require 'wlog/commands/fetch_git_commits'
+require 'wlog/tech/git_commit_printer'
 require 'erb'
 
 module Wlog
@@ -9,6 +11,7 @@ module Wlog
 # @author Simon Symeonidis
 class InvoiceUi
   include StaticConfigurations
+  include GitCommitPrinter
 
   def initialize
     @strmaker = SysConfig.string_decorator
@@ -24,6 +27,7 @@ class InvoiceUi
       when /^(ls|show)/ then ls
       when /^delete/    then delete(cmd.split.drop 1)
       when /^generate/  then generate(cmd.split.drop 1)
+      when /^commits/   then commits(cmd.split.drop 1)
       when /^end/       then next
       else 
         puts "type 'help' for a list of options"
@@ -127,6 +131,25 @@ private
       end
     end
   str end
+
+  def commits(invoice_id)
+    inv = Invoice.find_by_id(invoice_id) 
+    repo = KeyValue.get('git')
+    author = KeyValue.get('author')
+
+    unless repo 
+      puts @strmaker.red("You need to set a git repo first")
+      return
+    end
+
+    command = FetchGitCommits.new(inv.from, inv.to, repo, author)
+    command.execute
+
+    print_git_commits(command.commits)
+    
+  rescue ActiveRecord::RecordNotFound
+    puts @strmaker.red("No such invoice")
+  end
 
 end
 end
