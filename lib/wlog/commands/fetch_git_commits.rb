@@ -1,4 +1,5 @@
 require 'wlog/commands/commandable'
+require 'wlog/tech/git_commit_parser'
 module Wlog
 # Given two dates, extract the git commits.
 # @author Simon Symeonidis
@@ -15,7 +16,8 @@ class FetchGitCommits < Commandable
 
   def execute
     result = `#{run_git_cmd}`
-  end
+    @commits = GitCommitParser.parse(result)
+  nil end
 
   attr :commits
 
