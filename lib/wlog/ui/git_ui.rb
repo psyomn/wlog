@@ -22,9 +22,12 @@ class GitUi
           puts @strmaker.red("That doesn't look like a git repo. Nothing done")
           next
         end
+
+        author = Readline.readline("git author: ")
  
         # Set the git repo in the db (so one git repo per db)
         KeyValue.put!("git", path)
+        KeyValue.put!("author", author)
 
       when /^unset/
         KeyValue.put!("git", "")
