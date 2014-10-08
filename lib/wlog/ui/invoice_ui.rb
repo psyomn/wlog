@@ -109,27 +109,19 @@ private
   # TODO: this would have to be factored out at some point. Also I think the
   # implementation is crappy. I have to recheck at some point.
   def longtext
-    times = 3
-    str = ""
-    count = 0
+   count = 0 
+   status = nil
+   str = ""
+   
+   until status == :end_text do 
+     line = Readline.readline(@strmaker.blue('> ')).strip
+     count += 1 if line == ""
+     count  = 0 if line != ""
 
-    while times != 0 do
-      cur = Readline.readline()
-      str.concat(cur)
-      str.concat($/)
-      if ["", nil].include? cur
-        str.concat($/)
-        count += 1
-        if count == 2
-          times -= 1
-          count = 0
-        end
-      else 
-        # reset blank line count. The user will have to hammer enter a few times
-        # to escape from this menu
-        count = 0
-      end
-    end
+     str.concat(line).concat($/)
+   
+     status = :end_text and next if count == 2
+   end 
   str end
 
   def commits(invoice_id)
