@@ -31,7 +31,7 @@ class IssueUi
       when /^new/       then new_entry
       when /^(ls|show)/ then show_entries
       when /^desc/      then describe_issue
-      when /^delete/    then delete_entry
+      when /^delete/    then delete_entry(cmd.split.drop 1)
       when /^edit/      then EditHandler.new(@issue).edit_what(cmd.split.drop 1)
       when /^concat/    then concat_description
       when /^replace/   then replace_pattern
@@ -138,9 +138,11 @@ private
     NewEntry.new(description, @issue).execute
   end
 
-  def delete_entry
-    id = Readline.readline('Remove task log with id : ').to_i
-    LogEntry.delete(id)
+  def delete_entry(cmd_a)
+    case cmd_a[0]
+    when /t/, /task/       then LogEntry.delete(cmd_a[1])
+    when /a/, /attachment/ then Attachment.delete(cmd_a[2])
+    end
   end
 
   # Concatenate an aggregate description to a previous item
