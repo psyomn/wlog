@@ -3,6 +3,7 @@ require 'wlog/domain/invoice'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/template_helper'
+require 'wlog/commands/write_template'
 require 'wlog/commands/fetch_git_commits'
 require 'wlog/tech/git_commit_printer'
 require 'erb'
@@ -51,11 +52,7 @@ private
     renderer = ERB.new(Template.template_s)
     output = renderer.result(binding)
 
-    FileUtils.mkdir_p TemplateOutputDir
-    template_ext = tpath.split(File::SEPARATOR).last.split('.').last
-    filename = TemplateOutputDir + "#{@invoice.id}-invoice.#{template_ext}"
-
-    File.write(filename, output)
+    WriteTemplate.new(output).execute
 
   rescue ActiveRecord::RecordNotFound
     puts 'No such invoice'
