@@ -5,6 +5,7 @@ require 'wlog/domain/static_configurations'
 require 'wlog/domain/template_helper'
 require 'wlog/commands/write_template'
 require 'wlog/commands/fetch_git_commits'
+require 'wlog/commands/fetch_git_commits_standard'
 require 'wlog/tech/git_commit_printer'
 require 'erb'
 
@@ -43,11 +44,14 @@ private
   # TODO maybe separate this in the future for better testing.
   def generate(rest)
     num = rest.first || 1
+
     @invoice = Invoice.find(num.to_i)
-    
-    # NOTE: these need to be instance vars, so we expose them to ERB later on
+    cmd = FetchGitCommitsStandard.new(@invoice.from, @invoice.to)
+    cmd.execute
+
     @log_entries = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
+    @commits = cmd.commits
     
     renderer = ERB.new(TemplateHelper.template_s)
     output = renderer.result(binding)
