@@ -49,7 +49,7 @@ private
     @log_entries = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
     
-    renderer = ERB.new(Template.template_s)
+    renderer = ERB.new(TemplateHelper.template_s)
     output = renderer.result(binding)
 
     WriteTemplate.new(output).execute
