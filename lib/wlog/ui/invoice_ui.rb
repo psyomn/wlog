@@ -28,6 +28,7 @@ class InvoiceUi
       when /^delete/    then delete(cmd.split.drop 1)
       when /^generate/  then generate(cmd.split.drop 1)
       when /^commits/   then commits(cmd.split.drop 1)
+      when 'help'       then print_help
       when /^end/       then next
       else 
         puts "type 'help' for a list of options"
