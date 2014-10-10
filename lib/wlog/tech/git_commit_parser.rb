@@ -19,12 +19,14 @@ class GitCommitParser
         cur.commit = line.split[1].strip
                             
       when /^author/i
+        next unless cur
         cur.author = line.split[1].strip
                                    
       when /^date/i, /^\n$/
         next
                                           
       else 
+        next unless cur
         if inmessage
           cur.message.concat(line)
           cur.message.strip!
@@ -37,6 +39,8 @@ class GitCommitParser
     
     end
     
+    # if commits have no hash, discard them
+    gitlogs.reject! { |e| e.commit == "" }
     gitlogs.push cur if cur
   gitlogs end
 
