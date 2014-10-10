@@ -2,6 +2,7 @@ require 'readline'
 require 'wlog/domain/invoice'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/static_configurations'
+require 'wlog/domain/template_helper'
 require 'wlog/commands/fetch_git_commits'
 require 'wlog/tech/git_commit_printer'
 require 'erb'
@@ -47,12 +48,7 @@ private
     @log_entries = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
     
-    # Get the template
-    num        = KeyValue.get('template') || 1
-    tpath      = Dir[TemplateDir + '*'][num.to_i - 1]
-    template_s = File.read(tpath)
-
-    renderer = ERB.new(template_s)
+    renderer = ERB.new(Template.template_s)
     output = renderer.result(binding)
 
     FileUtils.mkdir_p TemplateOutputDir
