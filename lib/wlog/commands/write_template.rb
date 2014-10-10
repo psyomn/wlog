@@ -1,8 +1,10 @@
+require 'wlog/domain/static_configurations'
 require 'wlog/commands/commandable'
 module Wlog
 # After the template is processed, write out the results to standard file.
 # @author Simon Symeonidis
 class WriteTemplate < Commandable
+  include StaticConfigurations
 
   def initialize(template_output)
     @template_output = template_output
