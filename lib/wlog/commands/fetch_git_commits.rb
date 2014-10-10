@@ -14,6 +14,7 @@ class FetchGitCommits < Commandable
     @from, @to, @repo, @author = from, to, repo, author
   end
 
+  # Run the parser on the repo; yield commits
   def execute
     result = `#{run_git_cmd}`
     @commits = GitCommitParser.parse(result)
