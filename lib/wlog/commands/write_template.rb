@@ -6,8 +6,9 @@ module Wlog
 class WriteTemplate < Commandable
   include StaticConfigurations
 
-  def initialize(template_output)
+  def initialize(template_output, invoice)
     @template_output = template_output
+    @invoice = invoice
   end
 
   def execute

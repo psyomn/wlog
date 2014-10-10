@@ -52,7 +52,7 @@ private
     renderer = ERB.new(TemplateHelper.template_s)
     output = renderer.result(binding)
 
-    WriteTemplate.new(output).execute
+    WriteTemplate.new(output, @invoice).execute
 
   rescue ActiveRecord::RecordNotFound
     puts 'No such invoice'
