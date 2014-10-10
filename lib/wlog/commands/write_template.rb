@@ -14,7 +14,7 @@ class WriteTemplate < Commandable
   def execute
     FileUtils.mkdir_p TemplateOutputDir
     template_ext = File.extname TemplateHelper.template_file || '.txt'
-    filename = TemplateOutputDir + "#{@invoice.id}-invoice.#{template_ext}"
+    filename = TemplateOutputDir + "#{@invoice.id}-invoice#{template_ext}"
     File.write(filename, @template_output)
   nil end
 
