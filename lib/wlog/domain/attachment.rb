@@ -1,10 +1,12 @@
 require 'active_record'
+require 'zlib'
 require 'wlog/domain/sys_config'
+
 module Wlog
 # Following the Active Record pattern
 # OO way of handling blobs of data, to be stored in memory or in db.
 class Attachment < ActiveRecord::Base
-  belongs_to :imageable, polymorphic: true
+  belongs_to :attachable, polymorphic: true
 
   def to_s
     @strmaker = SysConfig.string_decorator
