@@ -3,7 +3,6 @@ require 'wlog/domain/sys_config'
 module Wlog
 # Provides a bunch of edit helping functions for altering already inserted
 # information about issues.
-#
 # @author Simon Symeonidis
 class EditHandler
 
@@ -40,8 +39,8 @@ class EditHandler
   end
   
   # Small helper to parse the due date when editing the dates of issues.
-  #   Accepted formats should be like Oct 28.
   # @param time is the date-time in string format (eg Oct 28)
+  # @return nothing - we're just setting if the data format is ok
   def edit_time(time)
     date_time = time_handle(time)
     @issue.update(:due_date => date_time)
