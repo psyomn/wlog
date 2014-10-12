@@ -1,7 +1,7 @@
 module Wlog
 # Use this if the system does not support colored strings.
 # @author Simon Symeonidis 
-class UncoloredString
+class UncoloredString # :nodoc:
   def self.red(str); str end
   def self.yellow(str); str end
   def self.magenta(str); str end
