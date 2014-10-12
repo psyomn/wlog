@@ -20,11 +20,14 @@ class Attachment < ActiveRecord::Base
 private
 
   def compress_string
-    Zlib::Deflate.deflate self.data
+    self.data = Zlib::Deflate.deflate self.data
   end
 
   def uncompress_string
-    Zlib::Inflate.inflate self.data
+    if self.data
+      # did we just init something with previous data? yes; we can uncompress
+      self.data = Zlib::Inflate.inflate self.data
+    end
   end
 
 end
