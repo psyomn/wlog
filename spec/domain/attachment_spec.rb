@@ -19,7 +19,8 @@ describe Attachment do
    end
  
    after(:all) do
-     FileUtils.rm db_name
+     close_testing_db
+     FileUtils.rm db_path
    end
  
    it 'should attach a mock file to an issue' do
