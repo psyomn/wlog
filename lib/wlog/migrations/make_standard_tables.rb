@@ -44,16 +44,3 @@ class MakeStandardTables < ActiveRecord::Migration
 end
 end 
 
-
-=begin
-TODO
--- A polymorphic relationship for attachments. So pretty much anything that
--- wants to have something attached, uses the discriminator in order to 
--- specify itself, as well as its id. 
-CREATE TABLE polymorphic_attachments (
-  discriminator    TEXT, 
-  discriminator_id INTEGER, 
-  attachment_id    INTEGER
-);
-
-=end
