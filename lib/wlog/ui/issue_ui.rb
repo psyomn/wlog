@@ -79,19 +79,17 @@ private
     name_alias = Readline.readline('Alias name for file (optional): ')
     name_alias.strip!
     
-    unless loc.nil?
-      fh = File.open(loc, "r")
-      data = fh.read
-      fh.close
+    fh = File.open(loc, "r")
+    data = fh.read
+    fh.close
 
-      att = Attachment.new(:filename => loc.split('/').last, :data => data, 
-        :given_name => :name_alias)
-      @issue.attachments << att
+    att = Attachment.new(:filename => loc.split('/').last, :data => data, 
+      :given_name => :name_alias)
+    @issue.attachments << att
 
-      puts 'Attached file.'
-    else
-      puts 'You need to provide a proper path.'
-    end
+    puts 'Attached file.'
+  rescue
+    puts 'You need to provide a proper path.'
   end
 
   # Time logging command
