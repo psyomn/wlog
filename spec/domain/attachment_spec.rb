@@ -18,11 +18,7 @@ describe Attachment do
      make_testing_db(db_name)
    end
  
-   after(:all) do |test|
-     if test.exception
-       # ensure that db is removed even if some test fails 
-       FileUtils.rm db_name
-     end
+   after(:all) do
      FileUtils.rm db_name
    end
  
