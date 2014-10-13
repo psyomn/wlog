@@ -100,7 +100,9 @@ private
   end
 
   # Print the description of the issue
-  def describe_issue; puts @issue end
+  def describe_issue; 
+    puts @issue 
+  end
 
   # This needs updating
   def print_help
@@ -139,8 +141,11 @@ private
   def delete_entry(cmd_a)
     case cmd_a[0]
     when /t/, /task/       then LogEntry.delete(cmd_a[1])
-    when /a/, /attachment/ then Attachment.delete(cmd_a[2])
+    when /a/, /attachment/ then Attachment.delete(cmd_a[1])
     end
+    # If something gets deleted, we need to reload the issue so that the
+    # relations are ok.
+    @issue.reload
   end
 
   # Concatenate an aggregate description to a previous item
