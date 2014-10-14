@@ -269,7 +269,8 @@ internet to use as your own.
 
 Templates are set per database. So if you want to use different templates (1 at
 a time) per database, it's possible. You can take a look at an example template
-that exploits all the currently available template variables [here]().
+that exploits all the currently available template variables
+[here](https://gist.github.com/psyomn/790fd35f78d30d9d3604).
 
 ## Git Integration
 
