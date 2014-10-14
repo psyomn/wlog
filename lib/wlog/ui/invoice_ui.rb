@@ -61,7 +61,7 @@ private
   rescue ActiveRecord::RecordNotFound
     puts 'No such invoice'
   rescue => e
-    puts e.message
+    puts e
   end
 
   def delete(rest)
