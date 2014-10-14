@@ -83,11 +83,16 @@ private
     data = fh.read
     fh.close
 
-    att = Attachment.new(:filename => loc.split('/').last, :data => data, 
-      :given_name => :name_alias)
+    att = Attachment.new
+    att.filename = loc.split('/').last
+    att.data = data
+    att.given_name = name_alias
+
     @issue.attachments << att
 
     puts 'Attached file.'
+  rescue Zlib::DataError
+    puts 'Problem attaching file due to wrong data'
   rescue
     puts 'You need to provide a proper path.'
   end
