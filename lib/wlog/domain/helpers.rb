@@ -27,7 +27,7 @@ class Helpers
   # Check to see if the database exists in the DataDirectory
   # @return true if exists, otherwise false
   def self.database_exists?
-    File.exists? "#{DataDirectory}#{ARGV[0] || DefaultDb}"
+    File.exists? "#{DataDirectory}#{DefaultDb}"
   end
 
   # Check to see if DataDirectory exists

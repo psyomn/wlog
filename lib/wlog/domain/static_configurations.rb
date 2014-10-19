@@ -18,7 +18,7 @@ module Wlog
     DataDirectory = "#{AppDirectory}data/"
 
     # Default database name (when unspecified)
-    DefaultDb = "#{ARGV[0] || default}"
+    DefaultDb = "#{ARGV[0] || 'default'}"
 
     # Where the template files exist
     TemplateDir = "#{AppDirectory}templates/"
