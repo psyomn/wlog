@@ -34,9 +34,11 @@ private
 
   # git --git-dir <thedir> log --since=... --until=... --author=...
   def run_git_cmd
+    from_s = @from.strftime("%b %d %Y")
+    to_s   = @to.strftime("%b %d %Y")
     base = "git --git-dir #{@repo} log "
-    base.concat("--since=\"#{@from}\" ")
-    base.concat("--until=\"#{@to}\" ")
+    base.concat("--since=\"#{from_s}\" ")
+    base.concat("--until=\"#{to_s}\" ")
     base.concat("--author=\"#{@author}\"") if @author
   base end
 
