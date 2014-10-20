@@ -310,6 +310,20 @@ will be printed on screen.
       22d760f881e613a30d3b722dd9b26f4f46c1cf4c domain/log_entry: add belongs_to issue ...
       79d1e3393587b02c328a454d5cfe301d3f80aee8 invoices: select date range for log entries ...
 
+## Config
+
+If you want to unset colors you can do so by going to the config menu
+
+    [wlog] config
+    [config]
+
+and then typing in 
+
+    [config] set ansi no
+
+When you restart wlog, the colors will be set off. To set colors back on just
+use `yes`.
+
 ## Contributing
 
 1. Fork it
