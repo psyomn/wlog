@@ -46,12 +46,17 @@ private
     num = rest.first || 1
 
     @invoice = Invoice.find(num.to_i)
-    cmd = FetchGitCommitsStandard.new(@invoice.from, @invoice.to)
-    cmd.execute
+
+    if KeyValue.get('git')
+      # Only attempt to fetch commits if user has set git repo
+      cmd = FetchGitCommitsStandard.new(@invoice.from, @invoice.to)
+      cmd.execute
+      @commits = cmd.commits
+    end
 
     @log_entries = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
-    @commits = cmd.commits
+
     
     renderer = ERB.new(TemplateHelper.template_s)
     output = renderer.result(binding)
