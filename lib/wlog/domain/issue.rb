@@ -33,7 +33,7 @@ class Issue < ActiveRecord::Base
     @strmaker = SysConfig.string_decorator
     "#{@strmaker.yellow('Issue')} ##{id}#{$/}"\
     "  #{@strmaker.blue('Reported')} : #{created_at.asctime}#{$/}"\
-    "  #{@strmaker.blue('Due')}      : #{due_date.asctime}#{$/}"\
+    "  #{@strmaker.blue('Due')}      : #{due_date.asctime} #{make_remaining_days_s}#{$/}"\
     "  #{@strmaker.blue('Entries')}  : #{le_count} #{$/}"\
     "  #{@strmaker.blue('Status')}   : #{Statuses[status]}#{$/}"\
     "  #{@strmaker.blue('Time')}     : #{TimelogHelper.time_to_s(timelog)}#{$/}"\
@@ -77,6 +77,16 @@ private
     str = @strmaker.red("  N/A#{$/}") if str == '' # no attachments
     str.concat($/)
   str end
+
+  # Will make a string of the due date, and append the days that remain. On
+  # dates before the due date, you get things like '+5 days'. Past due dates will
+  # render '-5 days'
+  # @return a string containing the number of days that remain
+  def make_remaining_days_s
+    days = (due_date.to_date - created_at.to_date).to_i
+    days_s = "#{days} day#{days == 1 ? '' : 's'}"
+    days > 0 ? @strmaker.green('+' + days_s) : @strmaker.red(days_s)
+  end
 
 private_class_method
 
