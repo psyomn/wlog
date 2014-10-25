@@ -78,14 +78,30 @@ private
     str.concat($/)
   str end
 
+  # TODO might need factoring out
   # Will make a string of the due date, and append the days that remain. On
   # dates before the due date, you get things like '+5 days'. Past due dates will
   # render '-5 days'
   # @return a string containing the number of days that remain
   def make_remaining_days_s
     days = (due_date.to_date - created_at.to_date).to_i
-    days_s = "#{days} day#{days == 1 ? '' : 's'}"
-    days > 0 ? @strmaker.green('+' + days_s) : @strmaker.red(days_s)
+    days_s = "[#{days} day#{days == 1 ? '' : 's'}]"
+    make_colored_num_s(days, days_s)
+  end
+
+  # TODO might need factoring out
+  # Depending on the number range we color things. Uses the strmaker, so
+  # terminals with no ansi support will not see anything funky :(
+  # @return yellow stringified number if 1 <= x <= 3, green for more, red for
+  #   less
+  def make_colored_num_s(num, num_s)
+    if num >= 1 && num <= 3 
+      @strmaker.yellow(num_s)
+    elsif num < 1
+      @strmaker.red(num_s)
+    else 
+      @strmaker.green(num_s)
+    end
   end
 
 private_class_method
