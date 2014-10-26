@@ -1,14 +1,15 @@
 require 'wlog/tech/text_filters'
 require 'wlog/tech/ansi_colors'
+require 'wlog/tech/wlog_string'
 
 include Wlog
 include TextFilters
 include AnsiColors
 
-describe TextFilters do 
+describe TextFilters do
 
-  before :all do 
-    SysConfig.ansi!
+  before :each do
+    allow(SysConfig).to receive(:string_decorator).and_return(WlogString)
   end
 
   it 'should detect a simple link' do
@@ -19,8 +20,8 @@ describe TextFilters do
     expect(b).to match(/^\x1b\[#{Blue}/)
     expect(c).to match(/^\x1b\[#{Blue}/)
   end
-  
-  it 'should not color a common string' do 
+
+  it 'should not color a common string' do
     a = highlight_hyperlink_s("potato potato how is the potato")
     expect(a).to eq("potato potato how is the potato")
   end
