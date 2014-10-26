@@ -10,16 +10,6 @@ class LogEntry < ActiveRecord::Base
 
   belongs_to :issue
 
-    # Search by string to find a matching description with 'LIKE'.
-#   def self.search_descriptions(db, term)
-#     all = Array.new
-#     db.execute(SelectDescriptionLike,"%#{term}%").each do |row|
-#       le = LogEntry.new
-#       le.quick_assign!(row[0], row[1], Time.at(row[2]))
-#       all.push le
-#     end
-#   all end
- 
   # Print things nicely formmated no more than 80 cars (well, unless you stick
   # the time in the end which is not counted for).
   def to_s
