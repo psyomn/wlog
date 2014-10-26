@@ -2,11 +2,13 @@ require 'active_record'
 
 require 'wlog/domain/helpers'
 require 'wlog/domain/attachment'
+require 'wlog/tech/text_filters'
 
 module Wlog
 # Author :: Simon Symeonidis 
 #  Active Record Domain object for a log entry
 class LogEntry < ActiveRecord::Base
+  include TextFilters
 
   belongs_to :issue
 
@@ -19,7 +21,8 @@ class LogEntry < ActiveRecord::Base
     indent = " " * (id.to_s.split('').count + 5)
     desc.gsub!(/#{$/}/, "#{$/}#{indent}")
     str.concat(desc)
-  str end
+    highlight_hyperlink_s(str)
+  end
 
 private
 end
