@@ -40,4 +40,15 @@ describe TextFilters do
     expect(ret_a.count).to eq(6)
   end
 
+  it 'should preserve line formatting' do
+    str = 'this is my line and there is more to say'
+    str.concat($/).concat('and there is yet more again').concat($/)
+    str.concat('but now I am talking about www.link.com and').concat($/)
+    str.concat('will continue to babble on to make sure that the test').concat($/)
+    str.concat('is actually quite ok. also www.potato.com!').concat($/)
+
+    res = highlight_hyperlink_s(str)
+    expect(res.lines.count).to eq(str.lines.count)
+  end
+
 end
