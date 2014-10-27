@@ -10,8 +10,10 @@ module TextFilters
   def highlight_hyperlink_s(string)
     @strmaker = SysConfig.string_decorator
     regex = /http(s)?:\S*|www.\S*/
-    str_a = string.split.map { |e| e.match(regex) ? @strmaker.blue(e) : e }
-    str_a.join ' '
+    s = string.dup
+    tmp = nil
+    s.gsub!(regex) { @strmaker.blue($&) }
+    s
   end
 end 
 end
