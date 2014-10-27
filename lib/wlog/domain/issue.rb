@@ -84,7 +84,7 @@ private
   # render '-5 days'
   # @return a string containing the number of days that remain
   def make_remaining_days_s
-    days = (due_date.to_date - created_at.to_date).to_i
+    days = (due_date.to_date - Time.now.to_date).to_i
     days_s = "[#{days} day#{days == 1 ? '' : 's'}]"
     make_colored_num_s(days, days_s)
   end
