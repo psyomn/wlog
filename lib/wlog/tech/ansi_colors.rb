@@ -13,4 +13,3 @@ module AnsiColors
   White   = 37
 end
 end
-

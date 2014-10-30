@@ -4,7 +4,7 @@ require 'wlog/domain/helpers'
 require 'wlog/domain/attachment'
 
 module Wlog
-# Author :: Simon Symeonidis 
+# Author :: Simon Symeonidis
 #  Active Record Domain object for a log entry
 class LogEntry < ActiveRecord::Base
 
@@ -19,7 +19,7 @@ class LogEntry < ActiveRecord::Base
 #       all.push le
 #     end
 #   all end
- 
+
   # Print things nicely formmated no more than 80 cars (well, unless you stick
   # the time in the end which is not counted for).
   def to_s
@@ -34,4 +34,3 @@ class LogEntry < ActiveRecord::Base
 private
 end
 end # module Wlog
-

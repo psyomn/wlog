@@ -23,4 +23,3 @@ class MakeCsv < Commandable
   attr_accessor :ret
 end
 end
-

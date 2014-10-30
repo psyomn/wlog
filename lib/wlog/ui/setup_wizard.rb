@@ -18,7 +18,7 @@ class SetupWizard
     TaintSetup.new.execute
   end
 
-private 
+private
 
   def get_setting
     question = "Do you use a terminal that supports ANSI colors? [yes/no] :"

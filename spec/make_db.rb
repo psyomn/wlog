@@ -22,7 +22,7 @@ end
 
 # make the tables, and perform possible migrations
 def setup_db
-  ActiveRecord::Migration.verbose = false 
+  ActiveRecord::Migration.verbose = false
   ActiveRecord::Migration.run(MakeSchemaMigration)
 
   InnitDb.new.execute_migrations!
@@ -31,4 +31,3 @@ end
 def standard_db_path(dbname)
   "#{File.expand_path File.dirname(__FILE__)}/#{dbname}"
 end
-

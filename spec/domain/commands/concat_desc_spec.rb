@@ -9,7 +9,7 @@ require 'wlog/commands/concat_description'
 
 include Wlog
 
-describe ConcatDescription do 
+describe ConcatDescription do
 
   db_name = 'default'
   db_path = standard_db_path(db_name)
@@ -30,7 +30,7 @@ describe ConcatDescription do
   after(:all) do
     FileUtils.rm db_path
   end
-   
+
   # I know, tests should not really look for implementation details, but things
   # in our case *should* really inherit the command interface.
   it "should inherit from commandable" do

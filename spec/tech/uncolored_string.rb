@@ -2,7 +2,7 @@ require 'wlog/tech/uncolored_string'
 
 include Wlog
 
-describe UncoloredString do 
+describe UncoloredString do
 
   ucs = UncoloredString
 

@@ -7,7 +7,7 @@ module Wlog
 class EditHandler
 
   def initialize(issue)
-    @issue = issue 
+    @issue = issue
     @strmaker = SysConfig.string_decorator
   end
 
@@ -29,7 +29,7 @@ class EditHandler
     when /^reported/
       edit_reported_time(param)
 
-    else 
+    else
       $stdout.puts "Usage: "
       $stdout.puts "  edit title - to edit the title"
       $stdout.puts "  edit desc  - to edit the long description"
@@ -37,7 +37,7 @@ class EditHandler
       $stdout.puts "  edit time  - to edit the time"
     end
   end
-  
+
   # Small helper to parse the due date when editing the dates of issues.
   # @param time is the date-time in string format (eg Oct 28)
   # @return nothing - we're just setting if the data format is ok
@@ -63,9 +63,9 @@ class EditHandler
       "Invalid date/time format. Try format like 'Oct 28'"
   end
 
-  # TODO fix me 
+  # TODO fix me
   # @param time_str The time that we want to kind of sanitize
-  # @return a Time object which is set to 9am on that day if no time 
+  # @return a Time object which is set to 9am on that day if no time
   #   is provided
   def time_handle(time_str)
     date_time = DateTime.parse(time_str)
@@ -76,4 +76,4 @@ class EditHandler
   attr :issue
 
 end
-end # wlog 
+end # wlog

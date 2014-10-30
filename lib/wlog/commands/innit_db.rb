@@ -41,7 +41,7 @@ class InnitDb < Commandable
 
     migrations.reject!{ |e| existing.include? e.to_s}
 
-    migrations.each do |migration| 
+    migrations.each do |migration|
       ActiveRecord::Migration.run(migration)
       SchemaMigration.create(:version => migration.name)
     end
@@ -51,8 +51,8 @@ class InnitDb < Commandable
 private
 
   # Checks to see if versioning table is there. Create if not.
-  def make_schema_migrations! 
-    ActiveRecord::Migration.verbose = false 
+  def make_schema_migrations!
+    ActiveRecord::Migration.verbose = false
     ActiveRecord::Base.configurations = dbconfig
     ActiveRecord::Base.establish_connection(:development)
     ActiveRecord::Base.default_timezone = :local
@@ -64,7 +64,7 @@ private
 
   # TODO this should probably be moved
   def dbconfig
-    dbname = ARGV[0] || DefaultDb
+    dbname = DefaultDb
     {'development' => {
      :adapter => 'sqlite3',
      :pool => 5,
@@ -74,4 +74,3 @@ private
 
 end
 end
-

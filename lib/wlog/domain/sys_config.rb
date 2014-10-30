@@ -84,10 +84,10 @@ class SysConfig
     terms.each do |term_tuple| # [term, value]
       values[term_tuple[0]] = term_tuple[1]
     end
-    values 
+    values
   rescue Errno::ENOENT
     $stderr.puts "#{self.class.name}: Problem opening file #{ConfigFile}"
-    # Minimum guarantee: disable ansi colors 
+    # Minimum guarantee: disable ansi colors
 	 {'ansi' => 'no'}
   end
 
@@ -96,4 +96,3 @@ class SysConfig
 
 end
 end # module Wlog
-

@@ -1,4 +1,5 @@
 require 'readline'
+require 'tempfile'
 require 'wlog/domain/invoice'
 require 'wlog/domain/sys_config'
 require 'wlog/domain/static_configurations'
@@ -33,7 +34,7 @@ class InvoiceUi
       when /^commits/   then commits(cmd.split.drop 1)
       when 'help'       then print_help
       when /^end/       then next
-      else 
+      else
         puts "type 'help' for a list of options"
       end
     end
@@ -46,13 +47,17 @@ private
     num = rest.first || 1
 
     @invoice = Invoice.find(num.to_i)
-    cmd = FetchGitCommitsStandard.new(@invoice.from, @invoice.to)
-    cmd.execute
+
+    if KeyValue.get('git')
+      # Only attempt to fetch commits if user has set git repo
+      cmd = FetchGitCommitsStandard.new(@invoice.from, @invoice.to)
+      cmd.execute
+      @commits = cmd.commits
+    end
 
     @log_entries = @invoice.log_entries_within_dates
     @issues = [Issue.find(*(@log_entries.collect(&:issue_id).uniq))].compact.flatten
-    @commits = cmd.commits
-    
+
     renderer = ERB.new(TemplateHelper.template_s)
     output = renderer.result(binding)
 
@@ -67,13 +72,13 @@ private
   def delete(rest)
     id = rest[0]
     cmd = Readline.readline("Are you sure you want to delete invoice ##{id}? [y/n]: ")
-    return if cmd != 'y' 
+    return if cmd != 'y'
     Invoice.delete(id)
   end
 
   def ls
     Invoice.all.each do |invoice|
-      print "  [#{invoice.id}] " 
+      print "  [#{invoice.id}] "
       print @strmaker.yellow(invoice.from.strftime("%d-%m-%Y"))
       print @strmaker.blue(" -> ")
       print @strmaker.yellow(invoice.to.strftime("%d-%m-%Y"))
@@ -87,7 +92,7 @@ private
      'delete', 'delete an invoice (eg: delete 2)',
      'generate', 'generate an invoice using set template (eg: generate 2)'
     ].each_with_index do |cmd,ix|
-      print '  ' if ix % 2 == 1 
+      print '  ' if ix % 2 == 1
       puts cmd
     end
   end
@@ -107,27 +112,36 @@ private
   # TODO: this would have to be factored out at some point. Also I think the
   # implementation is crappy. I have to recheck at some point.
   def longtext
-   count = 0 
-   status = nil
-   str = ""
-   
-   until status == :end_text do 
-     line = Readline.readline(@strmaker.blue('> ')).strip
-     count += 1 if line == ""
-     count  = 0 if line != ""
+    if ENV['EDITOR'].nil?
+      count = 0
+      status = nil
+      str = ""
 
-     str.concat(line).concat($/)
-   
-     status = :end_text and next if count == 2
-   end 
-  str end
+      until status == :end_text do
+        line = Readline.readline(@strmaker.blue('> ')).strip
+        count += 1 if line == ""
+        count  = 0 if line != ""
+
+        str.concat(line).concat($/)
+
+        status = :end_text and next if count == 2
+      end
+    else
+      t = Tempfile.new('description')
+      system(ENV['EDITOR'] + ' ' + t.path)
+      str = File.open(t.path).read
+      t.unlink
+    end
+
+    str
+  end
 
   def commits(invoice_id)
-    inv = Invoice.find_by_id(invoice_id) 
+    inv = Invoice.find_by_id(invoice_id)
     repo = KeyValue.get('git')
     author = KeyValue.get('author')
 
-    unless repo 
+    unless repo
       puts @strmaker.red("You need to set a git repo first")
       return
     end
@@ -140,11 +154,10 @@ private
     puts "git commits for #{@strmaker.yellow(author)}"
     puts
     print_git_commits(command.commits)
-    
+
   rescue ActiveRecord::RecordNotFound
     puts @strmaker.red("No such invoice")
   end
 
 end
 end
-

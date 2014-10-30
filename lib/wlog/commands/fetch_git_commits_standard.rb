@@ -26,4 +26,3 @@ class FetchGitCommitsStandard < Commandable
   attr_accessor :commits
 end
 end
-

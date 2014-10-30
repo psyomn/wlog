@@ -9,7 +9,7 @@ class TimelogHelper
     self.calculate_time(loggings)
   end
 
-  # @param time is time in seconds 
+  # @param time is time in seconds
   # @return in nice format (2d 1h 20m)
   def self.time_to_s(time)
     str = ""

@@ -1,4 +1,4 @@
-require 'active_record' 
+require 'active_record'
 
 require 'wlog/domain/log_entry'
 require 'wlog/domain/timelog_helper'
@@ -8,7 +8,7 @@ require 'wlog/domain/helpers'
 module Wlog
 # This aggregates log entries. The total time spent on this issue is
 # calculated from checking out said log entries.
-# @author Simon Symeonidis 
+# @author Simon Symeonidis
 class Issue < ActiveRecord::Base
 
   has_many :log_entries, dependent: :delete_all
@@ -48,10 +48,10 @@ class Issue < ActiveRecord::Base
 
   # Mark issue as started
   def mark_started!; self.status = 0 end
-  
+
   # Mark the issue as working
   def mark_working!; self.status = 1 end
-  
+
   # Mark the issue as finished
   def mark_finished!; self.status = 2 end
 
@@ -63,15 +63,15 @@ class Issue < ActiveRecord::Base
 
 private
   Statuses = {
-    StatusNew      => "new", 
-    StatusStarted  => "started work", 
-    StatusFinished => "finished", 
+    StatusNew      => "new",
+    StatusStarted  => "started work",
+    StatusFinished => "finished",
     StatusArchived => "archived"}
 
   # Stringify attachments for terminal output
   def attachments_s
     str = ''
-    self.attachments.each do |att| 
+    self.attachments.each do |att|
       str.concat(att.to_s)
     end
     str = @strmaker.red("  N/A#{$/}") if str == '' # no attachments
@@ -82,4 +82,3 @@ private_class_method
 
 end # class  Issue
 end # module Wlog
-

@@ -9,24 +9,24 @@ require 'zlib'
 
 include Wlog
 
-describe Attachment do 
- 
+describe Attachment do
+
    db_name = 'default'
    db_path = standard_db_path(db_name)
-   
+
    before(:all) do
      make_testing_db(db_name)
    end
- 
+
    after(:all) do
      close_testing_db
      FileUtils.rm db_path
    end
- 
+
    it 'should attach a mock file to an issue' do
      @issue = Issue.create(:description => 'mydesc',
        :long_description => 'potato')
-     
+
      # You're kind of forced to do this because I've hacked a shitty
      # implementation of compressing - uncompressing strings automatically when
      # attaching files.
@@ -48,5 +48,5 @@ describe Attachment do
    it "should return nil if something is not found" do
      expect(Attachment.find_by_id(123123123)).to eq(nil)
    end
-end 
-# 
+end
+#
