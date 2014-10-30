@@ -43,4 +43,3 @@ describe ReplacePattern do
     expect(new_le.description).to eq('This is my wlog_entry')
   end
 end
-

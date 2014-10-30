@@ -4,8 +4,8 @@ require 'wlog/domain/key_value'
 
 include Wlog
 
-describe KeyValue do 
- 
+describe KeyValue do
+
   db_name = "default"
   db_path = standard_db_path(db_name)
 
@@ -36,5 +36,4 @@ describe KeyValue do
     expect(@kv.get('my_value')).to eq('321')
   end
 
-end 
-
+end

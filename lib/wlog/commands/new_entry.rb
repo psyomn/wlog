@@ -8,13 +8,13 @@ module Wlog
 # @author Simon Symeonidis
 class NewEntry < Commandable
 
-  def initialize(desc, issue) 
+  def initialize(desc, issue)
     @desc, @issue = desc, issue
   end
 
   def execute
     log_entry = LogEntry.new(
-      :description => @desc, 
+      :description => @desc,
       :created_at => DateTime.now,
       :updated_at => DateTime.now)
 

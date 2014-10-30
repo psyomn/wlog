@@ -18,4 +18,3 @@ class ReplacePattern < Commandable
   end
 end
 end
-

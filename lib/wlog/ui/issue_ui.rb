@@ -52,7 +52,7 @@ class IssueUi
   # Focusing on the current issue
   attr_accessor :issue
 
-private 
+private
 
   # Wriet out the data contained in the database of the attachment
   def output_attach
@@ -60,7 +60,7 @@ private
     loc = Readline.readline('Output where (abs dir) ? : ')
     loc.chomp!
     att = Attachment.find(att_id)
-    
+
     fh = File.open("#{loc}/#{att.filename}", 'w')
     fh.write(att.data)
     fh.close
@@ -68,7 +68,7 @@ private
 
   def show_attach
     atts = @issue.attachments
-    atts.each do |att| 
+    atts.each do |att|
       printf "[%d] - %s (alias: %s)\n", att.id, att.filename, att.given_name
     end
   end
@@ -78,7 +78,7 @@ private
     loc.strip!
     name_alias = Readline.readline('Alias name for file (optional): ')
     name_alias.strip!
-    
+
     fh = File.open(loc, "r")
     data = fh.read
     fh.close
@@ -99,19 +99,19 @@ private
 
   # Time logging command
   def time(rest)
-    time = TimelogHelper.parse(rest.join) 
+    time = TimelogHelper.parse(rest.join)
     @issue.log_time(time)
     puts @strmaker.green('logged time!')
   end
 
   # Print the description of the issue
-  def describe_issue; 
-    puts @issue 
+  def describe_issue;
+    puts @issue
   end
 
   # This needs updating
   def print_help
-    ["new",   "Create a new log entry", 
+    ["new",   "Create a new log entry",
     "outcsv", "Export everything to CSV",
     'attach', 'Attach a file to the current issue',
     'attachls', 'Show what files have been attached to an issue',
@@ -119,7 +119,7 @@ private
     "help",   "print this dialog",
     "end",    "Exit the progam",
     "search", "Search for a string in the log description text",
-    "delete", "Remove the task with a given id"].each_with_index do |el,ix| 
+    "delete", "Remove the task with a given id"].each_with_index do |el,ix|
       print "  " if 1 == ix % 2
       puts el
     end
@@ -133,7 +133,7 @@ private
       @issue.save
     end
   ret end
- 
+
   # new entry command
   def new_entry
     description = Readline.readline("Enter new issue:#{$/}  ")
@@ -195,4 +195,3 @@ private
   end
 end
 end # end module
-

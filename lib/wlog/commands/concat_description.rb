@@ -20,4 +20,3 @@ class ConcatDescription < Commandable
   attr_reader :id, :str
 end
 end # end Wlog module
-

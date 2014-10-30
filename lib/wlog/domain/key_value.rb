@@ -15,7 +15,7 @@ class KeyValue < ActiveRecord::Base
   def self.put!(key, value)
     if ret = KeyValue.find_by_key(key)
       ret.value = value
-    else 
+    else
       ret = KeyValue.new(:key => key, :value => value)
     end
     ret.save
@@ -29,6 +29,5 @@ class KeyValue < ActiveRecord::Base
   end
 
 private
-end 
+end
 end # module Wlog
-

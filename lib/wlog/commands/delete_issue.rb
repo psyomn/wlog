@@ -19,7 +19,7 @@ class DeleteIssue
       @deleted = true
     end
   rescue ActiveRecord::RecordNotFound
-    @deleted = false 
+    @deleted = false
   end
 
   def deleted?
@@ -29,4 +29,3 @@ class DeleteIssue
   attr :deleted
 end
 end
-

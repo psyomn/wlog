@@ -44,4 +44,3 @@ class Helpers
   def self.first_setup?; !File.exists? TaintFile end
 end
 end # module Wlog
-

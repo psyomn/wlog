@@ -2,7 +2,7 @@ require 'active_record'
 require 'wlog/domain/log_entry'
 
 module Wlog
-# The invoice domain object - use this to manipulate invoice recordings, or 
+# The invoice domain object - use this to manipulate invoice recordings, or
 # this along with some renderer and templates in order to create said invoices.
 # @author Simon Symeonidis
 class Invoice < ActiveRecord::Base

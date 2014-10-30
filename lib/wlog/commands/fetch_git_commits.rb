@@ -13,7 +13,7 @@ class FetchGitCommits < Commandable
   # @param repo   location to the git repo
   # @param author only show logs of that author. If none is given, fetch all
   #   authors
-  # @example 
+  # @example
   #   from_date = DateTime.now - 15
   #   to_date   = DateTime.now + 5
   #   repo      = '/home/jon/wlog/.git/'
@@ -44,4 +44,3 @@ private
 
 end
 end
-

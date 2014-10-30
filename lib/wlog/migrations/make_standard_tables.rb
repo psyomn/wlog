@@ -1,10 +1,10 @@
-require 'active_record' 
+require 'active_record'
 
 module Wlog
 # Migrations to replace the raw sql from turntables
 # @author Simon Symeonidis
 class MakeStandardTables < ActiveRecord::Migration
-  def change 
+  def change
     create_table :issues do |t|
       t.text :description
       t.datetime :due_date
@@ -23,7 +23,7 @@ class MakeStandardTables < ActiveRecord::Migration
     end
 
     create_table :attachments do |t|
-      t.text :filename 
+      t.text :filename
       t.text :given_name
       t.text :data
       t.datetime :created_at
@@ -42,5 +42,4 @@ class MakeStandardTables < ActiveRecord::Migration
     end
   end
 end
-end 
-
+end

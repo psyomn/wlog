@@ -6,7 +6,7 @@ require 'wlog/ui/bootstrap'
 require 'wlog/ui/cli_interface'
 
 include Wlog
-    
+
 if ARGV.size > 0
   case ARGV[0]
   when "--list"
@@ -29,4 +29,3 @@ else
   Bootstrap.configure!
   CliInterface.new.run
 end
-

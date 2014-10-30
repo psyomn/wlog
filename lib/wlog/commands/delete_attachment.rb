@@ -14,4 +14,3 @@ class DeleteAttachment < Commandable
 private
 end
 end
-
