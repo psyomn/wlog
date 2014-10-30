@@ -90,7 +90,8 @@ private
     ['new', 'make a new invoice',
      'ls,show', 'list the current invoice templates',
      'delete', 'delete an invoice (eg: delete 2)',
-     'generate', 'generate an invoice using set template (eg: generate 2)'
+     'generate', 'generate an invoice using set template (eg: generate 2)',
+     'commits', 'list out the commits valid for the duration of the invoice'
     ].each_with_index do |cmd,ix|
       print '  ' if ix % 2 == 1
       puts cmd
