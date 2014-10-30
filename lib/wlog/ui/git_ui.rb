@@ -38,7 +38,21 @@ class GitUi
         print '  auth: '
         puts @strmaker.yellow(KeyValue.get("author"))
 
+      when /^help/
+        print_help
+
       end
+    end
+  end
+
+  def print_help
+    ['set', 'sets the git repository and author',
+     'unset', 'unsets the git repository and author',
+     'ls', 'shows current git repository and author'
+
+    ].each_with_index do |el,ix|
+      print '  ' if 1 == ix % 2
+      puts el
     end
   end
 

@@ -53,7 +53,27 @@ class IssueUi
   attr_accessor :issue
 
 private
-
+  # This needs updating
+  def print_help
+    ["new",   "Create a new log entry",
+    'ls',     "list issues",
+    'desc',   "describe an issue",
+    'edit',   "edit fields of an issue",
+    'concat', "append information to an issue",
+    'replace', 'replace text within an issue',
+    'lt',     'log time on an issue',
+    "outcsv", "Export everything to CSV",
+    'attach', 'Attach a file to the current issue',
+    'attachls', 'Show what files have been attached to an issue',
+    'attachout', 'Extract a file from the database',
+    "help",   "print this dialog",
+    "end",    "Exit the progam (alias: forget, finish)",
+    "search", "Search for a string in the log description text",
+    "delete", "Remove the task with a given id"].each_with_index do |el,ix|
+      print "  " if 1 == ix % 2
+      puts el
+    end
+  end
   # Wriet out the data contained in the database of the attachment
   def output_attach
     att_id = Readline.readline('Which attachment to output? : ').to_i
@@ -107,22 +127,6 @@ private
   # Print the description of the issue
   def describe_issue;
     puts @issue
-  end
-
-  # This needs updating
-  def print_help
-    ["new",   "Create a new log entry",
-    "outcsv", "Export everything to CSV",
-    'attach', 'Attach a file to the current issue',
-    'attachls', 'Show what files have been attached to an issue',
-    'attachout', 'Extract a file from the database',
-    "help",   "print this dialog",
-    "end",    "Exit the progam",
-    "search", "Search for a string in the log description text",
-    "delete", "Remove the task with a given id"].each_with_index do |el,ix|
-      print "  " if 1 == ix % 2
-      puts el
-    end
   end
 
   # Exit the issue, mark as finished

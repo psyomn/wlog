@@ -148,6 +148,7 @@ private
     'archive', 'Archive a file into a specific issue',
     'invoices', 'Go to invoices interface',
     'templates', 'Go to template interface, and set templates',
+    'git', 'Go git interface for setting git options',
     'focus', 'Focus on a particular ',
     'show', 'List all the issues',
     'help', 'Show this information',
