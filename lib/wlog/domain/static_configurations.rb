@@ -36,4 +36,3 @@ module Wlog
     ConfigFile = "#{AppDirectory}config"
   end
 end # module Wlog
-

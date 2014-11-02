@@ -1,7 +1,7 @@
 module Wlog
 # A git commit message
 # @author Simon Symeonidis
-class GitCommit 
+class GitCommit
   def initialize
     @commit = @author = @shortlog = @message = ""
   end

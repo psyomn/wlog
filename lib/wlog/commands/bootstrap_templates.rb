@@ -22,7 +22,7 @@ class BootstrapTemplates < Commandable
 
 private
 
-  # Write a default template 
+  # Write a default template
   def write_default_template!
     fh = File.open(TemplateSampleFile, 'w')
     data = "A list of issues:

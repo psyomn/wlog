@@ -15,4 +15,3 @@ class TaintSetup
   end
 end
 end
-

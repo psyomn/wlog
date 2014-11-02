@@ -32,7 +32,7 @@ class CliInterface
   def run
     cmd = "default"
     label = @strmaker.white('wlog')
-    until cmd == "end" do 
+    until cmd == "end" do
       cmd = Readline.readline("[#{label}] ") || "end"
       cmd.chomp!
 
@@ -52,7 +52,7 @@ class CliInterface
       end
     end
   end
-  
+
   # TODO this might need to be factored out elsewhere
   def self.list_databases
     puts "Available Worklog databases: "
@@ -61,8 +61,8 @@ class CliInterface
     end
   end
 
-private 
- 
+private
+
   # Create a new issue
   def new_issue; CreateIssue.new.execute end
 
@@ -74,7 +74,7 @@ private
       puts 'usage:'
       puts '  delete <id>'
       return
-    else 
+    else
       issue_id = issue_id.to_i
     end
 
@@ -83,8 +83,8 @@ private
       choice = Readline.readline("Delete issue #{issue_id}? [y/n]").strip
       if choice == "y"
         dcmd.execute
-      else 
-        puts "Did nothing" 
+      else
+        puts "Did nothing"
         return
       end
     end
@@ -95,7 +95,7 @@ private
   def archive(cmd)
     args = cmd.split[1..-1]
 
-    if args.length > 0 
+    if args.length > 0
       if args[0] == 'finished'
         puts "Archiving finished issues."
         ArchiveFinishedIssues.new.execute
@@ -140,7 +140,7 @@ private
   # FIXME (update the command stuff)
   # Print the help of the cli app
   def print_help
-    ['new',   'Create a new log entry', 
+    ['new',   'Create a new log entry',
     'outcsv', 'Export everything to CSV',
     'help',   'print this dialog',
     'end',    'Exit the progam',
@@ -148,12 +148,13 @@ private
     'archive', 'Archive a file into a specific issue',
     'invoices', 'Go to invoices interface',
     'templates', 'Go to template interface, and set templates',
+    'git', 'Go git interface for setting git options',
     'focus', 'Focus on a particular ',
     'show', 'List all the issues',
     'help', 'Show this information',
     'search', 'Search for a specific text',
     'config', 'Set differeing configuration parameters'
-    ].each_with_index do |el,ix| 
+    ].each_with_index do |el,ix|
       print '  ' if 1 == ix % 2
       puts el
     end
@@ -193,7 +194,7 @@ private
   # Search for an issue
   def search
     term = Readline.readline("search issues for term : ")
-    issues = Issue.where(["description like ?", "%#{term}%"]) 
+    issues = Issue.where(["description like ?", "%#{term}%"])
     print_list(issues)
   end
 
@@ -202,4 +203,3 @@ private
 
 end
 end # module Wlog
-

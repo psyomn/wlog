@@ -5,7 +5,7 @@ require 'wlog/domain/attachment'
 require 'wlog/tech/text_filters'
 
 module Wlog
-# Author :: Simon Symeonidis 
+# Author :: Simon Symeonidis
 #  Active Record Domain object for a log entry
 class LogEntry < ActiveRecord::Base
   include TextFilters
@@ -27,4 +27,3 @@ class LogEntry < ActiveRecord::Base
 private
 end
 end # module Wlog
-

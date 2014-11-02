@@ -33,7 +33,7 @@ class TemplateUi
 private
 
   def print_help
-    ['ls, show', 'list the current templates you can use', 
+    ['ls, show', 'list the current templates you can use',
      'set <num>', 'set the template you want to use',
      'help', 'print this menu'].each_with_index do |cmd,ix|
        print "  " if ix % 2 == 1
@@ -63,4 +63,3 @@ private
 
 end
 end
-

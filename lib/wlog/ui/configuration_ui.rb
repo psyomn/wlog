@@ -1,7 +1,7 @@
 require 'readline'
 require 'wlog/domain/sys_config'
 
-module Wlog 
+module Wlog
 # Ui to manage configuration settings
 # @author Simon Symeonidis
 class ConfigurationUi
@@ -19,7 +19,7 @@ class ConfigurationUi
       cmd = Readline.readline("[#{label}] ") || "end"
       cmd.chomp!
 
-      case cmd 
+      case cmd
       when /^show/ then show_configurations
       when /^set/  then set(cmd)
       when /^help/ then help
@@ -27,11 +27,11 @@ class ConfigurationUi
     end
   end
 
-private 
+private
 
   # This should show the configurations
   def show_configurations
-    SysConfig.read_attributes.each do |name, value| 
+    SysConfig.read_attributes.each do |name, value|
       puts "%s %s" % [@strmaker.green(name), value]
     end
   end
@@ -47,7 +47,7 @@ private
   # Set a value to something else
   def set(cmd)
     arr = cmd.split
-    if arr.size != 3 
+    if arr.size != 3
       puts "Wrong number of arguments"
       return
     end
@@ -60,4 +60,3 @@ private
     'set <key> <value>' => 'set the configuration pair'}
 end
 end # module wlog
-

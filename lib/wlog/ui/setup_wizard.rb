@@ -19,7 +19,7 @@ class SetupWizard
     TaintSetup.new.execute
   end
 
-private 
+private
 
   def get_setting
     puts WlogString.green('ABCD')

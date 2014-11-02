@@ -5,7 +5,7 @@ require 'wlog/domain/issue'
 
 include Wlog
 
-describe LogEntry do 
+describe LogEntry do
 
   db_name = 'default'
   db_path = standard_db_path(db_name)
@@ -23,14 +23,14 @@ describe LogEntry do
 
   it "should be inserted" do
     le = LogEntry.new
-    desc = "This is a log description" 
+    desc = "This is a log description"
     le.description = desc
     @issue.log_entries << le
 
     other = @issue.log_entries.first
     expect(other.description).to eq(desc)
     expect(other.issue_id).to eq(@issue.id)
-  end 
+  end
 
   it "should handle something that is not found properly" do
     le = LogEntry.find_by_id(12123123123)
@@ -40,9 +40,9 @@ describe LogEntry do
   it "should not be inserted more than once" do
     previous = LogEntry.count
     le = LogEntry.new
-    le.description = "derp" 
+    le.description = "derp"
     le.issue_id = @issue.id
-    4.times{ le.save } 
+    4.times{ le.save }
     after = LogEntry.count
     expect(after).to eq(previous + 1)
   end
@@ -71,5 +71,4 @@ describe LogEntry do
 
     expect(check.description).to eq(after)
   end
-end 
-
+end

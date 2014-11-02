@@ -32,4 +32,3 @@ private
 
 end
 end # module Wlog
-

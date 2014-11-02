@@ -10,10 +10,9 @@ class Bootstrap
   # make $HOME/.config/wlog standard dirs, and pull up database
   def self.configure!
     Helpers.make_dirs!
-    InnitDb.new.execute 
+    InnitDb.new.execute
     # Initial setup if first time running
     SetupWizard.new.run if Helpers.first_setup?
   end
 end
 end
-

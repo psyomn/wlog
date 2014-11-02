@@ -10,4 +10,3 @@ require 'wlog/domain/static_configurations.rb'
 require 'wlog/domain/sys_config.rb'
 require 'wlog/domain/template_engine.rb'
 require 'wlog/domain/timelog_helper.rb'
-

@@ -1,7 +1,7 @@
 require 'wlog/tech/ansi_colors'
 
 module Wlog
-# This should take care of multiplatform color stuff. 
+# This should take care of multiplatform color stuff.
 # @author Simon Symeonidis
 class WlogString
   include AnsiColors

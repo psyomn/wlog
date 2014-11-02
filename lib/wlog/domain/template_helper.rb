@@ -3,9 +3,9 @@ require 'wlog/domain/static_configurations'
 
 module Wlog
 # Bunlde helper functions for templates here
-# @author Simon Symeonidis 
+# @author Simon Symeonidis
 class TemplateHelper
-  include StaticConfigurations     
+  include StaticConfigurations
   # @return absolute path to the template the user has set
   def self.template_file
     num = KeyValue.get('template') || 1

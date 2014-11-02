@@ -4,7 +4,7 @@ require 'wlog/domain/issue'
 
 include Wlog
 
-describe Issue do 
+describe Issue do
 
   db_name = 'default'
 
@@ -22,7 +22,7 @@ describe Issue do
     issue.description = "Some issue"
     issue.mark_started!
     issue.save
-    
+
     ret = Issue.all
     expect(ret.size).to eq(1)
   end
@@ -34,7 +34,7 @@ describe Issue do
     issue.save
     issue.delete
 
-    ret = Issue.find_by_id(issue.id) 
+    ret = Issue.find_by_id(issue.id)
     expect(ret).to eq(nil)
   end
 
@@ -67,13 +67,13 @@ describe Issue do
     issue3 = Issue.new
 
     issue1.description = "find me 1"
-    issue2.description = "find me 2" 
+    issue2.description = "find me 2"
     issue3.description = "find me 3"
-    
+
     issue1.long_description = "long desc 1"
     issue2.long_description = "long desc 2"
     issue3.long_description = "long desc 3"
-    
+
     issue1.save
     issue2.save
     issue3.save
@@ -113,7 +113,7 @@ describe Issue do
   end
 
   it "should find all finished issues" do
-    4.times do 
+    4.times do
       iss = Issue.new
       iss.description = "hello"
       iss.mark_finished!
@@ -128,5 +128,4 @@ describe Issue do
 
   it "should accept attachments" do
   end
-end 
-
+end
