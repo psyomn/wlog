@@ -19,6 +19,7 @@ class Attachment < ActiveRecord::Base
 
 private
 
+  # TODO need to check if there is a better way to check for this
   def compress_string
     self.data = Zlib::Deflate.deflate self.data
   end
