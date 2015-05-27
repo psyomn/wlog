@@ -23,12 +23,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "yard"
-  spec.add_development_dependency "coveralls"
-  spec.add_development_dependency 'redcarpet'
+  spec.add_development_dependency "rake", "~> 10.4", ">= 10.4.3"
+  spec.add_development_dependency "rspec", "~> 3.2", ">= 3.2.0"
+  spec.add_development_dependency "yard", "~> 0.8", ">= 0.8.7.6"
+  spec.add_development_dependency "coveralls", "~> 0.8", ">= 0.8.1"
+  spec.add_development_dependency 'redcarpet', "~> 3.2", ">= 3.2.3"
 
-  spec.add_runtime_dependency "sqlite3", ">= 1.3.7"
-  spec.add_runtime_dependency 'activerecord', "4.1.6"
+  spec.add_runtime_dependency "sqlite3", "~> 1.3", ">= 1.3.7"
+  spec.add_runtime_dependency 'activerecord', "~> 4.1", "4.1.6"
 end
