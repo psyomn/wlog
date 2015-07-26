@@ -43,18 +43,19 @@ class GitUi
 
       end
     end
-
-    private
-
-    def print_help
-      ['ls, show', 'list the current git repository settings',
-       'set', 'set repo and author for currnet git repository',
-       'unset', 'unsets git repository settings',
-       'help', 'print this menu'].each_with_index do |cmd,ix|
-         print "  " if ix % 2 == 1
-         puts cmd
-       end
-    end
   end
+
+  private
+
+  def print_help
+    ['ls, show', 'list the current git repository settings',
+     'set', 'set repo and author for currnet git repository',
+     'unset', 'unsets git repository settings',
+     'help', 'print this menu'].each_with_index do |cmd,ix|
+       print "  " if ix % 2 == 1
+       puts cmd
+     end
+  end
+
 end
 end
