@@ -151,6 +151,7 @@ private
     case cmd_a[0]
     when /t/, /task/       then LogEntry.delete(cmd_a[1])
     when /a/, /attachment/ then Attachment.delete(cmd_a[1])
+    else puts "Usage:\n  delete <(t|task)|(a|attachment)> <id>"
     end
     # If something gets deleted, we need to reload the issue so that the
     # relations are ok.
