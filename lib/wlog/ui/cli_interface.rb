@@ -1,4 +1,5 @@
 require 'readline'
+require 'wlog/version'
 require 'wlog/domain/issue'
 require 'wlog/domain/static_configurations'
 require 'wlog/domain/sys_config'
@@ -31,6 +32,7 @@ class CliInterface
   # Run the interface
   def run
     cmd = "default"
+    puts @strmaker.green("wlog #{Wlog::VERSION}")
     label = @strmaker.white('wlog')
     until cmd == "end" do
       cmd = Readline.readline("[#{label}] ") || "end"
