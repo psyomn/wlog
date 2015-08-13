@@ -138,6 +138,11 @@ private
   end
 
   def commits(invoice_id)
+    if [nil, []].include? invoice_id
+      puts "Usage:\n  commits <invoice-id>"
+      return
+    end
+
     inv = Invoice.find_by_id(invoice_id)
     repo = KeyValue.get('git')
     author = KeyValue.get('author')
