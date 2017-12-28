@@ -24,6 +24,7 @@ describe Attachment do
    end
 
    it 'should attach a mock file to an issue' do
+     skip
      @issue = Issue.create(:description => 'mydesc',
        :long_description => 'potato')
 
