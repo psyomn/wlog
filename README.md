@@ -1,18 +1,23 @@
-# wlog [![Code Climate](https://codeclimate.com/github/psyomn/wlog.png)](https://codeclimate.com/github/psyomn/wlog) [![Build Status](https://travis-ci.org/psyomn/wlog.png?branch=v1.1.0)](https://travis-ci.org/psyomn/wlog) [![Inline docs](http://inch-ci.org/github/psyomn/wlog.svg?branch=master)](http://inch-ci.org/github/psyomn/wlog) [![Gem Version](https://badge.fury.io/rb/wlog.svg)](http://badge.fury.io/rb/wlog) [![Coverage Status](https://img.shields.io/coveralls/psyomn/wlog.svg)](https://coveralls.io/r/psyomn/wlog?branch=v1.2.0)
+# wlog
+
+[![Code Climate](https://codeclimate.com/github/psyomn/wlog.png)](https://codeclimate.com/github/psyomn/wlog)
+[![Build Status](https://travis-ci.org/psyomn/wlog.png?branch=v1.1.0)](https://travis-ci.org/psyomn/wlog)
+[![Inline docs](http://inch-ci.org/github/psyomn/wlog.svg?branch=master)](http://inch-ci.org/github/psyomn/wlog)
+[![Gem Version](https://badge.fury.io/rb/wlog.svg)](http://badge.fury.io/rb/wlog)
 
 wlog (worklog) is a small utility to track tasks in command line. I use this
-for things I work on and need to submit a list of stuff done on a particular 
+for things I work on and need to submit a list of stuff done on a particular
 day.
 
 On the long term, I wish to provide some kind of ability to interface with
-redmine, and synchronize tasks. This way we'd be able to have a git-like 
+redmine, and synchronize tasks. This way we'd be able to have a git-like
 utitlity for issue tracking - that is log your work on your computer, and push
 it to the server whenever you're done (or want to update others on your
-progress). 
+progress).
 
 ## Source Location
 
-You can find the sources on github: 
+You can find the sources on github:
 
 [http://github.com/psyomn/wlog](http://github.com/psyomn/wlog)
 
@@ -33,13 +38,13 @@ On command line write
 
     wlog
 
-When you specify nothing, the default database is used. If you want to store 
+When you specify nothing, the default database is used. If you want to store
 tasks in different databases (lets say you have project1, project2), then execute
-the following line: 
+the following line:
 
     wlog project2
 
-The databases are located here: 
+The databases are located here:
 
     $HOME/.config/wlog/data/
 
@@ -57,18 +62,18 @@ You can list the available databases by running the following command:
 
     wlog --list
 
-If for some reason you need to check out where the application stores the 
-databases, you can do the following: 
+If for some reason you need to check out where the application stores the
+databases, you can do the following:
 
     wlog --where
 
-That will print the absolute path to that directory. 
+That will print the absolute path to that directory.
 
 # Main Interface
 
     [wlog]
 
-Enter the command `new` to create a new issue: 
+Enter the command `new` to create a new issue:
 
     [wlog] new
 
@@ -85,15 +90,15 @@ Enter the command `show` or `ls` to list the issues:
 Now we want to focus on a particular issue. We type in `focus`:
 
     [wlog] focus 1
-    [issue #1] 
+    [issue #1]
 
-And now we can show all the logged work with `ls` or `show`: 
+And now we can show all the logged work with `ls` or `show`:
 
     [issue #1] ls
     2013-10-13 - Sunday [2]
-      [4] I did some work on this issue [15:34:08] 
-      [5] Some trivial work there too [15:35:32] 
-    [issue #1] 
+      [4] I did some work on this issue [15:34:08]
+      [5] Some trivial work there too [15:35:32]
+    [issue #1]
 
 And commands you execute apply to the scope of only that issue. You can type in
 `help` for more info.
@@ -102,19 +107,19 @@ While in the scope of an issue, you can display its full description by invoking
 the command `desc`.
 
     [issue #4] desc
-    
+
     Issue #4
       Reported : Sat Jul 12 00:46:27 2014
       Due      : Fri Oct 24 05:00:00 2014
       Entries  : 0
       Status   : started work
-      Time     : 3w 4d 1h 
-    
-    Summary 
+      Time     : 3w 4d 1h
+
+    Summary
       This is some impressive work right here
-    
-    Description 
-      But this is an ever longer desc 
+
+    Description
+      But this is an ever longer desc
 
     File
       N/A
@@ -128,16 +133,16 @@ You can also attach files to issues while being within issue scope:
     Absolute file location : /tmp/derp.txt
     Alias name for file (optional) :
     Attached file.
-    
+
 There's two commands you can use to list attachments within issue scope:
 `attachls`, `desc`. `desc` will print all the issue information, and show
 the attachments in the end.
 
-You can output attachments to a location: 
+You can output attachments to a location:
 
-    [issue #1] attachls 
+    [issue #1] attachls
     [1] - become-a-killer-cook.pdf
-    [2] - very-boring-doc.pdf 
+    [2] - very-boring-doc.pdf
     [issue #1] attachout
     Which attachment to output? : 1
     Output where (abs dir) ? : /tmp/
@@ -151,7 +156,7 @@ It's possible to log time within issue scope with the following commands:
 
     [issue #1] lt 10m
 
-To log 10 minutes 
+To log 10 minutes
 
     [issue #1] lt 1h20m
 
@@ -164,27 +169,27 @@ issue.
 
 ## Inside issues
 
-You can run these commands in this 'sub-shell' of the issues: 
+You can run these commands in this 'sub-shell' of the issues:
 are `search`, `replace`, `delete`, and `concat`.
 
-    search 
+    search
         searches the database for a pattern that you specify.
 
-    replace 
+    replace
         searches and replaces a pattern that you specify.
 
-    delete 
+    delete
         removes an entry from the database.
 
-    concat 
+    concat
         appends a string to the specified log entry.
 
-## Escape Scope 
+## Escape Scope
 
 To exit the scope of an issue, you can use the `forget` command:
 
     [issue #1] forget
-    [wlog] 
+    [wlog]
 
 # Generating Invoices
 
@@ -204,34 +209,34 @@ month of September:
     I did many things this month
     It is very very true
     And I can write all of this in multiline
-    
+
     And I can break into another paragraph.
-    
+
     And another.
-    
+
     But you need to press enter a few more times until you
     break you of the input for the invoice.
-    
-    
+
+
 
     [invoices] new
     From (dd-mm-yyyy) 01-09-2014
     To   (dd-mm-yyyy) 30-09-2014
-    > I start writing this it is a 
+    > I start writing this it is a
     > very nice paragraph. I can break
     > lines and do whatever. And continue
     > writing and do whatever.
-    > 
+    >
     > Two lines can separate a paragraph
     > And if you notice you can have many
     > paragraphs in the invoice.
-    > 
+    >
     > And another. But if we hit return 3
     > times, then it will stop recording
     > our lines.
-    > 
-    > 
-    [invoices] 
+    >
+    >
+    [invoices]
 
 So now you should have your first invoice:
 
@@ -280,8 +285,8 @@ were tracking this repo with `wlog`, we would do the following:
 
     [wlog] git
     [git] ls
-      repo: 
-      auth: 
+      repo:
+      auth:
     [git] set
     Path to git repo (eg: project/.git/): /home/psyomn/programming/ruby/wlog/.git/
     git author: psyomn
@@ -291,13 +296,13 @@ were tracking this repo with `wlog`, we would do the following:
 
 So now, when you're generating invoices, you can add your commits as well. If
 you want to simply list a bunch of commits for a particular invoice, you can
-invoke the `commits` command. The commits between the two dates of that invoice 
+invoke the `commits` command. The commits between the two dates of that invoice
 will be printed on screen.
 
     [invoices] ls
       [1] 01-10-2014 -> 30-10-2014 This is some text I'm currently writing and I'm no...
       [2] 01-09-2014 -> 30-09-2014 I start writing this it is a...
-    [invoices] commits 2 
+    [invoices] commits 2
 
       git commits for psyomn
 
@@ -317,7 +322,7 @@ If you want to unset colors you can do so by going to the config menu
     [wlog] config
     [config]
 
-and then typing in 
+and then typing in
 
     [config] set ansi no
 
