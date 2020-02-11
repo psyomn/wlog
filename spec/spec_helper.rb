@@ -1,11 +1,8 @@
-require 'coveralls'
 require 'date'
 require 'wlog/domain/invoice'
 require 'wlog/domain/issue'
 require 'wlog/domain/log_entry'
 require 'wlog/tech/git_commit_parser'
-
-Coveralls.wear!
 
 $sn = 0
 
