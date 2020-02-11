@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.2"
   spec.add_development_dependency 'redcarpet', "~> 3.2"
 
-  spec.add_runtime_dependency "sqlite3", "~> 1.3"
+  spec.add_runtime_dependency "sqlite3", "~> 1.3", "< 1.4"
   spec.add_runtime_dependency 'activerecord', "~> 4.1"
 end
