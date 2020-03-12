@@ -1,5 +1,6 @@
 require 'date'
 require 'readline'
+require 'base64'
 
 require 'wlog/commands/replace_pattern'
 require 'wlog/commands/new_entry'
@@ -82,7 +83,7 @@ private
     att = Attachment.find(att_id)
 
     fh = File.open("#{loc}/#{att.filename}", 'w')
-    fh.write(att.data)
+    fh.write(Base64.decode64(att.data))
     fh.close
   end
 
@@ -99,12 +100,12 @@ private
     name_alias = Readline.readline('Alias name for file (optional): ')
     name_alias.strip!
 
-    fh = File.open(loc, "r")
-    data = fh.read
+    fh = File.open(loc, "rb")
+    data = Base64.strict_encode64(fh.read)
     fh.close
 
     att = Attachment.new
-    att.filename = loc.split('/').last
+    att.filename = File.basename(loc)
     att.data = data
     att.given_name = name_alias
 
@@ -113,8 +114,9 @@ private
     puts 'Attached file.'
   rescue Zlib::DataError
     puts 'Problem attaching file due to wrong data'
-  rescue
-    puts 'You need to provide a proper path.'
+  rescue => e
+    puts 'Problem performing attachment'
+    puts e.backtrace
   end
 
   # Time logging command
