@@ -45,7 +45,7 @@ describe Attachment do
      expect(issue.attachments.first.data).to eq('data stuff')
    end
 
-   if 'should attach a mock file to an issue' do
+   it 'should attach a mock file to an issue' do
      @issue = Issue.create(:description => 'issue with a mock file',
        :long_description => 'test the attachment part of things')
 
@@ -54,20 +54,21 @@ describe Attachment do
      @attachment = Attachment.new
      @attachment.filename = 'some-filename'
      @attachment.given_name = 'given name'
-     @attachment.data = 'data stuff'
+
+     some_random_pdf = File.read("./spec/fixtures/README.pdf")
+     @attachment.data = some_random_pdf
 
      @issue.attachments << @attachment
      @issue.save
 
      issue = Issue.find(@issue.id)
      expect(issue.attachments.count).to eq(1)
-     expect(issue.attachments.first.filename).to eq('filename')
+     expect(issue.attachments.first.filename).to eq('some-filename')
      expect(issue.attachments.first.given_name).to eq('given name')
-     expect(issue.attachments.first.data).to eq('data stuff')
+     expect(issue.attachments.first.data).to eq(some_random_pdf)
    end
 
    it "should return nil if something is not found" do
      expect(Attachment.find_by_id(123123123)).to eq(nil)
    end
 end
-#
