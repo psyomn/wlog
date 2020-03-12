@@ -1,13 +1,10 @@
 require 'active_record'
-require 'zlib'
 require 'wlog/domain/sys_config'
 
 module Wlog
 # Following the Active Record pattern
 # OO way of handling blobs of data, to be stored in memory or in db.
 class Attachment < ActiveRecord::Base
-  before_save :compress_string
-  after_initialize :uncompress_string
   belongs_to :attachable, polymorphic: true
 
   def to_s
@@ -18,18 +15,5 @@ class Attachment < ActiveRecord::Base
   str end
 
 private
-
-  # TODO need to check if there is a better way to check for this
-  def compress_string
-    self.data = Zlib::Deflate.deflate self.data
-  end
-
-  def uncompress_string
-    if self.data
-      # did we just init something with previous data? yes; we can uncompress
-      self.data = Zlib::Inflate.inflate self.data
-    end
-  end
-
 end
 end # module Wlog
