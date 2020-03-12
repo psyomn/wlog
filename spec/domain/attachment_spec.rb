@@ -23,8 +23,7 @@ describe Attachment do
      FileUtils.rm db_path
    end
 
-   it 'should attach a mock file to an issue' do
-     skip
+   it 'should attach raw data to an issue' do
      @issue = Issue.create(:description => 'mydesc',
        :long_description => 'potato')
 
@@ -33,6 +32,27 @@ describe Attachment do
      # attaching files.
      @attachment = Attachment.new
      @attachment.filename = 'filename'
+     @attachment.given_name = 'given name'
+     @attachment.data = 'data stuff'
+
+     @issue.attachments << @attachment
+     @issue.save
+
+     issue = Issue.find(@issue.id)
+     expect(issue.attachments.count).to eq(1)
+     expect(issue.attachments.first.filename).to eq('filename')
+     expect(issue.attachments.first.given_name).to eq('given name')
+     expect(issue.attachments.first.data).to eq('data stuff')
+   end
+
+   if 'should attach a mock file to an issue' do
+     @issue = Issue.create(:description => 'issue with a mock file',
+       :long_description => 'test the attachment part of things')
+
+     # this should test strings of bytes
+
+     @attachment = Attachment.new
+     @attachment.filename = 'some-filename'
      @attachment.given_name = 'given name'
      @attachment.data = 'data stuff'
 
