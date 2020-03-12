@@ -2,7 +2,7 @@ name: Ruby
 
 on:
   push:
-  schedule: 
+  schedule:
     - cron: "59 11 * * *"
 
 jobs:
@@ -16,9 +16,12 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - name: Build and test with Rake
+    - name: Setup dependencies
       run: |
+        sudo apt-get update
         sudo apt-get install libsqlite3-dev
         gem install bundler
+    - name: Build and test with Rake
+      run: |
         bundle install --jobs 4 --retry 3
         bundle exec rake spec
