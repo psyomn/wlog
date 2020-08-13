@@ -6,10 +6,10 @@ def make_testing_db(dbname)
   current = standard_db_path(dbname)
   ActiveRecord::Base.configurations = {
     'testing' => {
-      :adapter => 'sqlite3',
-      :database => current,
-      :pool => 5,
-      :timeout => 5000
+      adapter: 'sqlite3',
+      database: current,
+      pool: 5,
+      timeout: 5000
     }
   }
   ActiveRecord::Base.establish_connection(:testing)
@@ -29,5 +29,5 @@ def setup_db
 end
 
 def standard_db_path(dbname)
-  "#{File.expand_path File.dirname(__FILE__)}/#{dbname}"
+  "#{__dir__}/#{dbname}"
 end

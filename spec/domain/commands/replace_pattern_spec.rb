@@ -15,9 +15,9 @@ describe ReplacePattern do
     make_testing_db(db_name)
     @issue = Issue.new
     @log_entry = LogEntry.new
-    @previous_description = "This is my log_entry"
+    @previous_description = 'This is my log_entry'
 
-    @issue.description = "This is my issue"
+    @issue.description = 'This is my issue'
     @issue.save
     @log_entry.issue_id = @issue.id
     @log_entry.description = @previous_description
@@ -30,13 +30,13 @@ describe ReplacePattern do
 
   # I know, tests should not really look for implementation details, but things
   # in our case *should* really inherit the command interface.
-  it "should inherit from commandable" do
-    command = ReplacePattern.new(@log_entry, "asd", "ASD")
-    expect(command.is_a? Commandable).to eq(true)
+  it 'should inherit from commandable' do
+    command = ReplacePattern.new(@log_entry, 'asd', 'ASD')
+    expect(command.is_a?(Commandable)).to eq(true)
   end
 
-  it "should replace a string in LogEntry on command execution" do
-    addition = " my addition"
+  it 'should replace a string in LogEntry on command execution' do
+    addition = ' my addition'
     command = ReplacePattern.new(@log_entry, 'log_entry', 'wlog_entry')
     command.execute
     new_le = LogEntry.find(@log_entry.id)

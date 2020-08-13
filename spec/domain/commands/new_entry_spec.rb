@@ -8,7 +8,6 @@ require 'wlog/commands/new_entry'
 include Wlog
 
 describe NewEntry do
-
   db_name = 'default'
   db_path = standard_db_path(db_name)
 
@@ -23,17 +22,16 @@ describe NewEntry do
     FileUtils.rm db_path
   end
 
-  it "should insert a new entry on execution" do
-    command = NewEntry.new("my desc", @issue)
+  it 'should insert a new entry on execution' do
+    command = NewEntry.new('my desc', @issue)
     command.execute
     expect(LogEntry.count).to eq(1)
   end
 
-  it "should create 5 more inserts on 5 more executions" do
+  it 'should create 5 more inserts on 5 more executions' do
     previous = LogEntry.count
-    command = NewEntry.new("my desc", @issue)
-    5.times{ command.execute }
+    command = NewEntry.new('my desc', @issue)
+    5.times { command.execute }
     expect(LogEntry.count).to eq(5 + previous)
   end
-
 end

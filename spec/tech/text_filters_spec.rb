@@ -7,27 +7,26 @@ include TextFilters
 include AnsiColors
 
 describe TextFilters do
-
   before :each do
     allow(SysConfig).to receive(:string_decorator).and_return(WlogString)
   end
 
   it 'should detect a simple link' do
-    a = highlight_hyperlink_s("www.google.com")
-    b = highlight_hyperlink_s("http://www.google.com")
-    c = highlight_hyperlink_s("https://www.google.com")
+    a = highlight_hyperlink_s('www.google.com')
+    b = highlight_hyperlink_s('http://www.google.com')
+    c = highlight_hyperlink_s('https://www.google.com')
     expect(a).to match(/^\x1b\[#{Blue}/)
     expect(b).to match(/^\x1b\[#{Blue}/)
     expect(c).to match(/^\x1b\[#{Blue}/)
   end
 
   it 'should not color a common string' do
-    a = highlight_hyperlink_s("potato potato how is the potato")
-    expect(a).to eq("potato potato how is the potato")
+    a = highlight_hyperlink_s('potato potato how is the potato')
+    expect(a).to eq('potato potato how is the potato')
   end
 
   it 'should color only links within a mixed string' do
-    a = "http://a.com potato https://go.go cat www.nooo.no yes"
+    a = 'http://a.com potato https://go.go cat www.nooo.no yes'
     ret = highlight_hyperlink_s(a)
     count = 0
     ret_a = ret.split
@@ -50,5 +49,4 @@ describe TextFilters do
     res = highlight_hyperlink_s(str)
     expect(res.lines.count).to eq(str.lines.count)
   end
-
 end

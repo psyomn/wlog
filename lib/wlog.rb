@@ -1,4 +1,4 @@
-require "wlog/version"
+require 'wlog/version'
 
 module Wlog
 end

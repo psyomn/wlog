@@ -1,3 +1,3 @@
 module Wlog
-  VERSION = "1.2.4"
+  VERSION = '1.2.4'.freeze
 end

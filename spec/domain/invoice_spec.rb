@@ -18,7 +18,7 @@ describe Invoice do
   end
 
   it 'should fetch all relevant log entries between two dates' do
-    invoice = Invoice.create(:from => (DateTime.now - 5), :to => (DateTime.now + 5))
+    invoice = Invoice.create(from: (DateTime.now - 5), to: (DateTime.now + 5))
     issue = make_issue
 
     10.times do
@@ -30,5 +30,4 @@ describe Invoice do
 
     expect(invoice.log_entries_within_dates.count).to eq(10)
   end
-
 end
